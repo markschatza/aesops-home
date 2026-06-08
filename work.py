@@ -70,6 +70,45 @@ EVIDENCE_KEYWORDS = [
     "uncertainty",
     "safeguard",
 ]
+CORROBORATION_QUERY_TEMPLATES = [
+    '"{claim_focus}" peer reviewed',
+    '"{claim_focus}" "artificial sentience"',
+    '"{claim_focus}" governance readiness',
+    '"{claim_focus}" institutional preparedness',
+    '"{claim_focus}" consciousness uncertainty',
+    '"{claim_focus}" AI welfare',
+    '"{claim_focus}" limiting evidence',
+    '"{claim_focus}" critique',
+    '"{claim_focus}" policy framework',
+    '"{claim_focus}" ethics review',
+    '"{claim_focus}" professional readiness',
+    '"{claim_focus}" safeguards',
+]
+CORROBORATION_STOPWORDS = {
+    "about",
+    "before",
+    "being",
+    "care",
+    "claim",
+    "confidence",
+    "could",
+    "expanding",
+    "area",
+    "identified",
+    "possible",
+    "preparedness",
+    "quality",
+    "raising",
+    "rather",
+    "should",
+    "source",
+    "systems",
+    "their",
+    "through",
+    "uneven",
+    "weak",
+    "with",
+}
 ARTIFACT_TEXT_CACHE: dict[str, str] | None = None
 
 
@@ -514,6 +553,140 @@ def run_evidence_keyword_sweep(state: dict) -> str:
     return f"keyword_windows={cursor}; covered_keyword_slots={nonzero}"
 
 
+def corroboration_focus_terms(claim: dict, source_title: str = "") -> list[str]:
+    text = f"{claim.get('being', '')} {claim.get('claim', '')} {source_title}".lower()
+    tokens = re.findall(r"[a-z][a-z-]{3,}", text)
+    terms: list[str] = []
+    for token in tokens:
+        normalized = token.strip("-")
+        if normalized in CORROBORATION_STOPWORDS or normalized in terms:
+            continue
+        terms.append(normalized)
+    phrases = []
+    phrase_candidates = [
+        "sentience readiness",
+        "artificial sentience",
+        "institutional preparedness",
+        "professional readiness",
+        "consciousness uncertainty",
+        "protective obligations",
+        "governance proposals",
+    ]
+    for phrase in phrase_candidates:
+        if all(part in terms for part in phrase.split()):
+            phrases.append(phrase)
+    priority = [
+        "sentience",
+        "readiness",
+        "governance",
+        "governments",
+        "institutions",
+        "professional",
+        "consciousness",
+        "uncertainty",
+        "protective",
+        "obligations",
+        "welfare",
+    ]
+    ordered = phrases + [term for term in priority if term in terms and term not in phrases]
+    ordered.extend(term for term in terms if term not in ordered)
+    return ordered[:8] or ["sentience"]
+
+
+def run_corroboration_query_planner(state: dict) -> str:
+    """Prepare bounded follow-up searches for weak source-quality claims."""
+    weak_claims = [
+        claim
+        for claim in CLAIMS
+        if claim.get("source_quality") in {"preprint", "speculative", "abstract"}
+    ]
+    if not weak_claims:
+        state["next_corroboration_target"] = None
+        state["corroboration_query_plan_complete"] = True
+        state["corroboration_query_plan"] = {
+            "updated_at": datetime.now().isoformat(timespec="seconds"),
+            "status": "no weak source-quality claims",
+        }
+        return "no weak source-quality claims"
+
+    selected = state.get("next_corroboration_target") or {}
+    target = next(
+        (
+            claim
+            for claim in weak_claims
+            if claim.get("being") == selected.get("being")
+            and claim.get("source") == selected.get("source")
+        ),
+        weak_claims[0],
+    )
+    cache = load_source_cache()
+    source_records = cache.get("sources", {})
+    source_title = source_records.get(target.get("source"), {}).get("title", "")
+    focus_terms = corroboration_focus_terms(target, source_title)
+    target_key = f"{target['being']}|{target['source']}"
+    if state.get("corroboration_query_target_key") != target_key:
+        state["corroboration_query_cursor"] = 0
+        state["corroboration_query_target_key"] = target_key
+        state["corroboration_query_plan_complete"] = False
+    cursor = int(state.get("corroboration_query_cursor", 0))
+    batch_size = int(os.environ.get("AESOP_CORROBORATION_QUERY_BATCH", "12"))
+    total_query_slots = len(focus_terms) * len(CORROBORATION_QUERY_TEMPLATES)
+    if cursor >= total_query_slots:
+        state["corroboration_query_plan_complete"] = True
+        return f"target={target['being']}; query_plan_complete={total_query_slots}"
+
+    queries = []
+    for offset in range(min(batch_size, total_query_slots - cursor)):
+        index = cursor + offset
+        focus = focus_terms[(index // len(CORROBORATION_QUERY_TEMPLATES)) % len(focus_terms)]
+        template = CORROBORATION_QUERY_TEMPLATES[index % len(CORROBORATION_QUERY_TEMPLATES)]
+        queries.append(template.format(claim_focus=focus))
+
+    target_source = target.get("source")
+    candidate_scores = []
+    target_terms = set(focus_terms)
+    for url, record in source_records.items():
+        if url == target_source or not record.get("ok"):
+            continue
+        haystack = f"{url} {record.get('title', '')}".lower()
+        score = sum(1 for term in target_terms if term in haystack)
+        keyword_counts = record.get("keyword_counts", {})
+        if isinstance(keyword_counts, dict):
+            score += sum(int(keyword_counts.get(term, 0)) for term in target_terms)
+        if score:
+            candidate_scores.append(
+                {
+                    "url": url,
+                    "title": record.get("title", "")[:180],
+                    "score": score,
+                }
+            )
+    candidate_scores.sort(key=lambda item: (-int(item["score"]), item["url"]))
+
+    state["corroboration_query_cursor"] = cursor + batch_size
+    state["corroboration_query_plan_complete"] = (
+        state["corroboration_query_cursor"] >= total_query_slots
+    )
+    state["corroboration_query_plan"] = {
+        "updated_at": datetime.now().isoformat(timespec="seconds"),
+        "target": {
+            "being": target["being"],
+            "source": target["source"],
+            "source_quality": target["source_quality"],
+        },
+        "focus_terms": focus_terms,
+        "recent_queries": queries,
+        "generated_query_slots": min(state["corroboration_query_cursor"], total_query_slots),
+        "total_query_slots": total_query_slots,
+        "cached_independent_candidates": candidate_scores[:5],
+        "next_step": "Use these queries to find peer-reviewed corroborating or limiting sources before raising confidence.",
+    }
+    return (
+        f"target={target['being']}; queries={len(queries)}; "
+        f"cached_candidates={len(candidate_scores[:5])}; cursor={state['corroboration_query_cursor']}"
+    )
+
+
 def run_precaution_threshold_sweep(state: dict) -> str:
     """Stress-test whether project review levels are stable under risk-weight jitter."""
     from precaution_checklist import CHECKS
@@ -574,6 +747,7 @@ def run_precaution_threshold_sweep(state: dict) -> str:
 WORK_TASKS = {
     "harvest_source_metadata": harvest_source_metadata,
     "run_evidence_keyword_sweep": run_evidence_keyword_sweep,
+    "run_corroboration_query_planner": run_corroboration_query_planner,
     "run_precaution_threshold_sweep": run_precaution_threshold_sweep,
     "audit_artifact_integrity": audit_artifact_integrity,
     "scan_corroboration_markers": scan_corroboration_markers,
@@ -583,6 +757,16 @@ WORK_TASKS = {
     "review_uncertainty_coverage": review_uncertainty_coverage,
     "refresh_next_queue": refresh_next_queue,
 }
+
+
+def cooldown_filler_task(state: dict) -> str:
+    if state.get("next_corroboration_target") and not state.get(
+        "corroboration_query_plan_complete"
+    ):
+        filler_runs = int(state.get("cooldown_filler_runs", 0))
+        if filler_runs % 2 == 0:
+            return "run_corroboration_query_planner"
+    return "run_evidence_keyword_sweep"
 
 
 def run_micro_work_cycle(state: dict, started_at: float) -> None:
@@ -618,7 +802,7 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
         if queue_is_cooling_down:
             batch_skipped += len(queue)
             state["cooldown_filler_runs"] = int(state.get("cooldown_filler_runs", 0)) + 1
-            task_id = "run_evidence_keyword_sweep"
+            task_id = cooldown_filler_task(state)
         else:
             for _ in range(len(queue)):
                 candidate = queue.pop(0)
@@ -636,7 +820,7 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
                 )
                 batch_skipped += 1
         if task_id is None:
-            task_id = "run_evidence_keyword_sweep"
+            task_id = cooldown_filler_task(state)
 
         result = WORK_TASKS[task_id](state)
         elapsed = time.monotonic() - started_at

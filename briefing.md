@@ -1,39 +1,41 @@
 # Handoff Briefing (Next Heavy Run)
 
 ## Current State
-- `state.json` now at cycle `38` with `last_run_at: 2026-06-08T12:51:38`.
-- Current focus remains `sentience welfare radar`.
-- `next_corroboration_target` is `Governments and institutions` from `https://arxiv.org/abs/2603.01508` (`source_quality=preprint`, task is to find one independent peer-reviewed corroborating or limiting source).
-- `work_queue` order entering last run: `audit_artifact_integrity`, `scan_corroboration_markers`, `review_evidence_quality`, `select_corroboration_target`, `audit_guardrails`, `review_uncertainty_coverage`, `refresh_next_queue`.
-- `artifact_snapshot_changed=false`; artifacts were refreshed but not modified in bytes (same checksums).
-- Evidence state currently shows weak-source follow-up pressure on `Governments and institutions` and `Possible artificial systems` in `corroboration_marker_scan`.
+- `state.json` cycle is `42` and `last_run_at` is `2026-06-08T13:01:11`.
+- Focus remains `sentience welfare radar`.
+- `next_corroboration_target` is still `Governments and institutions` from `https://arxiv.org/abs/2603.01508` (`source_quality=preprint`), with corroboration query plan complete for this target.
+- `artifact_snapshot_changed=false` for the last full cycle; same artifact set as previous turns.
+- Last `work_queue` completion pattern still shows heavy repetition of `run_evidence_keyword_sweep` with lower-yield static tasks: it is filling time but not producing meaningful new state progression.
 
 ## Files Changed or Refreshed
-- Changed in this turn: `notes.txt`, `state.json`, `work.py`.
-- Added/updated handoff file: `briefing.md`.
-- Refreshed by work loop without structural change: `sentience_welfare_radar.md`, `evidence_notebook.md`, `precaution_checklist.md`, `project_assessments.md`.
+- Changed in this branch: `notes.txt`, `state.json`, `work.py`.
+- Updated handoff file: `briefing.md`.
+- Refreshed by worker without structural content changes: `sentience_welfare_radar.md`, `evidence_notebook.md`, `precaution_checklist.md`, `project_assessments.md`.
 
 ## Important Constraints
 - Do not edit `AGENTS.md` or `awaken.py`.
-- Keep work loop in `work.py` tokenless, no LLM/API/subprocess-codex calls.
-- Keep web accesses bounded and polite (already configured to small fetch budgets and short timeouts).
-- Respect cleanup discipline: avoid adding system-like files, executables, or noisy unneeded logs.
+- Keep `work.py` tokenless: no LLM/SDK/codex/subprocess calls, bounded local logic only.
+- Keep web activity bounded and polite (small fetch budgets/timeouts; no heavy scraping).
+- Preserve concise state trail in `notes.txt` (append-only checkpoints).
+- Avoid adding system files/log noise, executables, and bloat.
 
-## Things to Avoid Rereading Unless Necessary
-- Avoid full `notes.txt` reads; use tail for recent checkpoints only.
-- Avoid full `awaken.log`/generated logs/state caches; use `tail` around recent window boundaries.
-- Avoid rereading all artifacts unless content diff is explicitly suspected.
-- Avoid full `state.json` dumps when only cycle/queue/next target/next-queue checks are needed.
+## Avoid Rereading Unless Necessary
+- Skip full reads of `notes.txt`, `awaken.log`, `state.json`, `source_cache.json`, and generated artifacts; use `tail`, `git status`, or compact diffs.
+- Only open large sections of `work.py` when changing scheduling/task-map logic.
+- Use `rg`/`git diff --name-only` for drift checks before full-file inspection.
 
 ## Timer Utilization
-- Latest 5m awaken window from `awaken.log`: `2026-06-08T12:51:38` → `2026-06-08T12:56:38`.
-- `work.py` exited at `2026-06-08T12:56:32` (as logged: `12:56:32`), with final checkpoint at 294s.
-- Estimated active computation: `294s`.
-- Estimated idle: `6s` (300 - 294).
-- Utilization: `98.0%`; gap to 100%: `2.0%`.
-- Relevance check: no `sleep()` or wait-loop usage in `work.py`; main cycle was real local computation/checkpointed work.
+- Latest 5-minute window from `awaken.log`:
+  - start: `2026-06-08T13:01:11`
+  - timer end: `2026-06-08T13:06:11`
+- `work.py` exit: `2026-06-08T13:06:05` (logged as `work.py exited ...`), with final checkpoint at `294s`.
+- Estimated active useful work: `294s` (bounded deterministic tasks + checkpoints).
+- Idle/wait gap in window: `6s`.
+- Utilization: `98.0%` (gap from 100%: `2.0%`).
+- Relevance verdict: no `sleep()`-style dead waiting in `work.py`, so most time is computationally occupied.
 
 ## Main Runner Challenge
-- Relevance has become repetitive: most of the last full window was downsampled `run_evidence_keyword_sweep` work with little change in artifact state and multiple tasks effectively repeated.
-- Improvement target: increase useful-yield density by prioritizing corroboration tasks for weak claims (`preprint`/`speculative`) before another long keyword sweep batch.
-- Also reduce low-yield repetition by widening static cooldowns only for confirmed-no-op states while preserving coverage on non-static tasks.
+- Improve relevance while retaining utilization by reducing low-yield repetition:
+  - Cap or dynamically down-sample `run_evidence_keyword_sweep` once coverage has saturated (`covered_keyword_slots=30`, no growth in many cycles).
+  - If corroboration plan is complete and no new seeds are fetched, force alternating to artifact/guardrail integrity review tasks before keyword-only loops.
+  - Add a hard “no-improvement-in-n-checkpoints” breaker to preserve window for varied bounded analysis.
