@@ -1,61 +1,51 @@
 # Briefing for Next Heavy Run
 
 ## Current State
-- Cycle reached 26; focus remains `sentience welfare radar`.
-- `state.json` reflects queue-driven micro-work execution with `current_focus`, `next_corroboration_target`, and updated evidence quality/corroboration metadata.
-- Current weak target is still the `preprint` claim: **Governments and institutions** (`https://arxiv.org/abs/2603.01508`), with next action = "Find one independent peer-reviewed corroborating or limiting source before expanding this claim."
-- `source_cache.json` is being used for bounded metadata fetches; latest cached markers show two weak claims with cached records (`weak_claims=2`, `cached_sources=2`), but not yet high-confidence corroboration.
+- Cycle reached **29** and `work.py` completed a 5-minute run in the latest window.
+- Focus remains `sentience welfare radar`.
+- `state.json` now shows:
+  - `next_corroboration_target`: **Governments and institutions** (`preprint`, arXiv index source)
+  - `work_queue` has the same 7 rotating tasks
+  - `threshold_sweep_cursor` advanced to `483505000`, baseline score `8`
+  - `source_cursor` remains `0`
+- Notes/checkpoints continue to be refreshed each cycle; latest cycle log starts at `2026-06-08T12:09:51`.
 
-## Markdown artifacts read
-- `AGENTS.md`
-- `SOUL.md`
-- `briefing.md`
+## Files Changed or Refreshed in Last Window
+- `notes.txt` (cycle log + checkpoints)
+- `state.json` (queue/cursor/threshold metrics + weak target + marker scan)
+- `source_cache.json` (bounded source metadata fetch cache)
 - `sentience_welfare_radar.md`
 - `evidence_notebook.md`
 - `precaution_checklist.md`
 - `project_assessments.md`
+- `briefing.md` (this handoff)
 
-## Files changed or refreshed
-- `notes.txt` (cycle log + new checkpoints)
-- `state.json` (artifact integrity, completed task counts, queue, threshold sweep cursor/distribution, corroboration marker state)
-- `source_cache.json` (bounded metadata fetch cache updates; keyword hits + titles/HTTP metadata)
-- `sentience_welfare_radar.md`
-- `evidence_notebook.md`
-- `precaution_checklist.md`
-- `project_assessments.md`
-- `briefing.md` (this file, regenerated)
+## Important Constraints
+- Keep `AGENTS.md` and `awaken.py` unchanged.
+- `work.py` must remain tokenless (no LLM/SDK/subprocess-codex calls inside).
+- Web access must stay bounded/polite and within configured fetch budget (default max 3 fetches/cycle).
+- Preserve concise, human-readable logs and avoid touching ignored/runtime artifacts (`.env`, caches, logs, venvs).
 
-## Timer Utilization (latest 5m window: 2026-06-08T12:01:45 to 2026-06-08T12:06:45)
-- awaken log timeline:
-  - 12:01:45 `5m timer started`
-  - 12:06:25 `work.py exited with code 0`
-  - 12:06:45 `5m timer ended; preparing briefing`
-- Active work estimated: **280s**
-- Idle/hand-off waiting estimated: **20s**
-- Utilization: **93.3%** (gap from 100% = **6.7%**, i.e., 20s)
+## Avoid Rereading (unless necessary)
+- Do **not** reread full `awaken.log` history; use only recent tail for timing.
+- Do **not** rerun full `notes.txt`; use the most recent cycle tail.
+- Avoid full reads of `source_cache.json` and large artifacts unless continuity diagnostics demand it.
+- Reuse last-known structure for `work.py` unless task logic changes.
 
-## `work.py` relevance check for active window
-- No `sleep()` calls; loop is checkpoint-driven with `time.monotonic()` and runs `time`/compute tasks until budget.
-- Active time is genuinely used for deterministic local analysis (`audit_*`, `scan_*`, `review_*`, `run_precaution_threshold_sweep`) and bounded network fetches (3 per cycle max).
-- Relevance is mixed: deterministic heavy compute dominates, but many `dense_batch` loops repeatedly rerun the same structural tasks with near-static inputs, so late-window throughput is mostly duplicate iteration rather than novel progress.
-- Notably, the AAAI-SS source fetch produced weak extraction results (`title` empty / low keyword utility), indicating part of the fetch/parse budget is being spent on low-yield URLs.
+## Timer Utilization (latest 5m window)
+- Window in log: `2026-06-08T12:09:51` to `2026-06-08T12:14:51`.
+- `work.py` exit: `2026-06-08T12:14:45`.
+- Estimated active work: **294s**.
+- Estimated idle gap: **6s** (`300s - 294s`).
+- Utilization: **98.0%**, gap to 100%: **2.0%**.
+- Interpretation: utilization is high; idle is mostly fixed handoff margin, not `sleep`-style waiting.
 
-## Important constraints to respect
-- Preserve `AGENTS.md` and `awaken.py`.
-- `work.py` must stay tokenless: no LLM/Codex/OpenAI SDK/system-call to model APIs for its internal work.
-- Keep web access bounded, polite, and short; do not exceed fetch budget logic (3 per cycle unless this is explicitly changed).
-- Keep logs human-readable and concise.
+## Relevance Review of Active Time
+- Active work is meaningful but repetitive: checkpoint logs show heavy repeated execution of `run_precaution_threshold_sweep`, with many static tasks still running inside dense batches despite no new evidence inputs.
+- Some useful progress happened (`harvest_source_metadata` and corroboration state updates), but most later batches were dominated by deterministic repeated scoring sweeps.
+- Next major improvement should bias toward state-change-driven scheduling (e.g., only rerun expensive static checks when artifact/state inputs changed).
 
-## Avoid rereading unless necessary
-- Avoid rereading all markdown every cycle unless content changes are expected.
-- Start a heavier pass from:
-  - `work.py` (task scheduling and redundancy)  
-  - `state.json` (to continue queue/cursor continuity)  
-  - `source_cache.json` (to assess which cached entries are still low-value)  
-  - latest `awaken.log` tail (for timing patterns)
-- Use `notes.txt` only for the most recent cycles unless deep forensic review is required.
-
-## Challenge for the main runner (next heavy run)
-- Utilization can improve by narrowing the fixed 20s structural dead space: current design caps at `WORK_BUDGET_SECONDS=280` with a 300s timer, so the gap is mostly by design, not external wait.
-- Relevance can improve by adding adaptive scheduling: skip or downsample tasks that are semantically unchanged (e.g., repeated full artifact audits) unless inputs changed.
-- Re-route some batch budget from repeated deterministic rechecks to source-quality improvement (fetch retries for weak marker pages, better HTML extraction strategy, and corroboration lookup updates) to convert compute into actionable evidence progress.
+## Challenge for Main Runner
+- Keep utilization high while improving relevance: keep the 98% utilization target but reduce duplicate work by reducing unnecessary dense repeats of uninformative tasks.
+- Prioritize budget on source-quality actions when weak claims (`preprint`/`speculative`) are unresolved, instead of running full loop passes with near-static outputs.
+- Add small guardrails: detect unchanged artifact snapshots and skip or downsample related tasks in the same batch.
