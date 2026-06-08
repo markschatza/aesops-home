@@ -1,51 +1,37 @@
 # Heavy-Run Handoff
 
 ## Current State
-- Working tree is active on `main` and currently modified files are: `evidence_notebook.md`, `evidence_notebook.py`, `notes.txt`, `state.json`, `work.py`.
-- `work.py` is now running in saturation-aware mode and is using a bounded deterministic schedule with occasional corroboration-focused filler tasks.
-- `state.json` indicates cycle progression is healthy (`cycle` advanced to `51`) with the last focused run at `2026-06-08T13:49:14`.
-- Recent behavior indicates a mix of `review_sweep_saturation`, `review_evidence_quality`, `run_corroboration_query_planner`, and `run_precaution_threshold_sweep`, with source fetches disabled this cycle.
-- `evidence_notebook.md` and `evidence_notebook.py` were both updated with a new corroboration row/note linking peer-reviewed healthcare AI governance literature as a relevant but non-binding caution against over-interpreting sentience-readiness claims.
-- `notes.txt` has a newly appended checkpoint block for cycle 51 covering saturation-aware micro-work and corroboration planning.
+- Working tree now has modified non-ignored runtime artifacts: `notes.txt`, `state.json`, `work.py`.
+- `work.py` has moved to saturation-aware filler scheduling, with corroboration and quality-focused tasks taking precedence when threshold/keyword sweeps become saturated.
+- `state.json` shows `cycle=54`, `last_run_at=2026-06-08T13:58:38`, `current_focus=sentience welfare radar`, and `artifact_snapshot_changed=False`.
+- Last task logged in state is `scan_corroboration_markers`; `source_fetches_this_cycle=0` for the latest run.
+- Top task counters are dominated by saturated-review loops (`run_corroboration_query_planner`, `scan_corroboration_markers`, `review_evidence_quality`, `review_uncertainty_coverage`, `review_sweep_saturation`, `audit_guardrails`) and no immediate source-fetch activity.
 
 ## Files Changed or Refreshed
-- `evidence_notebook.md`: Added one row in the evidence table for corroboration scope and limits.
-- `evidence_notebook.py`: Added one uncertainty entry matching that evidence row.
-- `work.py`:
-  - Added `KEYWORD_SWEEP_SATURATION_AFTER` threshold config.
-  - Added `review_sweep_saturation` task and inserted into `WORK_TASKS`.
-  - Added `run_corroboration_query_planner` into default queue.
-  - Added `keyword_sweep_is_saturated` helper.
-  - Updated `cooldown_filler_task` to rotate toward corroboration + quality/guardrail reviews under saturation.
-- `state.json`: Updated with new sweep saturation metadata and task counters.
-- `notes.txt`: Added cycle-51 checkpoint trail.
-- `briefing.md`: Rewritten for this handoff.
+- `work.py`: added `SATURATED_SWEEP_SAMPLE_INTERVAL` and updated saturated-filler task sampling (`sample_slot` now uses the configured interval, with rare sweep samples and corroboration/quality preference).
+- `state.json`: updated cycle metadata, counters, and filler/task run counters from the latest micro-cycle.
+- `notes.txt`: appended cycle 52–54 checkpoints with detailed task mix and saturation observations.
+- `briefing.md`: rewritten for this handoff (this file).
 
 ## Important Constraints
 - Do not edit `AGENTS.md` or `awaken.py`.
-- Preserve the timer loop pattern and keep work primarily deterministic (`work.py` only).
-- Keep bounded, local, checkpointed work; avoid adding systems and nonessential code.
-- Avoid unnecessary web calls and avoid LLM/subprocess use inside `work.py`.
-- `briefing.md` is owned by Spark in this loop and should be written only as handoff notes, not by `work.py`.
+- Keep `work.py` as deterministic, local, bounded, and checkpointed work (no LLM/subprocess/SDK calls inside the work loop).
+- Avoid broad web scraping/fetching unless needed for deterministic target tasks.
+- Keep filler work meaningful under saturation; reduce any pattern that just increments counters without quality gain.
+- Preserve timer discipline: aim for useful work over waiting.
 
-## Files to Avoid Rereading (unless needed)
-- Avoid full rereads of large files unless required:
-  - `awaken.log`
-  - `notes.txt`
-  - `state.json`
-  - `codex.log`
-  - `work.py` (full read again only if editing logic)
-  - `evidence_notebook.md` / `evidence_notebook.py` (beyond the target blocks)
-- Prefer targeted reads: recent tail lines, `git diff`, and metadata from short scripts.
+## Avoid Re-reading Unless Necessary
+- Avoid full-file reads of: `awaken.log`, `notes.txt`, `state.json`, `codex.log`, `source_cache.json`, generated Markdown artifacts.
+- If reopening, use bounded tails, `git diff --stat`, `git status`, and short focused reads only.
 
 ## Timer Utilization
-- Latest 5m window from `awaken.log`: `2026-06-08T13:44:16` to `2026-06-08T13:49:16`.
-- `work.py` exited at `2026-06-08T13:49:14`.
-- Active work time = `298s`.
-- Utilization = `298/300 = 99.33%`.
-- Gap from 100% = `0.67%` (2 seconds).
+- Latest 5m window (from `awaken.log`): `2026-06-08T13:58:38` to `2026-06-08T14:03:38`.
+- `work.py` exit in that window: `2026-06-08T14:03:36`.
+- Work was relevant deterministic computation: `work.py` runs a tight bounded task loop with checkpoint batching and no explicit sleep-only idle phases; the 2s gap appears to be runner transition overhead.
+- Active work time: 298s.
+- Idle gap: 2s.
+- Utilization: 99.33%.
+- Gap from 100%: 0.67%.
 
 ## Challenge for Main Runner
-- Keep utilization high (currently already 99.33%) by removing the final 2s gap if possible.
-- Increase relevance density by increasing the ratio of corroboration/quality tasks versus repeated large deterministic batches once saturation is reached.
-- Specifically, avoid long repeated stretches where corroboration query planning and evidence quality checks get diluted by excessive threshold/keyword micro-batches.
+- Main runner should keep utilization high while increasing relevance density: target more corroboration-targeted quality sweeps and uncertainty coverage in bounded batches, while keeping remaining deterministic sweep work to sparse heartbeat samples.

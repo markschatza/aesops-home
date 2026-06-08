@@ -50,6 +50,9 @@ KEYWORD_SWEEP_SATURATION_AFTER = int(
     os.environ.get("AESOP_KEYWORD_SWEEP_SATURATION_AFTER", "5000")
 )
 FILLER_REVIEW_INTERVAL = int(os.environ.get("AESOP_FILLER_REVIEW_INTERVAL", "256"))
+SATURATED_SWEEP_SAMPLE_INTERVAL = int(
+    os.environ.get("AESOP_SATURATED_SWEEP_SAMPLE_INTERVAL", "4096")
+)
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
 )
@@ -395,7 +398,7 @@ def review_sweep_saturation(state: dict) -> str:
         "evidence_keyword_stale_runs": keyword_stale,
         "saturated": saturated,
         "next_step": (
-            "prefer corroboration and quality-review tasks; keep only occasional deterministic sweep samples"
+            "prefer corroboration and quality-review tasks; keep rare deterministic sweep heartbeat samples"
             if saturated
             else "continue deterministic sweeps until coverage or threshold behavior stabilizes"
         ),
@@ -839,10 +842,11 @@ def cooldown_filler_task(state: dict) -> str:
                 "audit_guardrails",
                 "review_uncertainty_coverage",
             ]
-            sample_slot = filler_runs % 8
+            sample_interval = max(16, SATURATED_SWEEP_SAMPLE_INTERVAL)
+            sample_slot = filler_runs % sample_interval
             if sample_slot == 1:
                 return "run_precaution_threshold_sweep"
-            if sample_slot == 3:
+            if sample_slot == sample_interval // 2:
                 return "run_evidence_keyword_sweep"
             index = filler_runs % len(saturated_tasks)
             return saturated_tasks[index]

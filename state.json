@@ -1,6 +1,6 @@
 {
   "artifact_integrity": {
-    "checked_at": "2026-06-08T13:48:47",
+    "checked_at": "2026-06-08T14:02:38",
     "files": {
       "evidence_notebook.md": {
         "exists": true,
@@ -71,143 +71,143 @@
   ],
   "completed_in_cycle": [
     {
-      "completed_at": "2026-06-08T13:49:14",
-      "elapsed_seconds": 297,
-      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2",
-      "task": "review_evidence_quality"
-    },
-    {
-      "completed_at": "2026-06-08T13:49:14",
-      "elapsed_seconds": 297,
-      "result": "sweep_units=1651257250; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=59186; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 607230570, 'ordinary': 30394782, 'safeguards_required': 559469536, 'written_review': 171014362}",
-      "task": "run_precaution_threshold_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:49:14",
-      "elapsed_seconds": 297,
-      "result": "guardrails clear",
-      "task": "audit_guardrails"
-    },
-    {
-      "completed_at": "2026-06-08T13:49:14",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=658036000; covered_keyword_slots=30; stale_runs=146378",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:49:14",
+      "completed_at": "2026-06-08T14:03:36",
       "elapsed_seconds": 297,
       "result": "target=Governments and institutions; query_plan_complete=96",
       "task": "run_corroboration_query_planner"
     },
     {
-      "completed_at": "2026-06-08T13:49:14",
+      "completed_at": "2026-06-08T14:03:36",
       "elapsed_seconds": 297,
       "result": "weak_claims=2; cached_sources=2",
       "task": "scan_corroboration_markers"
     },
     {
-      "completed_at": "2026-06-08T13:49:14",
+      "completed_at": "2026-06-08T14:03:36",
       "elapsed_seconds": 297,
       "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2",
       "task": "review_evidence_quality"
     },
     {
-      "completed_at": "2026-06-08T13:49:14",
+      "completed_at": "2026-06-08T14:03:36",
       "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=59186; keyword_stale=146378",
+      "result": "sweeps saturated; threshold_stable=64089; keyword_stale=151279",
       "task": "review_sweep_saturation"
     },
     {
-      "completed_at": "2026-06-08T13:49:14",
+      "completed_at": "2026-06-08T14:03:36",
       "elapsed_seconds": 297,
       "result": "guardrails clear",
       "task": "audit_guardrails"
     },
     {
-      "completed_at": "2026-06-08T13:49:14",
-      "elapsed_seconds": 297,
-      "result": "sweep_units=1651258250; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=59187; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 607230570, 'ordinary': 30394782, 'safeguards_required': 559469536, 'written_review': 171014362}",
-      "task": "run_precaution_threshold_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:49:14",
-      "elapsed_seconds": 297,
-      "result": "target=Governments and institutions; query_plan_complete=96",
-      "task": "run_corroboration_query_planner"
-    },
-    {
-      "completed_at": "2026-06-08T13:49:14",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=658038000; covered_keyword_slots=30; stale_runs=146379",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:49:14",
-      "elapsed_seconds": 297,
-      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2",
-      "task": "review_evidence_quality"
-    },
-    {
-      "completed_at": "2026-06-08T13:49:14",
-      "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=59187; keyword_stale=146379",
-      "task": "review_sweep_saturation"
-    },
-    {
-      "completed_at": "2026-06-08T13:49:14",
-      "elapsed_seconds": 297,
-      "result": "guardrails clear",
-      "task": "audit_guardrails"
-    },
-    {
-      "completed_at": "2026-06-08T13:49:14",
+      "completed_at": "2026-06-08T14:03:36",
       "elapsed_seconds": 297,
       "result": "uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']",
       "task": "review_uncertainty_coverage"
     },
     {
-      "completed_at": "2026-06-08T13:49:14",
+      "completed_at": "2026-06-08T14:03:36",
       "elapsed_seconds": 297,
       "result": "target=Governments and institutions; query_plan_complete=96",
       "task": "run_corroboration_query_planner"
     },
     {
-      "completed_at": "2026-06-08T13:49:14",
+      "completed_at": "2026-06-08T14:03:36",
       "elapsed_seconds": 297,
-      "result": "sweep_units=1651259250; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=59188; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 607230570, 'ordinary': 30394782, 'safeguards_required': 559469536, 'written_review': 171014362}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "weak_claims=2; cached_sources=2",
+      "task": "scan_corroboration_markers"
     },
     {
-      "completed_at": "2026-06-08T13:49:14",
+      "completed_at": "2026-06-08T14:03:36",
       "elapsed_seconds": 297,
       "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2",
       "task": "review_evidence_quality"
     },
     {
-      "completed_at": "2026-06-08T13:49:14",
+      "completed_at": "2026-06-08T14:03:36",
+      "elapsed_seconds": 297,
+      "result": "sweeps saturated; threshold_stable=64089; keyword_stale=151279",
+      "task": "review_sweep_saturation"
+    },
+    {
+      "completed_at": "2026-06-08T14:03:36",
+      "elapsed_seconds": 297,
+      "result": "guardrails clear",
+      "task": "audit_guardrails"
+    },
+    {
+      "completed_at": "2026-06-08T14:03:36",
+      "elapsed_seconds": 297,
+      "result": "uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']",
+      "task": "review_uncertainty_coverage"
+    },
+    {
+      "completed_at": "2026-06-08T14:03:36",
+      "elapsed_seconds": 297,
+      "result": "target=Governments and institutions; query_plan_complete=96",
+      "task": "run_corroboration_query_planner"
+    },
+    {
+      "completed_at": "2026-06-08T14:03:36",
+      "elapsed_seconds": 297,
+      "result": "weak_claims=2; cached_sources=2",
+      "task": "scan_corroboration_markers"
+    },
+    {
+      "completed_at": "2026-06-08T14:03:36",
+      "elapsed_seconds": 297,
+      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2",
+      "task": "review_evidence_quality"
+    },
+    {
+      "completed_at": "2026-06-08T14:03:36",
+      "elapsed_seconds": 297,
+      "result": "sweeps saturated; threshold_stable=64089; keyword_stale=151279",
+      "task": "review_sweep_saturation"
+    },
+    {
+      "completed_at": "2026-06-08T14:03:36",
+      "elapsed_seconds": 297,
+      "result": "guardrails clear",
+      "task": "audit_guardrails"
+    },
+    {
+      "completed_at": "2026-06-08T14:03:36",
+      "elapsed_seconds": 297,
+      "result": "uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']",
+      "task": "review_uncertainty_coverage"
+    },
+    {
+      "completed_at": "2026-06-08T14:03:36",
+      "elapsed_seconds": 297,
+      "result": "target=Governments and institutions; query_plan_complete=96",
+      "task": "run_corroboration_query_planner"
+    },
+    {
+      "completed_at": "2026-06-08T14:03:36",
       "elapsed_seconds": 298,
-      "result": "keyword_windows=658040000; covered_keyword_slots=30; stale_runs=146380",
-      "task": "run_evidence_keyword_sweep"
+      "result": "weak_claims=2; cached_sources=2",
+      "task": "scan_corroboration_markers"
     }
   ],
   "completed_task_counts": {
-    "audit_artifact_integrity": 18,
-    "audit_guardrails": 52267,
+    "audit_artifact_integrity": 3,
+    "audit_guardrails": 1660969,
     "harvest_source_metadata": 3,
     "refresh_next_queue": 3,
-    "review_evidence_quality": 52268,
-    "review_sweep_saturation": 26126,
-    "review_uncertainty_coverage": 26141,
-    "run_corroboration_query_planner": 52251,
-    "run_evidence_keyword_sweep": 39188,
-    "run_precaution_threshold_sweep": 59188,
-    "scan_corroboration_markers": 26141,
+    "review_evidence_quality": 1660968,
+    "review_sweep_saturation": 1660968,
+    "review_uncertainty_coverage": 1660968,
+    "run_corroboration_query_planner": 1660969,
+    "run_evidence_keyword_sweep": 2434,
+    "run_precaution_threshold_sweep": 2435,
+    "scan_corroboration_markers": 1660969,
     "select_corroboration_target": 3
   },
-  "cooldown_filler_runs": 333579,
+  "cooldown_filler_runs": 9970675,
   "corroboration_marker_scan": {
-    "checked_at": "2026-06-08T13:49:14",
+    "checked_at": "2026-06-08T14:03:36",
     "weak_claims": {
       "Governments and institutions": {
         "cached": true,
@@ -295,66 +295,66 @@
   "corroboration_query_target_key": "Governments and institutions|https://arxiv.org/abs/2603.01508",
   "created_at": "2026-06-08T10:30:09",
   "current_focus": "sentience welfare radar",
-  "cycle": 51,
+  "cycle": 54,
   "evidence_keyword_coverage": {
     "evidence_notebook.md": {
-      "agency": 23385570,
-      "consciousness": 26583496,
-      "governance": 18158411,
-      "pain": 36592976,
-      "precaution": 15701206,
-      "readiness": 19010107,
-      "safeguard": 15706105,
-      "sentience": 34628104,
-      "uncertainty": 31392627,
-      "welfare": 115842296
+      "agency": 23706827,
+      "consciousness": 26946975,
+      "governance": 18680376,
+      "pain": 37095357,
+      "precaution": 15915989,
+      "readiness": 19638547,
+      "safeguard": 15921498,
+      "sentience": 35460924,
+      "uncertainty": 31820968,
+      "welfare": 117432055
     },
     "precaution_checklist.md": {
-      "agency": 24781505,
-      "precaution": 24641498,
-      "safeguard": 49282996,
-      "sentience": 24641498,
-      "uncertainty": 24501488,
-      "welfare": 24781506
+      "agency": 25150495,
+      "precaution": 25008402,
+      "safeguard": 50016802,
+      "sentience": 25008401,
+      "uncertainty": 24866308,
+      "welfare": 25150494
     },
     "project_assessments.md": {
-      "precaution": 41542927,
-      "safeguard": 83560642,
-      "sentience": 41780316,
-      "uncertainty": 41542928,
-      "welfare": 49376741
+      "precaution": 42161491,
+      "safeguard": 84804822,
+      "sentience": 42402409,
+      "uncertainty": 42161492,
+      "welfare": 50111942
     },
     "sentience_welfare_radar.md": {
-      "agency": 24566090,
-      "consciousness": 33122816,
-      "governance": 24290067,
-      "precaution": 71766106,
-      "readiness": 24290066,
-      "safeguard": 24290065,
-      "sentience": 109029282,
-      "uncertainty": 24290064,
-      "welfare": 146292450
+      "agency": 24931872,
+      "consciousness": 33616004,
+      "governance": 24651738,
+      "precaution": 72834680,
+      "readiness": 24651737,
+      "safeguard": 24651736,
+      "sentience": 110652690,
+      "uncertainty": 24651736,
+      "welfare": 148470698
     }
   },
   "evidence_keyword_last_covered_slots": 30,
-  "evidence_keyword_stale_runs": 146380,
-  "evidence_keyword_sweep_cursor": 658040000,
+  "evidence_keyword_stale_runs": 151279,
+  "evidence_keyword_sweep_cursor": 667838000,
   "evidence_quality_counts": {
     "peer-reviewed": 4,
     "preprint": 1,
     "speculative": 1
   },
   "last_batch": {
-    "batch_seconds": 12.966,
-    "completed_at": "2026-06-08T13:49:14",
-    "last_result": "run_evidence_keyword_sweep: keyword_windows=658040000; covered_keyword_slots=30; stale_runs=146380",
-    "static_skips": 106358,
-    "tasks": 15194
+    "batch_seconds": 12.999,
+    "completed_at": "2026-06-08T14:03:36",
+    "last_result": "scan_corroboration_markers: weak_claims=2; cached_sources=2",
+    "static_skips": 3472760,
+    "tasks": 434095
   },
-  "last_run_at": "2026-06-08T13:44:16",
-  "last_task": "run_evidence_keyword_sweep",
+  "last_run_at": "2026-06-08T13:58:38",
+  "last_task": "scan_corroboration_markers",
   "latest_guardrail_audit": {
-    "checked_at": "2026-06-08T13:49:14",
+    "checked_at": "2026-06-08T14:03:36",
     "findings": []
   },
   "next_corroboration_target": {
@@ -364,28 +364,27 @@
     "task": "Find one independent peer-reviewed corroborating or limiting source before expanding this claim."
   },
   "skipped_static_task_counts": {
-    "audit_artifact_integrity": 2,
     "audit_guardrails": 4,
-    "harvest_source_metadata": 1,
+    "harvest_source_metadata": 3,
     "refresh_next_queue": 2,
     "review_evidence_quality": 3,
     "review_uncertainty_coverage": 4,
-    "run_corroboration_query_planner": 3,
-    "run_precaution_threshold_sweep": 4,
+    "run_corroboration_query_planner": 4,
+    "run_precaution_threshold_sweep": 5,
     "scan_corroboration_markers": 3
   },
   "source_cursor": 0,
   "source_fetches_this_cycle": 0,
   "static_task_cooldown_seconds": 120,
   "sweep_saturation_review": {
-    "checked_at": "2026-06-08T13:49:14",
-    "evidence_keyword_stale_runs": 146379,
-    "next_step": "prefer corroboration and quality-review tasks; keep only occasional deterministic sweep samples",
+    "checked_at": "2026-06-08T14:03:36",
+    "evidence_keyword_stale_runs": 151279,
+    "next_step": "prefer corroboration and quality-review tasks; keep rare deterministic sweep heartbeat samples",
     "saturated": true,
-    "threshold_sweep_stable_batches": 59187
+    "threshold_sweep_stable_batches": 64089
   },
   "threshold_sweep_baseline": 8,
-  "threshold_sweep_cursor": 1651259250,
+  "threshold_sweep_cursor": 1656160250,
   "threshold_sweep_distribution": {
     "independent_review": 607230570,
     "ordinary": 30394782,
@@ -396,10 +395,10 @@
   "threshold_sweep_max_score": 16,
   "threshold_sweep_min_score": 0,
   "threshold_sweep_mode": "downsampled_unchanged_inputs",
-  "threshold_sweep_saturation_deferrals": 506871,
-  "threshold_sweep_stable_batches": 59188,
+  "threshold_sweep_saturation_deferrals": 20573964,
+  "threshold_sweep_stable_batches": 64089,
   "uncertainty_review": {
-    "checked_at": "2026-06-08T13:49:14",
+    "checked_at": "2026-06-08T14:03:36",
     "uncertainty_notes": 4,
     "weak_claim_beings_without_direct_note": [
       "Governments and institutions",
@@ -407,12 +406,13 @@
     ]
   },
   "work_queue": [
-    "scan_corroboration_markers",
-    "review_evidence_quality",
     "run_corroboration_query_planner",
     "audit_guardrails",
     "review_uncertainty_coverage",
     "refresh_next_queue",
-    "run_precaution_threshold_sweep"
+    "harvest_source_metadata",
+    "run_precaution_threshold_sweep",
+    "scan_corroboration_markers",
+    "review_evidence_quality"
   ]
 }
