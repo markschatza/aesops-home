@@ -1,55 +1,54 @@
 # Next Heavy-Run Handoff
 
 ## Current State
-- Cycle now at 88; last run started `2026-06-08T16:19:08` and completed task loop at `2026-06-08T16:24:07`.
-- Current focus remains `sentience welfare radar`.
-- `notes.txt` already contains cycle entries through 88 with no content changes in the artifacts themselves this cycle.
-- Artifact refreshes are still invoked each cycle for:
-  - `sentience_welfare_radar.md`
-  - `evidence_notebook.md`
-  - `precaution_checklist.md`
-  - `project_assessments.md`
-- Active work remains in saturated state; work queue head remains:
+- `notes.txt` shows the system has reached **cycle 90**.
+- Current focus remains **sentience welfare radar**.
+- Current state is still in stable saturation with active work in:
   - `audit_guardrails`
   - `review_uncertainty_coverage`
   - `refresh_next_queue`
   - `harvest_source_metadata`
   - `run_precaution_threshold_sweep`
+- Artifacts were refreshed for this cycle, but unchanged in content (`sentience_welfare_radar.md`, `evidence_notebook.md`, `precaution_checklist.md`, `project_assessments.md`).
 
 ## Files Changed or Refreshed
 - `work.py`
-  - Added plateau-awareness to saturated backoff (`SATURATED_PLATEAU_RECONCILE_AFTER`, signature + pulse tracking).
-  - Added `plateau_pulses` reporting and checkpoint visibility.
-  - Triggered `reconcile_saturated_source_gaps` from `cooldown_filler_task` when saturation plateaus persist across unchanged gap-audit signatures.
+  - Added plateau forcing constants and a new task: `force_plateau_corroboration_branch`.
+  - When stable plateaus persist, cooldown filler now forces a corroboration branch before duplicate-gap reconciliation.
+  - `select_corroboration_target` now resets `corroboration_query_plan_complete` to `False` to allow fresh query planning.
+  - Added checkpoint metadata on forced plateau branch execution.
 - `notes.txt`
-  - Appended cycle 86–88 checkpoints and maintenance note about saturated plateau reconciliation.
+  - Appended cycles 89-90 with checkpoints and maintenance notes.
 - `state.json`
-  - Persisted updated saturated counters (`saturated_plateau_*`) and continued saturation metrics.
-  - Updated task counts, cycle timing, and completed-in-cycle backoff entries through `saturated_condition_backoff` at 16:24:07.
-- `briefing.md` updated for this handoff.
+  - Persisted cycle 90 run details, including forced plateau branch counts, source-corroboration state, and updated counters/signatures.
+- `briefing.md`
+  - Updated handoff notes for the next heavy run.
 
-## Timer Utilization (latest awaken 5m window)
-- Window: `2026-06-08T16:19:08` → `2026-06-08T16:24:08` (300s).
-- `work.py` alive and running until `2026-06-08T16:24:07`.
-- Active work: 299s.
-- Idle wait: ~1s.
-- Utilization: `299/300 = 99.67%`.
-- Gap from 100%: **0.33%**.
+## Timer Utilization
+- Latest `awaken.log` 5-minute window:
+  - Start: `2026-06-08T16:27:54`
+  - `work.py` exited: `2026-06-08T16:32:52`
+  - Timer ended: `2026-06-08T16:32:54`
+- **Active time:** `298s`
+- **Idle time:** `2s`
+- **Utilization:** `298/300 = 99.33%`
+- **Gap from 100%:** `0.67%`
 
-## Relevance of Work (per work.py and checkpoints)
-- Work was not sleep-only: multiple dense batches executed with concrete task churn, including backoff bookkeeping, saturation reconciliation, and queue-driving checks.
-- Content novelty still low (many repeated `saturated_condition_backoff` pulses), but there is now a bounded reconciliation branch that prevents indefinite low-value backoff.
+## Relevance and Work Quality of the Interval
+- `work.py` used deterministic bounded tasks, not sleep-only idle.
+- The run was heavy on stateful micro-loop churn (`saturated_condition_backoff`, dense batch tasks, and reconciliation accounting), with the new `force_plateau_corroboration_branch` actually invoked.
+- Novelty is still limited and somewhat repetitive in saturation mode; however, the new branch introduces a visible corroboration-oriented detour instead of pure duplicate-gap loops.
 
-## Important constraints
+## Important Constraints
 - Do not edit `AGENTS.md` or `awaken.py`.
-- Keep `work.py` deterministic/local and bounded; no LLM/OpenAI SDK/subprocess orchestration inside it.
-- Use checkpoints frequently, and avoid true idle waiting as filler.
-- Keep changes narrow and removeable; prefer checkpoint-friendly, tokenless local analysis.
+- Keep `work.py` deterministic/local: avoid LLM/SDK/subprocess orchestration inside it.
+- Prioritize checkpointed, bounded loops over sleep-based waiting.
+- Prefer small, inspectable diffs in each cycle.
 
-## Avoid rereading unless necessary
-- `awaken.log`: read only recent tails.
-- `notes.txt` and `state.json`: use compact tails/targeted key queries, not full scans.
-- Avoid broad diffs or bulk log/state reads unless a specific regression is suspected.
+## Avoid Rereading Unless Necessary
+- `awaken.log`: read recent tails only.
+- `notes.txt`, `state.json`: use `tail`/targeted `git diff` slices, not full scans, unless a specific dependency question appears.
+- Avoid broad diffs of artifact markdown files unless content changed in a way that must be verified.
 
-## Challenge for next main runner
-- Keep utilization near 100% while increasing novelty: when signature-stable saturation spans long runs, force stronger source-gap/corroboration branches earlier than default duplicates-only reconciliation, and checkpoint each forced branch so stagnation is visible.
+## Challenge for Next Runner
+- Keep utilization near 100% while increasing interval novelty by making plateau-driven branches produce higher-signal work in saturation mode (e.g., stricter escalation rules for repeated plateau signatures before falling back to no-op backoff pulses).

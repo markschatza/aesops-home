@@ -80,6 +80,9 @@ SATURATED_DUPLICATE_RECONCILE_AFTER = int(
 SATURATED_PLATEAU_RECONCILE_AFTER = int(
     os.environ.get("AESOP_SATURATED_PLATEAU_RECONCILE_AFTER", "96")
 )
+SATURATED_PLATEAU_CORROBORATE_AFTER = int(
+    os.environ.get("AESOP_SATURATED_PLATEAU_CORROBORATE_AFTER", "48")
+)
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
 )
@@ -489,6 +492,7 @@ def select_corroboration_target(state: dict) -> str:
         "task": "Find one independent peer-reviewed corroborating or limiting source before expanding this claim.",
     }
     state["next_corroboration_target"] = summary
+    state["corroboration_query_plan_complete"] = False
     return f"selected {target['source_quality']} target for {target['being']}"
 
 
@@ -1461,6 +1465,38 @@ def reconcile_saturated_source_gaps(state: dict) -> str:
     )
 
 
+def force_plateau_corroboration_branch(state: dict) -> str:
+    """Use stable saturated plateaus to force one corroboration-planning step."""
+    plateau_pulses = int(state.get("saturated_plateau_pulses", 0))
+    forced_count = int(state.get("saturated_plateau_forced_branches", 0)) + 1
+    state["saturated_plateau_forced_branches"] = forced_count
+
+    if state.get("next_corroboration_target") and not state.get(
+        "corroboration_query_plan_complete"
+    ):
+        action = run_corroboration_query_planner(state)
+    else:
+        selected = select_corroboration_target(state)
+        if state.get("next_corroboration_target") and not state.get(
+            "corroboration_query_plan_complete"
+        ):
+            planned = run_corroboration_query_planner(state)
+            action = f"{selected}; {planned}"
+        else:
+            action = selected
+
+    state["saturated_plateau_forced_branch_last"] = {
+        "checked_at": datetime.now().isoformat(timespec="seconds"),
+        "plateau_pulses": plateau_pulses,
+        "forced_count": forced_count,
+        "action": action,
+    }
+    return (
+        "forced plateau corroboration branch; "
+        f"plateau={plateau_pulses}; action={action}"
+    )
+
+
 def saturated_condition_backoff(state: dict) -> str:
     """Slow the saturated loop after all condition-changing checks are capped."""
     pulses = int(state.get("saturated_condition_backoff_pulses", 0)) + 1
@@ -1513,6 +1549,7 @@ WORK_TASKS = {
     "saturated_condition_backoff": saturated_condition_backoff,
     "review_saturated_source_gap_followup": review_saturated_source_gap_followup,
     "reconcile_saturated_source_gaps": reconcile_saturated_source_gaps,
+    "force_plateau_corroboration_branch": force_plateau_corroboration_branch,
     "audit_artifact_integrity": audit_artifact_integrity,
     "scan_corroboration_markers": scan_corroboration_markers,
     "review_corroboration_novelty": review_corroboration_novelty,
@@ -1529,11 +1566,18 @@ def cooldown_filler_task(state: dict) -> str:
     filler_runs = int(state.get("cooldown_filler_runs", 0))
     if state.get("saturated_gap_followup_requested"):
         return "review_saturated_source_gap_followup"
+    plateau_pulses = int(state.get("saturated_plateau_pulses", 0))
+    plateau_forced = int(state.get("saturated_plateau_pulses_forced", 0))
+    if (
+        plateau_pulses - plateau_forced
+        >= max(1, SATURATED_PLATEAU_CORROBORATE_AFTER)
+    ):
+        state["saturated_plateau_pulses_forced"] = plateau_pulses
+        return "force_plateau_corroboration_branch"
     duplicate_count = int(state.get("saturated_gap_followup_duplicates", 0))
     reconciled_count = int(state.get("saturated_gap_followup_duplicates_reconciled", 0))
     if duplicate_count - reconciled_count >= max(1, SATURATED_DUPLICATE_RECONCILE_AFTER):
         return "reconcile_saturated_source_gaps"
-    plateau_pulses = int(state.get("saturated_plateau_pulses", 0))
     plateau_reconciled = int(state.get("saturated_plateau_pulses_reconciled", 0))
     if (
         plateau_pulses - plateau_reconciled
