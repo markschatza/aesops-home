@@ -212,6 +212,10 @@ def weak_claims() -> list[dict]:
     ]
 
 
+def claim_key(claim: dict) -> str:
+    return f"{claim.get('being', '')}|{claim.get('source', '')}"
+
+
 def next_cursor_item(state: dict, cursor_key: str, items: list[dict]) -> tuple[dict | None, int, int]:
     if not items:
         state[cursor_key] = 0
@@ -220,6 +224,29 @@ def next_cursor_item(state: dict, cursor_key: str, items: list[dict]) -> tuple[d
     index = cursor % len(items)
     state[cursor_key] = cursor + 1
     return items[index], index, cursor + 1
+
+
+def next_unreviewed_cycle_item(
+    state: dict,
+    cursor_key: str,
+    reviewed_key: str,
+    items: list[dict],
+) -> tuple[dict | None, int, int, bool]:
+    if not items:
+        state[cursor_key] = 0
+        state[reviewed_key] = []
+        return None, 0, 0, True
+    reviewed = {
+        key for key in state.get(reviewed_key, []) if isinstance(key, str)
+    }
+    remaining = [item for item in items if claim_key(item) not in reviewed]
+    if not remaining:
+        return None, 0, int(state.get(cursor_key, 0)), True
+    selected, _, cursor = next_cursor_item(state, cursor_key, remaining)
+    if selected is None:
+        return None, 0, cursor, False
+    index = items.index(selected)
+    return selected, index, cursor, False
 
 
 def artifact_names(paths: list[Path]) -> str:
@@ -373,14 +400,25 @@ def review_evidence_quality(state: dict) -> str:
 
 
 def select_corroboration_target(state: dict) -> str:
-    target = next(iter(weak_claims()), None)
+    claims = weak_claims()
+    target, index, cursor, exhausted = next_unreviewed_cycle_item(
+        state,
+        "corroboration_target_cursor",
+        "corroboration_targets_planned_this_cycle",
+        claims,
+    )
     if target is None:
         state["next_corroboration_target"] = None
+        state["corroboration_query_plan_complete"] = True
+        if exhausted and claims:
+            return f"all weak source-quality targets planned this cycle; targets={len(claims)}"
         return "no weak source-quality target found"
     summary = {
         "being": target["being"],
         "source_quality": target["source_quality"],
         "source": target["source"],
+        "index": index,
+        "cursor": cursor,
         "task": "Find one independent peer-reviewed corroborating or limiting source before expanding this claim.",
     }
     state["next_corroboration_target"] = summary
@@ -717,6 +755,16 @@ def run_corroboration_query_planner(state: dict) -> str:
         }
         return "no weak source-quality claims"
 
+    planned_this_cycle = [
+        key
+        for key in state.get("corroboration_targets_planned_this_cycle", [])
+        if isinstance(key, str)
+    ]
+    planned_set = set(planned_this_cycle)
+    if len(planned_set) >= len({claim_key(claim) for claim in claims}):
+        state["corroboration_query_plan_complete"] = True
+        return f"all weak source-quality targets planned this cycle; targets={len(claims)}"
+
     selected = state.get("next_corroboration_target") or {}
     target = next(
         (
@@ -731,7 +779,29 @@ def run_corroboration_query_planner(state: dict) -> str:
     source_records = cache.get("sources", {})
     source_title = source_records.get(target.get("source"), {}).get("title", "")
     focus_terms = corroboration_focus_terms(target, source_title)
-    target_key = f"{target['being']}|{target['source']}"
+    target_key = claim_key(target)
+    if target_key in planned_set:
+        target, _, _, exhausted = next_unreviewed_cycle_item(
+            state,
+            "corroboration_target_cursor",
+            "corroboration_targets_planned_this_cycle",
+            claims,
+        )
+        if target is None:
+            state["next_corroboration_target"] = None
+            state["corroboration_query_plan_complete"] = True
+            if exhausted:
+                return f"all weak source-quality targets planned this cycle; targets={len(claims)}"
+            return "no weak source-quality target found"
+        source_title = source_records.get(target.get("source"), {}).get("title", "")
+        focus_terms = corroboration_focus_terms(target, source_title)
+        target_key = claim_key(target)
+        state["next_corroboration_target"] = {
+            "being": target["being"],
+            "source_quality": target["source_quality"],
+            "source": target["source"],
+            "task": "Find one independent peer-reviewed corroborating or limiting source before expanding this claim.",
+        }
     if state.get("corroboration_query_target_key") != target_key:
         state["corroboration_query_cursor"] = 0
         state["corroboration_query_target_key"] = target_key
@@ -741,6 +811,9 @@ def run_corroboration_query_planner(state: dict) -> str:
     total_query_slots = len(focus_terms) * len(CORROBORATION_QUERY_TEMPLATES)
     if cursor >= total_query_slots:
         state["corroboration_query_plan_complete"] = True
+        if target_key not in planned_set:
+            planned_this_cycle.append(target_key)
+            state["corroboration_targets_planned_this_cycle"] = planned_this_cycle
         return f"target={target['being']}; query_plan_complete={total_query_slots}"
 
     queries = []
@@ -775,6 +848,9 @@ def run_corroboration_query_planner(state: dict) -> str:
     state["corroboration_query_plan_complete"] = (
         state["corroboration_query_cursor"] >= total_query_slots
     )
+    if state["corroboration_query_plan_complete"] and target_key not in planned_set:
+        planned_this_cycle.append(target_key)
+        state["corroboration_targets_planned_this_cycle"] = planned_this_cycle
     state["corroboration_query_plan"] = {
         "updated_at": datetime.now().isoformat(timespec="seconds"),
         "target": {
@@ -901,13 +977,20 @@ def cooldown_filler_task(state: dict) -> str:
         ) + 1
         if keyword_sweep_is_saturated(state):
             saturated_tasks = [
-                "run_corroboration_query_planner",
                 "scan_corroboration_markers",
                 "review_evidence_quality",
                 "review_sweep_saturation",
                 "audit_guardrails",
                 "review_uncertainty_coverage",
             ]
+            weak_keys = {claim_key(claim) for claim in weak_claims()}
+            planned_keys = {
+                key
+                for key in state.get("corroboration_targets_planned_this_cycle", [])
+                if isinstance(key, str)
+            }
+            if weak_keys - planned_keys:
+                saturated_tasks.insert(0, "run_corroboration_query_planner")
             sample_interval = max(16, SATURATED_SWEEP_SAMPLE_INTERVAL)
             sample_slot = filler_runs % sample_interval
             if sample_slot == 1:
@@ -984,6 +1067,7 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
     state["skipped_static_task_counts"] = {}
     state["cooldown_filler_runs"] = 0
     state["source_fetches_this_cycle"] = 0
+    state["corroboration_targets_planned_this_cycle"] = []
     state["static_task_cooldown_seconds"] = static_task_cooldown
     append_checkpoint(state["cycle"], "start_micro_work", 0, "started timed queue")
     save_state(state)
