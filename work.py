@@ -39,12 +39,14 @@ FETCH_TIMEOUT_SECONDS = int(os.environ.get("AESOP_FETCH_TIMEOUT_SECONDS", "8"))
 FETCH_BYTES = int(os.environ.get("AESOP_FETCH_BYTES", "65536"))
 THRESHOLD_SWEEP_BATCH = int(os.environ.get("AESOP_THRESHOLD_SWEEP_BATCH", "2500"))
 UNCHANGED_THRESHOLD_SWEEP_BATCH = int(
-    os.environ.get("AESOP_UNCHANGED_THRESHOLD_SWEEP_BATCH", "250")
+    os.environ.get("AESOP_UNCHANGED_THRESHOLD_SWEEP_BATCH", "1000")
 )
 STATIC_TASK_COOLDOWN_SECONDS = int(os.environ.get("AESOP_STATIC_TASK_COOLDOWN_SECONDS", "60"))
 UNCHANGED_STATIC_TASK_COOLDOWN_SECONDS = int(
     os.environ.get("AESOP_UNCHANGED_STATIC_TASK_COOLDOWN_SECONDS", "120")
 )
+KEYWORD_STALE_ROTATION_AFTER = int(os.environ.get("AESOP_KEYWORD_STALE_ROTATION_AFTER", "3"))
+FILLER_REVIEW_INTERVAL = int(os.environ.get("AESOP_FILLER_REVIEW_INTERVAL", "256"))
 DEFAULT_WORK_QUEUE = [
     "harvest_source_metadata",
     "run_precaution_threshold_sweep",
@@ -550,7 +552,17 @@ def run_evidence_keyword_sweep(state: dict) -> str:
         for count in artifact_counts.values()
         if int(count) > 0
     )
-    return f"keyword_windows={cursor}; covered_keyword_slots={nonzero}"
+    previous_nonzero = int(state.get("evidence_keyword_last_covered_slots", 0))
+    if nonzero > previous_nonzero:
+        state["evidence_keyword_stale_runs"] = 0
+        trend = f"coverage_gain={nonzero - previous_nonzero}"
+    else:
+        state["evidence_keyword_stale_runs"] = int(
+            state.get("evidence_keyword_stale_runs", 0)
+        ) + 1
+        trend = f"stale_runs={state['evidence_keyword_stale_runs']}"
+    state["evidence_keyword_last_covered_slots"] = nonzero
+    return f"keyword_windows={cursor}; covered_keyword_slots={nonzero}; {trend}"
 
 
 def corroboration_focus_terms(claim: dict, source_title: str = "") -> list[str]:
@@ -760,12 +772,25 @@ WORK_TASKS = {
 
 
 def cooldown_filler_task(state: dict) -> str:
+    filler_runs = int(state.get("cooldown_filler_runs", 0))
     if state.get("next_corroboration_target") and not state.get(
         "corroboration_query_plan_complete"
     ):
-        filler_runs = int(state.get("cooldown_filler_runs", 0))
         if filler_runs % 2 == 0:
             return "run_corroboration_query_planner"
+    stale_keyword_runs = int(state.get("evidence_keyword_stale_runs", 0))
+    if stale_keyword_runs >= KEYWORD_STALE_ROTATION_AFTER:
+        if filler_runs % FILLER_REVIEW_INTERVAL == 0:
+            review_tasks = [
+                "audit_artifact_integrity",
+                "scan_corroboration_markers",
+                "review_evidence_quality",
+                "audit_guardrails",
+                "review_uncertainty_coverage",
+            ]
+            index = (filler_runs // FILLER_REVIEW_INTERVAL) % len(review_tasks)
+            return review_tasks[index]
+        return "run_precaution_threshold_sweep"
     return "run_evidence_keyword_sweep"
 
 
