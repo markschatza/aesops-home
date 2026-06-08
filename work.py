@@ -71,6 +71,9 @@ SATURATED_STATIC_REVIEW_CAP = int(
 SATURATED_BACKOFF_SECONDS = float(
     os.environ.get("AESOP_SATURATED_BACKOFF_SECONDS", "0.25")
 )
+SATURATED_GAP_AUDIT_INTERVAL = int(
+    os.environ.get("AESOP_SATURATED_GAP_AUDIT_INTERVAL", "4")
+)
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
 )
@@ -1205,14 +1208,88 @@ def run_precaution_threshold_sweep(state: dict) -> str:
     )
 
 
+def audit_saturated_source_gap(state: dict, pulse: int) -> str:
+    interval = max(1, SATURATED_GAP_AUDIT_INTERVAL)
+    if pulse % interval != 0:
+        return "gap_audit=deferred"
+
+    urls = source_urls()
+    if not urls:
+        state["saturated_source_gap_snapshot"] = {
+            "checked_at": datetime.now().isoformat(timespec="seconds"),
+            "status": "no source urls available",
+        }
+        return "gap_audit=no_sources"
+
+    cache = load_source_cache()
+    sources = cache.get("sources", {})
+    weak_by_url: dict[str, list[str]] = {}
+    for claim in weak_claims():
+        weak_by_url.setdefault(claim.get("source", ""), []).append(claim_key(claim))
+
+    cursor = int(state.get("saturated_source_gap_cursor", 0))
+    url = urls[cursor % len(urls)]
+    state["saturated_source_gap_cursor"] = cursor + 1
+    record = sources.get(url, {})
+    keyword_counts = record.get("keyword_counts", {})
+    if not isinstance(keyword_counts, dict):
+        keyword_counts = {}
+    keyword_hits = sum(int(value) for value in keyword_counts.values())
+    flags = []
+    if not record:
+        flags.append("missing_cache")
+    elif not record.get("ok"):
+        flags.append("fetch_failed")
+    if record and not record.get("title"):
+        flags.append("empty_title")
+    if record and keyword_hits == 0:
+        flags.append("zero_keyword_hits")
+    if url in weak_by_url:
+        flags.append("weak_source_claim")
+
+    failed_sources = sum(1 for item in sources.values() if item and not item.get("ok"))
+    zero_hit_sources = 0
+    for item in sources.values():
+        counts = item.get("keyword_counts", {}) if isinstance(item, dict) else {}
+        if (
+            isinstance(counts, dict)
+            and item.get("ok")
+            and sum(int(v) for v in counts.values()) == 0
+        ):
+            zero_hit_sources += 1
+
+    state["saturated_source_gap_snapshot"] = {
+        "checked_at": datetime.now().isoformat(timespec="seconds"),
+        "cursor": state["saturated_source_gap_cursor"],
+        "url": url,
+        "ok": bool(record.get("ok")),
+        "title_present": bool(record.get("title")),
+        "keyword_hits": keyword_hits,
+        "flags": flags,
+        "weak_claim_keys": weak_by_url.get(url, []),
+        "totals": {
+            "urls": len(urls),
+            "cached": len(sources),
+            "failed": failed_sources,
+            "zero_keyword_hits": zero_hit_sources,
+            "weak_claim_sources": len(weak_by_url),
+        },
+    }
+    if flags:
+        return f"gap_audit={','.join(flags)}"
+    return "gap_audit=clear"
+
+
 def saturated_condition_backoff(state: dict) -> str:
     """Slow the saturated loop after all condition-changing checks are capped."""
     pulses = int(state.get("saturated_condition_backoff_pulses", 0)) + 1
+    gap_result = audit_saturated_source_gap(state, pulses)
     state["saturated_condition_backoff_pulses"] = pulses
     state["saturated_condition_backoff"] = {
         "checked_at": datetime.now().isoformat(timespec="seconds"),
-        "reason": "sweeps and in-cycle review tasks are saturated; waiting for source or artifact changes",
+        "reason": "sweeps and in-cycle review tasks are saturated; auditing source gaps while waiting for source or artifact changes",
         "pulses": pulses,
+        "gap_audit": gap_result,
         "keyword_stale_runs": int(state.get("evidence_keyword_stale_runs", 0)),
         "threshold_stable_batches": int(state.get("threshold_sweep_stable_batches", 0)),
         "novelty_stale_runs": int(state.get("corroboration_novelty_stale_runs", 0)),
@@ -1220,6 +1297,7 @@ def saturated_condition_backoff(state: dict) -> str:
     time.sleep(max(0.0, SATURATED_BACKOFF_SECONDS))
     return (
         f"saturated backoff pulse={pulses}; "
+        f"{gap_result}; "
         f"keyword_stale={state['saturated_condition_backoff']['keyword_stale_runs']}; "
         f"threshold_stable={state['saturated_condition_backoff']['threshold_stable_batches']}"
     )
