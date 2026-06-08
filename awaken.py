@@ -78,7 +78,12 @@ def run_codex(prompt, *, model=None, label="codex"):
 def prepare_briefing():
     ok = run_codex(
         (
-            "Read AGENTS.md, notes.txt, state.json, awaken.log, and the current markdown artifacts. "
+            "Prepare the next heavy-run handoff without overflowing context. Read AGENTS.md fully, "
+            "but do not cat full notes.txt, state.json, source_cache.json, codex.log, or all markdown artifacts. "
+            "Use compact inspection instead: tail the latest notes.txt and awaken.log entries, use git status/diff --stat, "
+            "and summarize state.json with a short Python snippet that extracts only cycle, current_focus, last_task, "
+            "work_queue, next_corroboration_target, completed_task_counts, source_fetches_this_cycle, "
+            "threshold_sweep_cursor, and the last few completed_in_cycle items. Read specific artifacts only when needed. "
             f"Write a concise {BRIEFING.name} for the next heavier Codex run. Include: "
             "current state, files changed or refreshed, important constraints, "
             "and anything the heavier model should avoid rereading unless necessary. "
