@@ -122,6 +122,7 @@ CORROBORATION_STOPWORDS = {
     "with",
 }
 ARTIFACT_TEXT_CACHE: dict[str, str] | None = None
+WEAK_SOURCE_QUALITIES = {"preprint", "speculative", "abstract"}
 
 
 SEED_SOURCES = [
@@ -201,6 +202,24 @@ def append_checkpoint(cycle: int, task_id: str, elapsed: float, result: str) -> 
             f"cycle={cycle}; task={task_id}; elapsed={int(elapsed)}s; result={result}",
         ]
     )
+
+
+def weak_claims() -> list[dict]:
+    return [
+        claim
+        for claim in CLAIMS
+        if claim.get("source_quality") in WEAK_SOURCE_QUALITIES
+    ]
+
+
+def next_cursor_item(state: dict, cursor_key: str, items: list[dict]) -> tuple[dict | None, int, int]:
+    if not items:
+        state[cursor_key] = 0
+        return None, 0, 0
+    cursor = int(state.get(cursor_key, 0))
+    index = cursor % len(items)
+    state[cursor_key] = cursor + 1
+    return items[index], index, cursor + 1
 
 
 def artifact_names(paths: list[Path]) -> str:
@@ -329,18 +348,32 @@ def review_evidence_quality(state: dict) -> str:
         counts[quality] = counts.get(quality, 0) + 1
     state["evidence_quality_counts"] = counts
     weak = counts.get("preprint", 0) + counts.get("speculative", 0) + counts.get("abstract", 0)
-    return f"quality_counts={counts}; weaker_claims={weak}"
+    claim, index, cursor = next_cursor_item(state, "evidence_quality_review_cursor", CLAIMS)
+    if claim is not None:
+        source_quality = claim.get("source_quality", "unknown")
+        recommended_followup = (
+            "seek independent corroboration before raising confidence"
+            if source_quality in WEAK_SOURCE_QUALITIES
+            else "maintain source as current support unless the claim expands"
+        )
+        state["evidence_quality_last_item"] = {
+            "reviewed_at": datetime.now().isoformat(timespec="seconds"),
+            "index": index,
+            "cursor": cursor,
+            "being": claim.get("being"),
+            "source_quality": source_quality,
+            "confidence": claim.get("confidence"),
+            "recommended_followup": recommended_followup,
+        }
+        return (
+            f"quality_counts={counts}; weaker_claims={weak}; "
+            f"reviewed={claim.get('being')}[{source_quality}]"
+        )
+    return f"quality_counts={counts}; weaker_claims={weak}; no claims to review"
 
 
 def select_corroboration_target(state: dict) -> str:
-    target = next(
-        (
-            claim
-            for claim in CLAIMS
-            if claim.get("source_quality") in {"preprint", "speculative", "abstract"}
-        ),
-        None,
-    )
+    target = next(iter(weak_claims()), None)
     if target is None:
         state["next_corroboration_target"] = None
         return "no weak source-quality target found"
@@ -370,14 +403,32 @@ def review_uncertainty_coverage(state: dict) -> str:
     uncovered = [
         claim["being"]
         for claim in CLAIMS
-        if claim.get("source_quality") in {"preprint", "speculative", "abstract"}
+        if claim.get("source_quality") in WEAK_SOURCE_QUALITIES
         and not any(claim["being"] in topic for topic in covered_topics)
     ]
+    target, index, cursor = next_cursor_item(
+        state, "uncertainty_review_cursor", weak_claims() or CLAIMS
+    )
     state["uncertainty_review"] = {
         "checked_at": datetime.now().isoformat(timespec="seconds"),
         "uncertainty_notes": len(UNCERTAINTY_NOTES),
         "weak_claim_beings_without_direct_note": sorted(set(uncovered)),
     }
+    if target is not None:
+        direct_note = any(target["being"] in topic for topic in covered_topics)
+        state["uncertainty_last_item"] = {
+            "reviewed_at": datetime.now().isoformat(timespec="seconds"),
+            "index": index,
+            "cursor": cursor,
+            "being": target.get("being"),
+            "source_quality": target.get("source_quality"),
+            "has_direct_uncertainty_note": direct_note,
+            "next_step": (
+                "add or preserve a direct uncertainty note before expanding this claim"
+                if not direct_note
+                else "direct uncertainty coverage present"
+            ),
+        }
     if uncovered:
         return f"uncertainty gap candidates={sorted(set(uncovered))}"
     return "uncertainty coverage adequate for current weak claims"
@@ -510,13 +561,10 @@ def audit_artifact_integrity(state: dict) -> str:
 def scan_corroboration_markers(state: dict) -> str:
     cache = load_source_cache()
     source_records = cache.get("sources", {})
-    weak_claims = [
-        claim
-        for claim in CLAIMS
-        if claim.get("source_quality") in {"preprint", "speculative", "abstract"}
-    ]
+    claims = weak_claims()
+    selected, index, cursor = next_cursor_item(state, "corroboration_marker_cursor", claims)
     markers = {}
-    for claim in weak_claims:
+    for claim in claims:
         being = claim["being"]
         source = claim["source"]
         record = source_records.get(source, {})
@@ -529,12 +577,34 @@ def scan_corroboration_markers(state: dict) -> str:
             "keyword_counts": record.get("keyword_counts", {}),
             "next_step": "seek independent corroborating or limiting source before raising confidence",
         }
+    if selected is not None:
+        source = selected["source"]
+        record = source_records.get(source, {})
+        keyword_counts = record.get("keyword_counts", {})
+        if not isinstance(keyword_counts, dict):
+            keyword_counts = {}
+        marker_terms = [
+            term
+            for term in corroboration_focus_terms(selected, record.get("title", ""))
+            if int(keyword_counts.get(term, 0)) > 0 or term in record.get("title", "").lower()
+        ]
+        state["corroboration_marker_last_item"] = {
+            "checked_at": datetime.now().isoformat(timespec="seconds"),
+            "index": index,
+            "cursor": cursor,
+            "being": selected.get("being"),
+            "source_quality": selected.get("source_quality"),
+            "cached": bool(record),
+            "fetch_ok": record.get("ok"),
+            "marker_terms": marker_terms[:6],
+        }
     state["corroboration_marker_scan"] = {
         "checked_at": datetime.now().isoformat(timespec="seconds"),
         "weak_claims": markers,
     }
     cached = sum(1 for item in markers.values() if item["cached"])
-    return f"weak_claims={len(markers)}; cached_sources={cached}"
+    reviewed = selected.get("being") if selected else "none"
+    return f"weak_claims={len(markers)}; cached_sources={cached}; reviewed={reviewed}"
 
 
 def artifact_text_cache() -> dict[str, str]:
@@ -637,12 +707,8 @@ def corroboration_focus_terms(claim: dict, source_title: str = "") -> list[str]:
 
 def run_corroboration_query_planner(state: dict) -> str:
     """Prepare bounded follow-up searches for weak source-quality claims."""
-    weak_claims = [
-        claim
-        for claim in CLAIMS
-        if claim.get("source_quality") in {"preprint", "speculative", "abstract"}
-    ]
-    if not weak_claims:
+    claims = weak_claims()
+    if not claims:
         state["next_corroboration_target"] = None
         state["corroboration_query_plan_complete"] = True
         state["corroboration_query_plan"] = {
@@ -655,11 +721,11 @@ def run_corroboration_query_planner(state: dict) -> str:
     target = next(
         (
             claim
-            for claim in weak_claims
+            for claim in claims
             if claim.get("being") == selected.get("being")
             and claim.get("source") == selected.get("source")
         ),
-        weak_claims[0],
+        claims[0],
     )
     cache = load_source_cache()
     source_records = cache.get("sources", {})
