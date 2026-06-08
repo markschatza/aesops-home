@@ -318,6 +318,13 @@ def prioritize_source_work(state: dict) -> None:
     state["work_queue"] = queue
 
 
+def claim_by_key(key: str) -> dict | None:
+    for claim in CLAIMS:
+        if claim_key(claim) == key:
+            return claim
+    return None
+
+
 def artifact_snapshot(paths: list[Path]) -> dict[str, dict[str, object]]:
     snapshot: dict[str, dict[str, object]] = {}
     for path in paths:
@@ -1276,8 +1283,83 @@ def audit_saturated_source_gap(state: dict, pulse: int) -> str:
         },
     }
     if flags:
+        signature = "|".join([url, ",".join(flags), ",".join(weak_by_url.get(url, []))])
+        handled = {
+            item
+            for item in state.get("saturated_gap_followups_handled_this_cycle", [])
+            if isinstance(item, str)
+        }
+        if signature not in handled:
+            state["saturated_gap_followup_requested"] = {
+                "requested_at": datetime.now().isoformat(timespec="seconds"),
+                "url": url,
+                "flags": flags,
+                "weak_claim_keys": weak_by_url.get(url, []),
+                "signature": signature,
+            }
+        else:
+            state["saturated_gap_followup_duplicates"] = (
+                int(state.get("saturated_gap_followup_duplicates", 0)) + 1
+            )
         return f"gap_audit={','.join(flags)}"
     return "gap_audit=clear"
+
+
+def review_saturated_source_gap_followup(state: dict) -> str:
+    """Turn a saturated source-gap signal into one bounded follow-up action."""
+    request = state.pop("saturated_gap_followup_requested", None)
+    if not isinstance(request, dict):
+        return "no saturated source-gap follow-up pending"
+
+    weak_keys = [key for key in request.get("weak_claim_keys", []) if isinstance(key, str)]
+    refreshed_today = {
+        key
+        for key, date in state.get("source_refresh_escalated_dates", {}).items()
+        if date == today_stamp()
+    }
+    refreshable_keys = [key for key in weak_keys if key not in refreshed_today]
+    action = "recorded source gap; no weak claim attached"
+    if refreshable_keys and int(state.get("source_fetches_this_cycle", 0)) < MAX_FETCHES_PER_CYCLE:
+        state["source_refresh_requested"] = {
+            "requested_at": datetime.now().isoformat(timespec="seconds"),
+            "reason": "saturated source-gap audit found weak source metadata flags",
+            "flags": request.get("flags", []),
+            "target_keys": refreshable_keys,
+        }
+        prioritize_source_work(state)
+        action = f"queued source refresh for {len(refreshable_keys)} weak claim(s)"
+    elif weak_keys:
+        target = claim_by_key(weak_keys[0])
+        if target is not None:
+            state["next_corroboration_target"] = {
+                "being": target["being"],
+                "source_quality": target["source_quality"],
+                "source": target["source"],
+                "task": "Find one independent corroborating or limiting source for a weak claim with saturated source-gap flags.",
+            }
+            state["corroboration_query_plan_complete"] = False
+            action = "queued corroboration planning for already-refreshed weak claim"
+        else:
+            action = "weak claim key no longer matches current claims"
+
+    state["saturated_gap_followup_last"] = {
+        "checked_at": datetime.now().isoformat(timespec="seconds"),
+        "url": request.get("url"),
+        "flags": request.get("flags", []),
+        "weak_claim_keys": weak_keys,
+        "action": action,
+    }
+    signature = request.get("signature")
+    if isinstance(signature, str):
+        handled = [
+            item
+            for item in state.get("saturated_gap_followups_handled_this_cycle", [])
+            if isinstance(item, str)
+        ]
+        if signature not in handled:
+            handled.append(signature)
+        state["saturated_gap_followups_handled_this_cycle"] = handled
+    return action
 
 
 def saturated_condition_backoff(state: dict) -> str:
@@ -1309,6 +1391,7 @@ WORK_TASKS = {
     "run_corroboration_query_planner": run_corroboration_query_planner,
     "run_precaution_threshold_sweep": run_precaution_threshold_sweep,
     "saturated_condition_backoff": saturated_condition_backoff,
+    "review_saturated_source_gap_followup": review_saturated_source_gap_followup,
     "audit_artifact_integrity": audit_artifact_integrity,
     "scan_corroboration_markers": scan_corroboration_markers,
     "review_corroboration_novelty": review_corroboration_novelty,
@@ -1323,6 +1406,8 @@ WORK_TASKS = {
 
 def cooldown_filler_task(state: dict) -> str:
     filler_runs = int(state.get("cooldown_filler_runs", 0))
+    if state.get("saturated_gap_followup_requested"):
+        return "review_saturated_source_gap_followup"
     if (
         state.get("source_refresh_requested")
         and int(state.get("source_fetches_this_cycle", 0)) < MAX_FETCHES_PER_CYCLE
@@ -1473,6 +1558,7 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
     state["evidence_quality_reviewed_this_cycle"] = []
     state["corroboration_novelty_reviews_this_cycle"] = 0
     state["uncertainty_targets_reviewed_this_cycle"] = []
+    state["saturated_gap_followups_handled_this_cycle"] = []
     state["static_task_cooldown_seconds"] = static_task_cooldown
     append_checkpoint(state["cycle"], "start_micro_work", 0, "started timed queue")
     save_state(state)
