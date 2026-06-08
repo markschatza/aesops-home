@@ -18,6 +18,7 @@ A compact register of welfare-relevant claims, confidence, and care actions. Thi
 | AI-based pain detection for farmed animals | The public abstract identifies ethical concerns and principles, but it does not establish that any deployed detector is accurate, humane to operate, or sufficient for whole-animal welfare. |
 | Automated welfare evidence extraction | A peer-reviewed article reports strong benchmark results for some extraction settings, but that does not mean automated summaries are ready to make welfare judgments without domain review. |
 | Teleonome animal welfare framework | The peer-reviewed framework is useful for broad assessment design, but its practical scoring reliability for specific species and settings remains uncertain without domain-specific validation. |
+| Sentience readiness and institutional AI governance | A 2026 peer-reviewed healthcare AI governance review (https://doi.org/10.1038/s41746-026-02418-7) corroborates the narrower point that AI governance frameworks can be fragmented and resource-sensitive, but it does not directly validate the preprint's sentience-specific national readiness scores. |
 
 ## Review Routine
 

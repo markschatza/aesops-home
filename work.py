@@ -46,6 +46,9 @@ UNCHANGED_STATIC_TASK_COOLDOWN_SECONDS = int(
     os.environ.get("AESOP_UNCHANGED_STATIC_TASK_COOLDOWN_SECONDS", "120")
 )
 KEYWORD_STALE_ROTATION_AFTER = int(os.environ.get("AESOP_KEYWORD_STALE_ROTATION_AFTER", "3"))
+KEYWORD_SWEEP_SATURATION_AFTER = int(
+    os.environ.get("AESOP_KEYWORD_SWEEP_SATURATION_AFTER", "5000")
+)
 FILLER_REVIEW_INTERVAL = int(os.environ.get("AESOP_FILLER_REVIEW_INTERVAL", "256"))
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
@@ -57,6 +60,7 @@ DEFAULT_WORK_QUEUE = [
     "scan_corroboration_markers",
     "review_evidence_quality",
     "select_corroboration_target",
+    "run_corroboration_query_planner",
     "audit_guardrails",
     "review_uncertainty_coverage",
     "refresh_next_queue",
@@ -379,6 +383,26 @@ def review_uncertainty_coverage(state: dict) -> str:
 def refresh_next_queue(state: dict) -> str:
     state["work_queue"] = DEFAULT_WORK_QUEUE.copy()
     return "queue replenished"
+
+
+def review_sweep_saturation(state: dict) -> str:
+    threshold_stable = int(state.get("threshold_sweep_stable_batches", 0))
+    keyword_stale = int(state.get("evidence_keyword_stale_runs", 0))
+    saturated = threshold_sweep_is_saturated(state) and keyword_sweep_is_saturated(state)
+    state["sweep_saturation_review"] = {
+        "checked_at": datetime.now().isoformat(timespec="seconds"),
+        "threshold_sweep_stable_batches": threshold_stable,
+        "evidence_keyword_stale_runs": keyword_stale,
+        "saturated": saturated,
+        "next_step": (
+            "prefer corroboration and quality-review tasks; keep only occasional deterministic sweep samples"
+            if saturated
+            else "continue deterministic sweeps until coverage or threshold behavior stabilizes"
+        ),
+    }
+    if saturated:
+        return f"sweeps saturated; threshold_stable={threshold_stable}; keyword_stale={keyword_stale}"
+    return f"sweeps active; threshold_stable={threshold_stable}; keyword_stale={keyword_stale}"
 
 
 def harvest_source_metadata(state: dict) -> str:
@@ -793,6 +817,7 @@ WORK_TASKS = {
     "scan_corroboration_markers": scan_corroboration_markers,
     "review_evidence_quality": review_evidence_quality,
     "select_corroboration_target": select_corroboration_target,
+    "review_sweep_saturation": review_sweep_saturation,
     "audit_guardrails": audit_guardrails,
     "review_uncertainty_coverage": review_uncertainty_coverage,
     "refresh_next_queue": refresh_next_queue,
@@ -805,6 +830,22 @@ def cooldown_filler_task(state: dict) -> str:
         state["threshold_sweep_saturation_deferrals"] = int(
             state.get("threshold_sweep_saturation_deferrals", 0)
         ) + 1
+        if keyword_sweep_is_saturated(state):
+            saturated_tasks = [
+                "run_corroboration_query_planner",
+                "scan_corroboration_markers",
+                "review_evidence_quality",
+                "review_sweep_saturation",
+                "audit_guardrails",
+                "review_uncertainty_coverage",
+            ]
+            sample_slot = filler_runs % 8
+            if sample_slot == 1:
+                return "run_precaution_threshold_sweep"
+            if sample_slot == 3:
+                return "run_evidence_keyword_sweep"
+            index = filler_runs % len(saturated_tasks)
+            return saturated_tasks[index]
         if state.get("next_corroboration_target") and not state.get(
             "corroboration_query_plan_complete"
         ):
@@ -853,6 +894,13 @@ def threshold_sweep_is_saturated(state: dict) -> bool:
         and not bool(state.get("source_fetches_this_cycle", 0))
         and int(state.get("threshold_sweep_stable_batches", 0))
         >= STABLE_THRESHOLD_SWEEP_ROTATION_AFTER
+    )
+
+
+def keyword_sweep_is_saturated(state: dict) -> bool:
+    return (
+        int(state.get("evidence_keyword_stale_runs", 0))
+        >= KEYWORD_SWEEP_SATURATION_AFTER
     )
 
 

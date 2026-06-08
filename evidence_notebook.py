@@ -70,6 +70,10 @@ UNCERTAINTY_NOTES = [
         "topic": "Teleonome animal welfare framework",
         "note": "The peer-reviewed framework is useful for broad assessment design, but its practical scoring reliability for specific species and settings remains uncertain without domain-specific validation.",
     },
+    {
+        "topic": "Sentience readiness and institutional AI governance",
+        "note": "A 2026 peer-reviewed healthcare AI governance review (https://doi.org/10.1038/s41746-026-02418-7) corroborates the narrower point that AI governance frameworks can be fragmented and resource-sensitive, but it does not directly validate the preprint's sentience-specific national readiness scores.",
+    },
 ]
 
 
