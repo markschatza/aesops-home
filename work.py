@@ -719,6 +719,11 @@ def run_precaution_threshold_sweep(state: dict) -> str:
     score_max = int(state.get("threshold_sweep_max_score", -1))
     assessment = ASSESSMENTS[0]
     baseline = assessment_score(assessment)
+    previous_levels = {level for level, count in distribution.items() if int(count) > 0}
+    previous_min = score_min
+    previous_max = score_max
+    previous_baseline = int(state.get("threshold_sweep_baseline", baseline))
+    observed_distribution = {level: 0 for level in previous_levels}
 
     # Deterministic pseudo-random jitter over possible risk weights. This gives
     # the worker CPU-heavy local analysis without external calls or log bloat.
@@ -739,7 +744,25 @@ def run_precaution_threshold_sweep(state: dict) -> str:
             level = "safeguards_required"
         elif adjusted_score >= 3:
             level = "written_review"
-        distribution[level] = int(distribution.get(level, 0)) + 1
+        observed_distribution[level] = int(observed_distribution.get(level, 0)) + 1
+
+    observed_levels = {level for level, count in observed_distribution.items() if count > 0}
+    semantic_changed = (
+        input_changed
+        or baseline != previous_baseline
+        or score_min < previous_min
+        or score_max > previous_max
+        or bool(observed_levels - previous_levels)
+    )
+    if semantic_changed:
+        for level, count in observed_distribution.items():
+            if count:
+                distribution[level] = int(distribution.get(level, 0)) + count
+        state["threshold_sweep_stable_batches"] = 0
+    else:
+        state["threshold_sweep_stable_batches"] = (
+            int(state.get("threshold_sweep_stable_batches", 0)) + 1
+        )
 
     state["threshold_sweep_cursor"] = cursor + batch_size
     state["threshold_sweep_distribution"] = distribution
@@ -752,7 +775,9 @@ def run_precaution_threshold_sweep(state: dict) -> str:
         f"sweep_units={state['threshold_sweep_cursor']}; "
         f"batch={batch_size}; mode={sweep_mode}; "
         f"baseline={baseline}; score_range={score_min}-{score_max}; "
-        f"levels={distribution}"
+        f"semantic_changed={semantic_changed}; "
+        f"stable_batches={state.get('threshold_sweep_stable_batches', 0)}; "
+        f"observed_levels={sorted(observed_levels)}; levels={distribution}"
     )
 
 
