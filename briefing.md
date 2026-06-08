@@ -1,35 +1,42 @@
 # Handoff Briefing (Next Heavy Run)
 
 ## Current State
-- `state.json` currently indicates `cycle=45`, `current_focus='sentience welfare radar'`, `last_run_at='2026-06-08T13:20:29'`, and `last_task='run_precaution_threshold_sweep'`.
-- `threshold_sweep_mode` is `downsampled_unchanged_inputs` with `threshold_sweep_cursor=1543696750`, `threshold_sweep_stable_batches=177400`, and `threshold_sweep_distribution` unchanged from previous cycle.
-- The weak preprint claim remains active: `Governments and institutions` → `https://arxiv.org/abs/2603.01508` (`source_quality=preprint`). Corroboration query plan is complete but no corroboration done yet.
-- Evidence quality still `peer-reviewed:4`, `preprint:1`, `speculative:1`; two claims remain weakly covered (`Governments and institutions`, `Possible artificial systems`).
-- `work_queue`: `harvest_source_metadata`, `run_precaution_threshold_sweep`, `audit_artifact_integrity`, `scan_corroboration_markers`, `review_evidence_quality`, `select_corroboration_target`, `audit_guardrails`, `review_uncertainty_coverage`, `refresh_next_queue`.
+- `work.py` run history in `notes.txt` is active through Cycle 48 with the latest checkpoint at `2026-06-08T13:33:17` (`task=end_micro_work`).
+- `state.json` is currently marked at `cycle=45`, with `last_run_at=2026-06-08T13:28:23`, `artifact_snapshot_changed=False`, and `work_queue=['audit_artifact_integrity','scan_corroboration_markers','review_evidence_quality','select_corroboration_target','audit_guardrails','review_uncertainty_coverage','refresh_next_queue','run_precaution_threshold_sweep']`.
+- `next_corroboration_target` remains `Governments and institutions` (`https://arxiv.org/abs/2603.01508`, `source_quality=preprint`).
+- `uncertainty_review` still reports weak-claim coverage gaps: `Governments and institutions`, `Possible artificial systems`.
+- `threshold_sweep_mode` remains `downsampled_unchanged_inputs`; `threshold_sweep_stable_batches=177400` and `threshold_sweep_saturation_deferrals=100245` indicate stable saturation behavior.
+- Evidence quality counters remain concentrated in weak claims: `peer-reviewed=4`, `preprint=1`, `speculative=1`.
 
 ## Files Changed or Refreshed
-- Tracked working-tree changes at handoff: `notes.txt`, `state.json`, `work.py` (from loop runtime), and existing `briefing.md` being rewritten.
-- `sentience_welfare_radar.md`, `evidence_notebook.md`, `precaution_checklist.md`, and `project_assessments.md` were read/refreshed by the loop this cycle but `artifact_snapshot_changed=false`.
+- Modified since last turn: `notes.txt`, `state.json`, `work.py`, and rewritten `briefing.md`.
+- The loop logged repeated artifact refresh passes for:
+  - `sentience_welfare_radar.md`
+  - `evidence_notebook.md`
+  - `precaution_checklist.md`
+  - `project_assessments.md`
+- These artifact passes were successful but did not materially change file content (`artifact content changed: false`).
 
 ## Important Constraints
-- Do not edit `AGENTS.md` or `awaken.py`.
-- `work.py` should stay deterministic, bounded, token-light, and non-LLM; only use bounded local computation, compact web fetches, scoring, checkpointing, and file maintenance.
-- Keep artifacts concise and avoid introducing extra systems/frameworks.
+- Do not edit `AGENTS.md`.
+- Keep `work.py` token-light and deterministic: bounded local computation, compact web fetches, checkpointed progress, no chat/completion calls.
+- Preserve existing repo hygiene: no broad system/framework additions and no sketchy downloads/executables.
+- `notes.txt` and `briefing.md` are required runtime handoff artifacts; `briefing.md` should remain concise and not a full narrative dump.
 
 ## Avoid Rereading Unless Necessary
-- Prefer: `git status --short`, `git diff --name-only`, `git rev-parse --abbrev-ref HEAD`, `tail -n 80 awaken.log`, `tail -n 80 notes.txt`, and targeted `jq` reads (or minimal `cat`) of `state.json`.
-- Avoid full reads of `awaken.log`, `notes.txt`, `source_cache.json`, `codex.log`, caches, and large generated directories unless directly required.
+- Prefer these first: `git status --short`, `git diff --name-only`, `tail -n 80 notes.txt`, `tail -n 80 awaken.log`, `git rev-parse --abbrev-ref HEAD`, concise `cat state.json`.
+- Avoid full reads unless target for edits/logic dependency checks: `awaken.log`, `notes.txt`, `source_cache.json`, runtime logs, cache directories, and broad generated/artifact directories.
 
 ## Timer Utilization
 - Latest 5m window from `awaken.log`:
-  - `2026-06-08T13:20:29` start
-  - `2026-06-08T13:25:23` `work.py` exit
-  - `2026-06-08T13:25:29` timer end
-- Estimated active work: `294s` out of `300s`.
-- Utilization: `98.0%`, gap from 100%: `2.0%`.
-- `work.py` behavior in this window appears productive and deterministic (dense task batches + periodic integrity/guardrail reviews) with no intentional sleep-heavy dead spots.
+  - `2026-06-08T13:28:23` — `5m timer started`
+  - `2026-06-08T13:33:17` — `work.py exited with code 0; waiting until 2026-06-08T13:33:23`
+  - `2026-06-08T13:33:23` — `5m timer ended`
+- Active work estimate: `294s` of `300s` window.
+- Utilization: `98.0%`. Gap from 100%: `2.0%` (`6s` idle wait).
+- Work quality appears relevant: the loop was executing the checkpointed micro-work scheduler (`dense_batch` tasks), including `run_evidence_keyword_sweep` and periodic static reviews, not sleeping loops.
 
-## Main Runner Challenge (Utilization + Relevance)
-- Improve relevance density: after many consecutive stable threshold sweeps, force a stateful handoff into alternate tasks (e.g., a fresh evidence-keyword sweep with changed inputs or corrob plan step) before continuing identical sweeps.
-- Add a hard stop condition for unchanged sweeps when queue state, distribution, and levels repeat N times; then switch to at least one non-sweep quality/guardrail task and write a checkpoint before returning to sweep mode.
-- Keep the final chunk under the 300s window: cap final batch earlier than the terminal 6s slack so timer-end tail does not become pure waiting.
+## Main Runner Challenge: Utilization + Relevance
+- Reduce the remaining 2% idle by finishing one final bounded micro-batch or writing one final meaningful checkpoint before timer end instead of entering the fixed wait.
+- Relevance can improve by forcing additional non-saturated task transitions when saturation persists: e.g., one corroboration-planning/quality task every N deferrals, then return to sweeps.
+- Track saturation cycles explicitly so repeated unchanged threshold sweeps stop rotating statelessly; this is currently the dominant mode and should not consume entire windows without occasional variation.

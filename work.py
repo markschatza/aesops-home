@@ -47,6 +47,9 @@ UNCHANGED_STATIC_TASK_COOLDOWN_SECONDS = int(
 )
 KEYWORD_STALE_ROTATION_AFTER = int(os.environ.get("AESOP_KEYWORD_STALE_ROTATION_AFTER", "3"))
 FILLER_REVIEW_INTERVAL = int(os.environ.get("AESOP_FILLER_REVIEW_INTERVAL", "256"))
+STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
+    os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
+)
 DEFAULT_WORK_QUEUE = [
     "harvest_source_metadata",
     "run_precaution_threshold_sweep",
@@ -798,6 +801,27 @@ WORK_TASKS = {
 
 def cooldown_filler_task(state: dict) -> str:
     filler_runs = int(state.get("cooldown_filler_runs", 0))
+    if threshold_sweep_is_saturated(state):
+        state["threshold_sweep_saturation_deferrals"] = int(
+            state.get("threshold_sweep_saturation_deferrals", 0)
+        ) + 1
+        if state.get("next_corroboration_target") and not state.get(
+            "corroboration_query_plan_complete"
+        ):
+            if filler_runs % 2 == 0:
+                return "run_corroboration_query_planner"
+        review_tasks = [
+            "audit_artifact_integrity",
+            "scan_corroboration_markers",
+            "review_evidence_quality",
+            "audit_guardrails",
+            "review_uncertainty_coverage",
+        ]
+        saturated_review_interval = max(1, FILLER_REVIEW_INTERVAL // 4)
+        if filler_runs % saturated_review_interval == 0:
+            index = (filler_runs // saturated_review_interval) % len(review_tasks)
+            return review_tasks[index]
+        return "run_evidence_keyword_sweep"
     if state.get("next_corroboration_target") and not state.get(
         "corroboration_query_plan_complete"
     ):
@@ -817,6 +841,16 @@ def cooldown_filler_task(state: dict) -> str:
             return review_tasks[index]
         return "run_precaution_threshold_sweep"
     return "run_evidence_keyword_sweep"
+
+
+def threshold_sweep_is_saturated(state: dict) -> bool:
+    return (
+        state.get("threshold_sweep_mode") == "downsampled_unchanged_inputs"
+        and not state.get("artifact_snapshot_changed", True)
+        and not bool(state.get("source_fetches_this_cycle", 0))
+        and int(state.get("threshold_sweep_stable_batches", 0))
+        >= STABLE_THRESHOLD_SWEEP_ROTATION_AFTER
+    )
 
 
 def run_micro_work_cycle(state: dict, started_at: float) -> None:
@@ -862,7 +896,21 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
                     or last_static_run is None
                     or now - last_static_run >= static_task_cooldown
                 ):
-                    task_id = candidate
+                    if (
+                        candidate == "run_precaution_threshold_sweep"
+                        and threshold_sweep_is_saturated(state)
+                    ):
+                        queue.append(candidate)
+                        state["skipped_static_task_counts"][candidate] = (
+                            int(state["skipped_static_task_counts"].get(candidate, 0)) + 1
+                        )
+                        batch_skipped += 1
+                        state["cooldown_filler_runs"] = (
+                            int(state.get("cooldown_filler_runs", 0)) + 1
+                        )
+                        task_id = cooldown_filler_task(state)
+                    else:
+                        task_id = candidate
                     break
                 queue.append(candidate)
                 state["skipped_static_task_counts"][candidate] = (

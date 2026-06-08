@@ -677,3 +677,60 @@ started 2026-06-08T10:28:20.400035
 - Checkpoint 2026-06-08T13:25:14: cycle=45; task=dense_batch; elapsed=285s; result=tasks=8794; batch_seconds=15.0; static_skips=79146; last=run_precaution_threshold_sweep: sweep_units=1538372750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=172076; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}
 - Checkpoint 2026-06-08T13:25:23: cycle=45; task=dense_batch; elapsed=294s; result=tasks=5345; batch_seconds=9.0; static_skips=48105; last=run_precaution_threshold_sweep: sweep_units=1543696750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=177400; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}
 - Checkpoint 2026-06-08T13:25:23: cycle=45; task=end_micro_work; elapsed=294s; result=recent_completed=20; counts={'harvest_source_metadata': 3, 'run_precaution_threshold_sweep': 177400, 'audit_artifact_integrity': 140, 'scan_corroboration_markers': 140, 'review_evidence_quality': 140, 'select_corroboration_target': 3, 'audit_guardrails': 140, 'review_uncertainty_coverage': 140, 'refresh_next_queue': 3}; static_skips={'run_precaution_threshold_sweep': 2, 'audit_artifact_integrity': 2, 'scan_corroboration_markers': 2, 'review_evidence_quality': 2, 'audit_guardrails': 2, 'review_uncertainty_coverage': 2}; queued=9; fetches=0
+## Cycle 46 - 2026-06-08T13:27:02
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Artifact content changed this cycle: False.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T13:27:02: cycle=46; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T13:27:05: cycle=46; task=dense_batch; elapsed=3s; result=tasks=13951; batch_seconds=3.0; static_skips=125482; last=audit_artifact_integrity: audited 4 artifacts; links=11
+- Checkpoint 2026-06-08T13:27:08: cycle=46; task=dense_batch; elapsed=6s; result=tasks=13920; batch_seconds=3.0; static_skips=125280; last=audit_artifact_integrity: audited 4 artifacts; links=11
+- Checkpoint 2026-06-08T13:27:10: cycle=46; task=dense_batch; elapsed=8s; result=tasks=9315; batch_seconds=2.0; static_skips=83835; last=audit_artifact_integrity: audited 4 artifacts; links=11
+- Checkpoint 2026-06-08T13:27:10: cycle=46; task=end_micro_work; elapsed=8s; result=recent_completed=20; counts={'harvest_source_metadata': 1, 'audit_artifact_integrity': 37179, 'scan_corroboration_markers': 1, 'review_evidence_quality': 1, 'select_corroboration_target': 1, 'audit_guardrails': 1, 'review_uncertainty_coverage': 1, 'refresh_next_queue': 1}; static_skips={'run_precaution_threshold_sweep': 37179, 'audit_artifact_integrity': 37178, 'harvest_source_metadata': 37178, 'scan_corroboration_markers': 37177, 'review_evidence_quality': 37177, 'select_corroboration_target': 37177, 'audit_guardrails': 37177, 'review_uncertainty_coverage': 37177, 'refresh_next_queue': 37177}; queued=9; fetches=0
+## Cycle 47 - 2026-06-08T13:27:35
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Artifact content changed this cycle: False.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T13:27:35: cycle=47; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T13:27:38: cycle=47; task=dense_batch; elapsed=3s; result=tasks=624; batch_seconds=3.0; static_skips=5537; last=run_evidence_keyword_sweep: keyword_windows=366500000; covered_keyword_slots=30; stale_runs=610
+- Checkpoint 2026-06-08T13:27:41: cycle=47; task=dense_batch; elapsed=6s; result=tasks=620; batch_seconds=3.0; static_skips=5580; last=run_evidence_keyword_sweep: keyword_windows=367720000; covered_keyword_slots=30; stale_runs=1220
+- Checkpoint 2026-06-08T13:27:43: cycle=47; task=dense_batch; elapsed=8s; result=tasks=413; batch_seconds=2.0; static_skips=3717; last=run_evidence_keyword_sweep: keyword_windows=368534000; covered_keyword_slots=30; stale_runs=1627
+- Checkpoint 2026-06-08T13:27:43: cycle=47; task=end_micro_work; elapsed=8s; result=recent_completed=20; counts={'harvest_source_metadata': 1, 'audit_artifact_integrity': 6, 'scan_corroboration_markers': 6, 'review_evidence_quality': 6, 'select_corroboration_target': 1, 'audit_guardrails': 6, 'review_uncertainty_coverage': 6, 'refresh_next_queue': 1, 'run_evidence_keyword_sweep': 1624}; static_skips={'harvest_source_metadata': 1649, 'run_precaution_threshold_sweep': 1649, 'audit_artifact_integrity': 1648, 'scan_corroboration_markers': 1648, 'review_evidence_quality': 1648, 'select_corroboration_target': 1648, 'audit_guardrails': 1648, 'review_uncertainty_coverage': 1648, 'refresh_next_queue': 1648}; queued=9; fetches=0
+- Scheduler note 2026-06-08T13:28: saturated unchanged-input threshold sweeps now defer into keyword coverage and rotating quality audits after 20000 stable batches. Cycle 46 exposed a missing filler counter increment that repeated artifact audits; cycle 47 verified the corrected rotation with fetches disabled.
+## Cycle 48 - 2026-06-08T13:28:23
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Artifact content changed this cycle: False.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T13:28:23: cycle=48; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T13:28:38: cycle=48; task=dense_batch; elapsed=15s; result=tasks=3151; batch_seconds=15.0; static_skips=28280; last=run_evidence_keyword_sweep: keyword_windows=374722000; covered_keyword_slots=30; stale_runs=4721
+- Checkpoint 2026-06-08T13:28:53: cycle=48; task=dense_batch; elapsed=30s; result=tasks=3138; batch_seconds=15.0; static_skips=28242; last=run_evidence_keyword_sweep: keyword_windows=380900000; covered_keyword_slots=30; stale_runs=7810
+- Checkpoint 2026-06-08T13:29:08: cycle=48; task=dense_batch; elapsed=45s; result=tasks=3140; batch_seconds=15.0; static_skips=28260; last=run_evidence_keyword_sweep: keyword_windows=387082000; covered_keyword_slots=30; stale_runs=10901
+- Checkpoint 2026-06-08T13:29:23: cycle=48; task=dense_batch; elapsed=60s; result=tasks=3140; batch_seconds=15.0; static_skips=28260; last=run_evidence_keyword_sweep: keyword_windows=393264000; covered_keyword_slots=30; stale_runs=13992
+- Checkpoint 2026-06-08T13:29:38: cycle=48; task=dense_batch; elapsed=75s; result=tasks=3144; batch_seconds=15.0; static_skips=28296; last=run_evidence_keyword_sweep: keyword_windows=399454000; covered_keyword_slots=30; stale_runs=17087
+- Checkpoint 2026-06-08T13:29:53: cycle=48; task=dense_batch; elapsed=90s; result=tasks=3136; batch_seconds=15.0; static_skips=28224; last=run_evidence_keyword_sweep: keyword_windows=405628000; covered_keyword_slots=30; stale_runs=20174
+- Checkpoint 2026-06-08T13:30:08: cycle=48; task=dense_batch; elapsed=105s; result=tasks=3139; batch_seconds=15.0; static_skips=28251; last=run_evidence_keyword_sweep: keyword_windows=411808000; covered_keyword_slots=30; stale_runs=23264
+- Checkpoint 2026-06-08T13:30:23: cycle=48; task=dense_batch; elapsed=120s; result=tasks=3141; batch_seconds=15.0; static_skips=28238; last=run_evidence_keyword_sweep: keyword_windows=417986000; covered_keyword_slots=30; stale_runs=26353
+- Checkpoint 2026-06-08T13:30:38: cycle=48; task=dense_batch; elapsed=135s; result=tasks=3143; batch_seconds=15.0; static_skips=25144; last=run_evidence_keyword_sweep: keyword_windows=424174000; covered_keyword_slots=30; stale_runs=29447
+- Checkpoint 2026-06-08T13:30:53: cycle=48; task=dense_batch; elapsed=150s; result=tasks=3139; batch_seconds=15.0; static_skips=25112; last=run_evidence_keyword_sweep: keyword_windows=430354000; covered_keyword_slots=30; stale_runs=32537
+- Checkpoint 2026-06-08T13:31:08: cycle=48; task=dense_batch; elapsed=165s; result=tasks=3139; batch_seconds=15.0; static_skips=25112; last=run_evidence_keyword_sweep: keyword_windows=436534000; covered_keyword_slots=30; stale_runs=35627
+- Checkpoint 2026-06-08T13:31:23: cycle=48; task=dense_batch; elapsed=180s; result=tasks=3135; batch_seconds=15.0; static_skips=25080; last=run_evidence_keyword_sweep: keyword_windows=442706000; covered_keyword_slots=30; stale_runs=38713
+- Checkpoint 2026-06-08T13:31:38: cycle=48; task=dense_batch; elapsed=195s; result=tasks=3141; batch_seconds=15.0; static_skips=25128; last=run_evidence_keyword_sweep: keyword_windows=448890000; covered_keyword_slots=30; stale_runs=41805
+- Checkpoint 2026-06-08T13:31:53: cycle=48; task=dense_batch; elapsed=210s; result=tasks=3142; batch_seconds=15.0; static_skips=25136; last=run_evidence_keyword_sweep: keyword_windows=455076000; covered_keyword_slots=30; stale_runs=44898
+- Checkpoint 2026-06-08T13:32:08: cycle=48; task=dense_batch; elapsed=225s; result=tasks=3144; batch_seconds=15.0; static_skips=25152; last=run_evidence_keyword_sweep: keyword_windows=461266000; covered_keyword_slots=30; stale_runs=47993
+- Checkpoint 2026-06-08T13:32:23: cycle=48; task=dense_batch; elapsed=240s; result=tasks=3144; batch_seconds=15.0; static_skips=25126; last=run_evidence_keyword_sweep: keyword_windows=467448000; covered_keyword_slots=30; stale_runs=51084
+- Checkpoint 2026-06-08T13:32:38: cycle=48; task=dense_batch; elapsed=255s; result=tasks=3129; batch_seconds=15.0; static_skips=25032; last=run_evidence_keyword_sweep: keyword_windows=473610000; covered_keyword_slots=30; stale_runs=54165
+- Checkpoint 2026-06-08T13:32:53: cycle=48; task=dense_batch; elapsed=270s; result=tasks=3097; batch_seconds=15.0; static_skips=24776; last=run_evidence_keyword_sweep: keyword_windows=479706000; covered_keyword_slots=30; stale_runs=57213
+- Checkpoint 2026-06-08T13:33:08: cycle=48; task=dense_batch; elapsed=285s; result=tasks=3099; batch_seconds=15.0; static_skips=24792; last=run_evidence_keyword_sweep: keyword_windows=485808000; covered_keyword_slots=30; stale_runs=60264
+- Checkpoint 2026-06-08T13:33:17: cycle=48; task=dense_batch; elapsed=294s; result=tasks=1850; batch_seconds=9.0; static_skips=14800; last=run_evidence_keyword_sweep: keyword_windows=489450000; covered_keyword_slots=30; stale_runs=62085
+- Checkpoint 2026-06-08T13:33:17: cycle=48; task=end_micro_work; elapsed=294s; result=recent_completed=20; counts={'harvest_source_metadata': 3, 'audit_artifact_integrity': 192, 'scan_corroboration_markers': 193, 'review_evidence_quality': 193, 'select_corroboration_target': 3, 'audit_guardrails': 193, 'review_uncertainty_coverage': 193, 'refresh_next_queue': 3, 'run_evidence_keyword_sweep': 60458}; static_skips={'harvest_source_metadata': 25116, 'run_precaution_threshold_sweep': 61417, 'audit_artifact_integrity': 61416, 'scan_corroboration_markers': 61416, 'review_evidence_quality': 61416, 'select_corroboration_target': 61414, 'audit_guardrails': 61416, 'review_uncertainty_coverage': 61416, 'refresh_next_queue': 61414}; queued=8; fetches=0
