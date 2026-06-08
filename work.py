@@ -83,6 +83,9 @@ SATURATED_PLATEAU_RECONCILE_AFTER = int(
 SATURATED_PLATEAU_CORROBORATE_AFTER = int(
     os.environ.get("AESOP_SATURATED_PLATEAU_CORROBORATE_AFTER", "48")
 )
+SATURATED_PLATEAU_REPLAN_AFTER = int(
+    os.environ.get("AESOP_SATURATED_PLATEAU_REPLAN_AFTER", "2")
+)
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
 )
@@ -1485,10 +1488,44 @@ def force_plateau_corroboration_branch(state: dict) -> str:
         else:
             action = selected
 
+    action_signature = re.sub(r"\d+", "#", action)
+    if action_signature == state.get("saturated_plateau_forced_action_signature"):
+        repeated_action_count = int(
+            state.get("saturated_plateau_forced_action_repeats", 0)
+        ) + 1
+    else:
+        repeated_action_count = 1
+    state["saturated_plateau_forced_action_signature"] = action_signature
+    state["saturated_plateau_forced_action_repeats"] = repeated_action_count
+
+    claims = weak_claims()
+    planned_keys = {
+        key
+        for key in state.get("corroboration_targets_planned_this_cycle", [])
+        if isinstance(key, str)
+    }
+    all_targets_planned = bool(claims) and planned_keys >= {
+        claim_key(claim) for claim in claims
+    }
+    if (
+        all_targets_planned
+        and repeated_action_count >= max(1, SATURATED_PLATEAU_REPLAN_AFTER)
+    ):
+        state["corroboration_targets_planned_this_cycle"] = []
+        state["corroboration_query_cursor"] = 0
+        state["corroboration_query_plan_complete"] = False
+        replanned = run_corroboration_query_planner(state)
+        state["saturated_plateau_forced_action_repeats"] = 0
+        action = (
+            "reopened saturated corroboration plan after repeated plateau no-progress; "
+            f"{replanned}"
+        )
+
     state["saturated_plateau_forced_branch_last"] = {
         "checked_at": datetime.now().isoformat(timespec="seconds"),
         "plateau_pulses": plateau_pulses,
         "forced_count": forced_count,
+        "repeated_action_count": repeated_action_count,
         "action": action,
     }
     return (
