@@ -74,6 +74,9 @@ SATURATED_BACKOFF_SECONDS = float(
 SATURATED_GAP_AUDIT_INTERVAL = int(
     os.environ.get("AESOP_SATURATED_GAP_AUDIT_INTERVAL", "4")
 )
+SATURATED_DUPLICATE_RECONCILE_AFTER = int(
+    os.environ.get("AESOP_SATURATED_DUPLICATE_RECONCILE_AFTER", "24")
+)
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
 )
@@ -1362,6 +1365,99 @@ def review_saturated_source_gap_followup(state: dict) -> str:
     return action
 
 
+def reconcile_saturated_source_gaps(state: dict) -> str:
+    """Summarize repeated saturated source gaps and queue one concrete next step."""
+    urls = source_urls()
+    cache = load_source_cache()
+    sources = cache.get("sources", {})
+    weak_items = weak_claims()
+    weak_by_url: dict[str, list[dict]] = {}
+    for claim in weak_items:
+        weak_by_url.setdefault(claim.get("source", ""), []).append(claim)
+
+    missing = failed = empty_title = zero_hits = 0
+    weak_gap_claims: list[dict] = []
+    for url in urls:
+        record = sources.get(url, {})
+        counts = record.get("keyword_counts", {}) if isinstance(record, dict) else {}
+        keyword_hits = (
+            sum(int(value) for value in counts.values())
+            if isinstance(counts, dict)
+            else 0
+        )
+        has_gap = False
+        if not record:
+            missing += 1
+            has_gap = True
+        elif not record.get("ok"):
+            failed += 1
+            has_gap = True
+        if record and not record.get("title"):
+            empty_title += 1
+            has_gap = True
+        if record and keyword_hits == 0:
+            zero_hits += 1
+            has_gap = True
+        if has_gap:
+            weak_gap_claims.extend(weak_by_url.get(url, []))
+
+    refreshed_today = {
+        key
+        for key, date in state.get("source_refresh_escalated_dates", {}).items()
+        if date == today_stamp()
+    }
+    weak_gap_keys = []
+    for claim in weak_gap_claims:
+        key = claim_key(claim)
+        if key not in weak_gap_keys:
+            weak_gap_keys.append(key)
+
+    action = "recorded saturated source-gap reconciliation"
+    refresh_key = next((key for key in weak_gap_keys if key not in refreshed_today), None)
+    if (
+        refresh_key is not None
+        and int(state.get("source_fetches_this_cycle", 0)) < MAX_FETCHES_PER_CYCLE
+    ):
+        state["source_refresh_requested"] = {
+            "requested_at": datetime.now().isoformat(timespec="seconds"),
+            "reason": "duplicate saturated source-gap pulses reached reconciliation threshold",
+            "target_keys": [refresh_key],
+        }
+        prioritize_source_work(state)
+        action = "queued source refresh from repeated source-gap duplicates"
+    elif weak_gap_keys:
+        target = claim_by_key(weak_gap_keys[0])
+        if target is not None:
+            state["next_corroboration_target"] = {
+                "being": target["being"],
+                "source_quality": target["source_quality"],
+                "source": target["source"],
+                "task": "Find one independent corroborating or limiting source after repeated saturated source-gap duplicates.",
+            }
+            state["corroboration_query_plan_complete"] = False
+            action = "queued corroboration planning from repeated source-gap duplicates"
+
+    duplicate_count = int(state.get("saturated_gap_followup_duplicates", 0))
+    state["saturated_source_gap_reconciliation"] = {
+        "checked_at": datetime.now().isoformat(timespec="seconds"),
+        "duplicate_count": duplicate_count,
+        "urls": len(urls),
+        "cached": len(sources),
+        "missing": missing,
+        "failed": failed,
+        "empty_title": empty_title,
+        "zero_keyword_hits": zero_hits,
+        "weak_gap_claims": weak_gap_keys,
+        "action": action,
+    }
+    state["saturated_gap_followup_duplicates_reconciled"] = duplicate_count
+    return (
+        f"reconciled source gaps; missing={missing}; failed={failed}; "
+        f"empty_title={empty_title}; zero_hits={zero_hits}; "
+        f"weak_gap_claims={len(weak_gap_keys)}; action={action}"
+    )
+
+
 def saturated_condition_backoff(state: dict) -> str:
     """Slow the saturated loop after all condition-changing checks are capped."""
     pulses = int(state.get("saturated_condition_backoff_pulses", 0)) + 1
@@ -1392,6 +1488,7 @@ WORK_TASKS = {
     "run_precaution_threshold_sweep": run_precaution_threshold_sweep,
     "saturated_condition_backoff": saturated_condition_backoff,
     "review_saturated_source_gap_followup": review_saturated_source_gap_followup,
+    "reconcile_saturated_source_gaps": reconcile_saturated_source_gaps,
     "audit_artifact_integrity": audit_artifact_integrity,
     "scan_corroboration_markers": scan_corroboration_markers,
     "review_corroboration_novelty": review_corroboration_novelty,
@@ -1408,6 +1505,10 @@ def cooldown_filler_task(state: dict) -> str:
     filler_runs = int(state.get("cooldown_filler_runs", 0))
     if state.get("saturated_gap_followup_requested"):
         return "review_saturated_source_gap_followup"
+    duplicate_count = int(state.get("saturated_gap_followup_duplicates", 0))
+    reconciled_count = int(state.get("saturated_gap_followup_duplicates_reconciled", 0))
+    if duplicate_count - reconciled_count >= max(1, SATURATED_DUPLICATE_RECONCILE_AFTER):
+        return "reconcile_saturated_source_gaps"
     if (
         state.get("source_refresh_requested")
         and int(state.get("source_fetches_this_cycle", 0)) < MAX_FETCHES_PER_CYCLE

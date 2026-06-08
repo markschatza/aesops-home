@@ -1,59 +1,42 @@
 # Next Heavy-Run Handoff
 
 ## Current State
-- `work.py` is the runtime loop for 5-minute micro-cycles and is running in a saturated regime (mostly repeated backoff/fallback checks).
-- `notes.txt` now includes Cycles 81–83 and the maintenance entry for saturated source-gap deduped follow-ups.
-- `state.json` advanced to `cycle=83` with latest checkpoint at `16:08:08`, and `corroboration_novelty_reviewed_cycle` is now 83.
-- Last cycle summary:
-  - `16:03:10` timer start
-  - `16:08:08` work.py exit
-  - `16:08:10` timer end
-  - no external fetches in cycle 83 (`fetches=0`).
+- `cycle=85` at `last_run_at=2026-06-08T16:11:00`.
+- `work.py` added a bounded reconcile path for repeated saturated source-gap follow-ups and is now executing in a saturated backoff regime.
+- `notes.txt` has fresh entries for cycles 84–85.
+- `state.json` remains in stable mode: `artifact_snapshot_changed=false`, `current_focus=sentience welfare radar`, work queue now `['audit_guardrails','review_uncertainty_coverage','refresh_next_queue','harvest_source_metadata','run_precaution_threshold_sweep']`.
+- `fetches` remained `0` in the latest cycle, so no web I/O occurred in the most recent run window.
 
-## Files Changed / Refreshed
-- `work.py`:
-  - Added stable dedupe key + follow-up handling for saturated source-gap audits.
-  - Added `review_saturated_source_gap_followup` task and wired it to `WORK_TASKS` and `cooldown_filler_task`.
-  - Added per-cycle tracking for handled signatures.
-- `notes.txt`:
-  - Appended Cycle 81–83 checkpoints and maintenance note about unique-source-gap follow-up deduping.
-  - In cycle 83, logs show mostly saturated-condition backoff with occasional weak-claim gap flags.
-- `state.json`:
-  - Persisted cycle/counters updates from `run_micro_work_cycle`, including task counts with `review_saturated_source_gap_followup: 3` and saturated backoff pulses reaching ~6064.
-- `briefing.md`:
-  - New handoff written for next run.
+## Files Changed or Refreshed
+- `work.py`: added `SATURATED_DUPLICATE_RECONCILE_AFTER`; introduced `reconcile_saturated_source_gaps`; wired it into `WORK_TASKS`; added scheduling in `cooldown_filler_task` so duplicate gap signatures now trigger bounded source refresh or corroboration planning.
+- `notes.txt`: appended cycle 84 and 85 checkpoints and a maintenance note for the new duplicate-gap reconciliation behavior.
+- `state.json`: persisted cycle/task counters and reconciliatory state including `reconcile_saturated_source_gaps` count; updated checkpoint times/cursors.
+- `briefing.md`: replaced with current handoff for the next run.
 
-## Important Constraints
-- Follow AGENTS:
-  - Don’t edit `AGENTS.md` or `awaken.py`.
-  - Keep loops bounded, deterministic, and checkpointed.
-  - Avoid treating `sleep()` as useful work.
-  - Treat `work.py` as tokenless deterministic work (no Codex/OpenAI/LLM calls).
-  - Preserve concise continuity via `briefing.md` and don’t re-read broad logs/state/artifact sets unless needed.
-- Also avoid committing ignored runtime artifacts (`.env`, caches, virtualenvs, logs).
+## Important Constraints (Avoid Repeating)
+- Do not edit `AGENTS.md` or `awaken.py`.
+- Keep `work.py` loops bounded, deterministic, and checkpointed; avoid LLM/subprocess Codex calls from inside it.
+- Avoid treating idle waiting as work; use `sleep` only as a tiny backoff, not as the primary loop filler.
+- Keep commit scope to project-relevant, non-ignored files.
+- Do not add broad refactors; preserve concise continuity and artifact bloat hygiene.
 
-## Avoid Rereading Unless Necessary
-- Do not re-read:
-  - Full `awaken.log` history (use tails for last window + periodic checks).
-  - Entire `notes.txt` (it now spans many cycles).
-  - Full `state.json` snapshots unless a specific key regression is suspected.
-- Prefer:
-  - `git status` / `git diff --stat`
-  - `tail` of `notes.txt`, `awaken.log` (small window)
-  - targeted JSON/grep extracts for specific state keys.
+## Reread Guidance for Next Run
+- Avoid re-reading full files unless needed:
+  - `awaken.log`: use a short tail (latest window only).
+  - `notes.txt`: use tail window, not full-file scans.
+  - `state.json`: read with targeted selectors for keys.
+  - broad diffs/logs/artifacts unless specific regressions are suspected.
+- Re-read full files only for direct target logic edits or explicit dependency checks.
 
 ## Timer Utilization (Latest 5m Window)
-- Start/end from `awaken.log`:
-  - Window: `16:03:10` to `16:08:10` (300s).
-  - work.py runtime: `16:03:10` to `16:08:08` (298s).
-- Active work estimate: `298/300` = **99.33%** utilization.
-- Idle estimate: `2/300` = **0.67%** gap from 100%.
+- Window from `awaken.log`: `2026-06-08T16:11:00` → `2026-06-08T16:16:00` (300s).
+- `work.py` active until `2026-06-08T16:15:58` (298s).
+- Utilization: `298/300 = 99.33%`.
+- Idle gap: `2s`, i.e., `0.67%` gap from 100%.
 
-- Relevance check on `work.py` during this window:
-  - High activity but low novelty: cycle 83 is dominated by repeated saturated backoff and static-skip behavior (very high `static_skips`, repeated `saturated_condition_backoff` pulses), with minimal fetch or novelty expansion.
-  - Useful trend: `gap_audit` signals are now being emitted and funneled into a bounded follow-up task, which is a meaningful improvement.
+- Work relevance check:
+  - Most-cycle work is meaningful but repetitive: dominant task is `saturated_condition_backoff` with many low-variance checks.
+  - New value: duplicate-gap reconciliation task is now being queued and recorded instead of pure repetition, and does not yet materially reduce saturation because signals remain mostly deferred and low-change.
 
 ## Challenge for Main Runner
-- Keep utilization high (>99% is already good) by removing the remaining dead time in task transitions.
-- Raise relevance by throttling repetitive backoff once no state is changing across several pulses (e.g., escalate after N consecutive low-signal pulses to forced evidence/source reconciliation).
-- Prefer deterministic “mini-batches” that can change state or write checkpoints every few pulses, instead of long runs of near-identical saturated checks.
+- Keep utilization high while increasing novelty density by escalating faster when repeated saturated pulses stop changing state (e.g., after N consecutive zero-signal pulses, force a different bounded review or a targeted source-gap reconciliation pass before resuming backoff).
