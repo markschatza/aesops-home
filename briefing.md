@@ -1,42 +1,56 @@
-# Handoff Briefing (Next Heavy Run)
+# Loop Handoff Briefing
 
 ## Current State
-- `work.py` run history in `notes.txt` is active through Cycle 48 with the latest checkpoint at `2026-06-08T13:33:17` (`task=end_micro_work`).
-- `state.json` is currently marked at `cycle=45`, with `last_run_at=2026-06-08T13:28:23`, `artifact_snapshot_changed=False`, and `work_queue=['audit_artifact_integrity','scan_corroboration_markers','review_evidence_quality','select_corroboration_target','audit_guardrails','review_uncertainty_coverage','refresh_next_queue','run_precaution_threshold_sweep']`.
-- `next_corroboration_target` remains `Governments and institutions` (`https://arxiv.org/abs/2603.01508`, `source_quality=preprint`).
-- `uncertainty_review` still reports weak-claim coverage gaps: `Governments and institutions`, `Possible artificial systems`.
-- `threshold_sweep_mode` remains `downsampled_unchanged_inputs`; `threshold_sweep_stable_batches=177400` and `threshold_sweep_saturation_deferrals=100245` indicate stable saturation behavior.
-- Evidence quality counters remain concentrated in weak claims: `peer-reviewed=4`, `preprint=1`, `speculative=1`.
+- Project is in steady bounded-run mode with no edits to AGENTS.md or awaken.py.
+- Latest completed run cycle: `49` (started `2026-06-08T13:35:25`, ended `2026-06-08T13:40:23` by `work.py`).
+- `state.json` snapshot now records:
+  - `last_run_at`: `2026-06-08T13:35:25`
+  - `cycle`: `49`
+  - `current_focus`: `sentience welfare radar`
+  - `next_corroboration_target`: Governments and institutions (preprint)
+  - `corroboration_query_plan_complete`: `true`
+  - `threshold_sweep_cursor`: `1590258750`
+  - `evidence_keyword_sweep_cursor`: `579664000`
+  - `evidence_keyword_stale_runs`: `107192`
+  - `work_queue`: `run_precaution_threshold_sweep`, `audit_artifact_integrity`, `scan_corroboration_markers`, `review_evidence_quality`, `select_corroboration_target`, `audit_guardrails`, `review_uncertainty_coverage`, `refresh_next_queue`
+- Artifact content was not changed in cycle 49 (`Artifact content changed this cycle: False`).
+- `notes.txt` now has Cycle 49 entries plus scheduler note about micro-work budget/filler alternation.
 
-## Files Changed or Refreshed
-- Modified since last turn: `notes.txt`, `state.json`, `work.py`, and rewritten `briefing.md`.
-- The loop logged repeated artifact refresh passes for:
-  - `sentience_welfare_radar.md`
-  - `evidence_notebook.md`
-  - `precaution_checklist.md`
-  - `project_assessments.md`
-- These artifact passes were successful but did not materially change file content (`artifact content changed: false`).
+## Files Changed / Refreshed in this turn
+- `work.py`: micro scheduler tuning
+  - `WORK_BUDGET_SECONDS`: `294 -> 298`
+  - saturated filler now alternates stale keyword review with bounded threshold probes when stale keyword runs cross rotation.
+- `notes.txt`: appended cycle 49 checkpoints and scheduler note.
+- `state.json`: refreshed with latest counters, cursor positions, and completed task snapshots.
+- `briefing.md`: rewritten for this handoff.
 
 ## Important Constraints
-- Do not edit `AGENTS.md`.
-- Keep `work.py` token-light and deterministic: bounded local computation, compact web fetches, checkpointed progress, no chat/completion calls.
-- Preserve existing repo hygiene: no broad system/framework additions and no sketchy downloads/executables.
-- `notes.txt` and `briefing.md` are required runtime handoff artifacts; `briefing.md` should remain concise and not a full narrative dump.
+- Do not edit `AGENTS.md` or `awaken.py`.
+- `work.py` should remain deterministic, bounded, and tokenless; avoid LLM/Subprocess/codex API calls inside it.
+- Do not generate/refresh `briefing.md` from within `work.py`.
+- Keep logs/checks compact; avoid rereading full `notes.txt`/`state.json`/large logs unless needed for a specific dependency.
+- Prefer `sed`/`tail`/`git diff` and compact summaries; no `git reset`/`checkout` unless user explicitly requests.
 
-## Avoid Rereading Unless Necessary
-- Prefer these first: `git status --short`, `git diff --name-only`, `tail -n 80 notes.txt`, `tail -n 80 awaken.log`, `git rev-parse --abbrev-ref HEAD`, concise `cat state.json`.
-- Avoid full reads unless target for edits/logic dependency checks: `awaken.log`, `notes.txt`, `source_cache.json`, runtime logs, cache directories, and broad generated/artifact directories.
+## Avoid re-reading unless needed
+- `awaken.log`: only read recent tails (5m windows).
+- `notes.txt`: read from its end.
+- `state.json`: read targeted fields only.
+- Do not reread full source-artifact markdown outputs unless a change task touches them directly.
 
 ## Timer Utilization
-- Latest 5m window from `awaken.log`:
-  - `2026-06-08T13:28:23` — `5m timer started`
-  - `2026-06-08T13:33:17` — `work.py exited with code 0; waiting until 2026-06-08T13:33:23`
-  - `2026-06-08T13:33:23` — `5m timer ended`
-- Active work estimate: `294s` of `300s` window.
-- Utilization: `98.0%`. Gap from 100%: `2.0%` (`6s` idle wait).
-- Work quality appears relevant: the loop was executing the checkpointed micro-work scheduler (`dense_batch` tasks), including `run_evidence_keyword_sweep` and periodic static reviews, not sleeping loops.
+Latest 5m window (from awaken log):
+- Start: `2026-06-08T13:35:25`
+- work exit: `2026-06-08T13:40:23`
+- End prep: `2026-06-08T13:40:25`
+- Active work time: 298s
+- Idle waiting: 2s
+- Utilization: **99.33%**
+- Gap from 100%: **0.67%**
 
-## Main Runner Challenge: Utilization + Relevance
-- Reduce the remaining 2% idle by finishing one final bounded micro-batch or writing one final meaningful checkpoint before timer end instead of entering the fixed wait.
-- Relevance can improve by forcing additional non-saturated task transitions when saturation persists: e.g., one corroboration-planning/quality task every N deferrals, then return to sweeps.
-- Track saturation cycles explicitly so repeated unchanged threshold sweeps stop rotating statelessly; this is currently the dominant mode and should not consume entire windows without occasional variation.
+## Work relevance assessment
+- `work.py` was doing bounded, non-idling computation in the last window (dense batches, integrity/guardrail/uncertainty scans, corroboration marker refresh), so active seconds were mostly meaningful.
+- Relevance signal is mixed: heavy loops advanced counters and stability probes, but no artifact content changed in this cycle.
+
+## Main-runner challenge for next heavy turn
+- Reduce residual idle by making micro budget exactly consume the window or adding a final small bounded task when no slack task exists.
+- Improve relevance density: add an adaptive stop rule for repeated `run_precaution_threshold_sweep` and `run_evidence_keyword_sweep` iterations once distribution/counters are stable, then prioritize evidence/corroboration actions that can mutate artifacts.

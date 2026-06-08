@@ -1,6 +1,6 @@
 {
   "artifact_integrity": {
-    "checked_at": "2026-06-08T13:33:15",
+    "checked_at": "2026-06-08T13:40:23",
     "files": {
       "evidence_notebook.md": {
         "exists": true,
@@ -71,140 +71,141 @@
   ],
   "completed_in_cycle": [
     {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489412000; covered_keyword_slots=30; stale_runs=62066",
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "sweep_units=1590249750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=223953; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "keyword_windows=579648000; covered_keyword_slots=30; stale_runs=107184",
       "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489414000; covered_keyword_slots=30; stale_runs=62067",
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "sweep_units=1590250750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=223954; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "keyword_windows=579650000; covered_keyword_slots=30; stale_runs=107185",
       "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489416000; covered_keyword_slots=30; stale_runs=62068",
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "sweep_units=1590251750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=223955; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "keyword_windows=579652000; covered_keyword_slots=30; stale_runs=107186",
       "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489418000; covered_keyword_slots=30; stale_runs=62069",
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "sweep_units=1590252750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=223956; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "keyword_windows=579654000; covered_keyword_slots=30; stale_runs=107187",
       "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489420000; covered_keyword_slots=30; stale_runs=62070",
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "sweep_units=1590253750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=223957; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "keyword_windows=579656000; covered_keyword_slots=30; stale_runs=107188",
       "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489422000; covered_keyword_slots=30; stale_runs=62071",
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "sweep_units=1590254750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=223958; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "keyword_windows=579658000; covered_keyword_slots=30; stale_runs=107189",
       "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489424000; covered_keyword_slots=30; stale_runs=62072",
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "sweep_units=1590255750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=223959; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "keyword_windows=579660000; covered_keyword_slots=30; stale_runs=107190",
       "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489426000; covered_keyword_slots=30; stale_runs=62073",
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "sweep_units=1590256750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=223960; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "audited 4 artifacts; links=11",
+      "task": "audit_artifact_integrity"
+    },
+    {
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "sweep_units=1590257750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=223961; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "keyword_windows=579662000; covered_keyword_slots=30; stale_runs=107191",
       "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489428000; covered_keyword_slots=30; stale_runs=62074",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 297,
+      "result": "sweep_units=1590258750; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=223962; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 606426193, 'ordinary': 30354474, 'safeguards_required': 558728904, 'written_review': 170787179}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489430000; covered_keyword_slots=30; stale_runs=62075",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489432000; covered_keyword_slots=30; stale_runs=62076",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489434000; covered_keyword_slots=30; stale_runs=62077",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489436000; covered_keyword_slots=30; stale_runs=62078",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489438000; covered_keyword_slots=30; stale_runs=62079",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489440000; covered_keyword_slots=30; stale_runs=62080",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489442000; covered_keyword_slots=30; stale_runs=62081",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489444000; covered_keyword_slots=30; stale_runs=62082",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489446000; covered_keyword_slots=30; stale_runs=62083",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 293,
-      "result": "keyword_windows=489448000; covered_keyword_slots=30; stale_runs=62084",
-      "task": "run_evidence_keyword_sweep"
-    },
-    {
-      "completed_at": "2026-06-08T13:33:17",
-      "elapsed_seconds": 294,
-      "result": "keyword_windows=489450000; covered_keyword_slots=30; stale_runs=62085",
+      "completed_at": "2026-06-08T13:40:23",
+      "elapsed_seconds": 298,
+      "result": "keyword_windows=579664000; covered_keyword_slots=30; stale_runs=107192",
       "task": "run_evidence_keyword_sweep"
     }
   ],
   "completed_task_counts": {
-    "audit_artifact_integrity": 192,
-    "audit_guardrails": 193,
+    "audit_artifact_integrity": 292,
+    "audit_guardrails": 292,
     "harvest_source_metadata": 3,
     "refresh_next_queue": 3,
-    "review_evidence_quality": 193,
-    "review_uncertainty_coverage": 193,
-    "run_evidence_keyword_sweep": 60458,
-    "scan_corroboration_markers": 193,
+    "review_evidence_quality": 292,
+    "review_uncertainty_coverage": 292,
+    "run_evidence_keyword_sweep": 45107,
+    "run_precaution_threshold_sweep": 46562,
+    "scan_corroboration_markers": 292,
     "select_corroboration_target": 3
   },
-  "cooldown_filler_runs": 61417,
+  "cooldown_filler_runs": 93124,
   "corroboration_marker_scan": {
-    "checked_at": "2026-06-08T13:33:16",
+    "checked_at": "2026-06-08T13:40:22",
     "weak_claims": {
       "Governments and institutions": {
         "cached": true,
@@ -292,66 +293,66 @@
   "corroboration_query_target_key": "Governments and institutions|https://arxiv.org/abs/2603.01508",
   "created_at": "2026-06-08T10:30:09",
   "current_focus": "sentience welfare radar",
-  "cycle": 48,
+  "cycle": 49,
   "evidence_keyword_coverage": {
     "evidence_notebook.md": {
-      "agency": 17576195,
-      "consciousness": 19991241,
-      "governance": 11806904,
-      "pain": 27504732,
-      "precaution": 11806906,
-      "readiness": 11806908,
-      "safeguard": 11806912,
-      "sentience": 23613813,
-      "uncertainty": 23613818,
-      "welfare": 87075946
+      "agency": 20815786,
+      "consciousness": 23675968,
+      "governance": 13983122,
+      "pain": 32574321,
+      "precaution": 13983121,
+      "readiness": 13983121,
+      "safeguard": 13983124,
+      "sentience": 27966246,
+      "uncertainty": 27966246,
+      "welfare": 103125531
     },
     "precaution_checklist.md": {
-      "agency": 18432479,
-      "precaution": 18328341,
-      "safeguard": 36656681,
-      "sentience": 18328339,
-      "uncertainty": 18224201,
-      "welfare": 18432477
+      "agency": 21829899,
+      "precaution": 21706567,
+      "safeguard": 43413133,
+      "sentience": 21706566,
+      "uncertainty": 21583234,
+      "welfare": 21829898
     },
     "project_assessments.md": {
-      "precaution": 30899618,
-      "safeguard": 62152388,
-      "sentience": 31076188,
-      "uncertainty": 30899619,
-      "welfare": 36726410
+      "precaution": 36594949,
+      "safeguard": 73608127,
+      "sentience": 36804063,
+      "uncertainty": 36594949,
+      "welfare": 43495711
     },
     "sentience_welfare_radar.md": {
-      "agency": 18272253,
-      "consciousness": 24636744,
-      "governance": 18066945,
-      "precaution": 53379613,
-      "readiness": 18066945,
-      "safeguard": 18066946,
-      "sentience": 81095955,
-      "uncertainty": 18066945,
-      "welfare": 108812294
+      "agency": 21640139,
+      "consciousness": 29177716,
+      "governance": 21396995,
+      "precaution": 63218389,
+      "readiness": 21396994,
+      "safeguard": 21396992,
+      "sentience": 96043323,
+      "uncertainty": 21396992,
+      "welfare": 128868254
     }
   },
   "evidence_keyword_last_covered_slots": 30,
-  "evidence_keyword_stale_runs": 62085,
-  "evidence_keyword_sweep_cursor": 489450000,
+  "evidence_keyword_stale_runs": 107192,
+  "evidence_keyword_sweep_cursor": 579664000,
   "evidence_quality_counts": {
     "peer-reviewed": 4,
     "preprint": 1,
     "speculative": 1
   },
   "last_batch": {
-    "batch_seconds": 8.956,
-    "completed_at": "2026-06-08T13:33:17",
-    "last_result": "run_evidence_keyword_sweep: keyword_windows=489450000; covered_keyword_slots=30; stale_runs=62085",
-    "static_skips": 14800,
-    "tasks": 1850
+    "batch_seconds": 12.968,
+    "completed_at": "2026-06-08T13:40:23",
+    "last_result": "run_evidence_keyword_sweep: keyword_windows=579664000; covered_keyword_slots=30; stale_runs=107192",
+    "static_skips": 32144,
+    "tasks": 4018
   },
-  "last_run_at": "2026-06-08T13:28:23",
+  "last_run_at": "2026-06-08T13:35:25",
   "last_task": "run_evidence_keyword_sweep",
   "latest_guardrail_audit": {
-    "checked_at": "2026-06-08T13:33:16",
+    "checked_at": "2026-06-08T13:40:22",
     "findings": []
   },
   "next_corroboration_target": {
@@ -361,21 +362,19 @@
     "task": "Find one independent peer-reviewed corroborating or limiting source before expanding this claim."
   },
   "skipped_static_task_counts": {
-    "audit_artifact_integrity": 61416,
-    "audit_guardrails": 61416,
-    "harvest_source_metadata": 25116,
-    "refresh_next_queue": 61414,
-    "review_evidence_quality": 61416,
-    "review_uncertainty_coverage": 61416,
-    "run_precaution_threshold_sweep": 61417,
-    "scan_corroboration_markers": 61416,
-    "select_corroboration_target": 61414
+    "audit_artifact_integrity": 2,
+    "audit_guardrails": 2,
+    "harvest_source_metadata": 1,
+    "review_evidence_quality": 2,
+    "review_uncertainty_coverage": 2,
+    "run_precaution_threshold_sweep": 2,
+    "scan_corroboration_markers": 2
   },
   "source_cursor": 0,
   "source_fetches_this_cycle": 0,
   "static_task_cooldown_seconds": 120,
   "threshold_sweep_baseline": 8,
-  "threshold_sweep_cursor": 1543696750,
+  "threshold_sweep_cursor": 1590258750,
   "threshold_sweep_distribution": {
     "independent_review": 606426193,
     "ordinary": 30354474,
@@ -386,10 +385,10 @@
   "threshold_sweep_max_score": 16,
   "threshold_sweep_min_score": 0,
   "threshold_sweep_mode": "downsampled_unchanged_inputs",
-  "threshold_sweep_saturation_deferrals": 100245,
-  "threshold_sweep_stable_batches": 177400,
+  "threshold_sweep_saturation_deferrals": 193369,
+  "threshold_sweep_stable_batches": 223962,
   "uncertainty_review": {
-    "checked_at": "2026-06-08T13:33:17",
+    "checked_at": "2026-06-08T13:40:23",
     "uncertainty_notes": 3,
     "weak_claim_beings_without_direct_note": [
       "Governments and institutions",
@@ -397,13 +396,13 @@
     ]
   },
   "work_queue": [
+    "run_precaution_threshold_sweep",
     "audit_artifact_integrity",
     "scan_corroboration_markers",
     "review_evidence_quality",
     "select_corroboration_target",
     "audit_guardrails",
     "review_uncertainty_coverage",
-    "refresh_next_queue",
-    "run_precaution_threshold_sweep"
+    "refresh_next_queue"
   ]
 }

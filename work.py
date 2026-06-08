@@ -32,7 +32,7 @@ NOTEBOOK = ROOT / "evidence_notebook.md"
 CHECKLIST = ROOT / "precaution_checklist.md"
 ASSESSMENTS = ROOT / "project_assessments.md"
 ARTIFACTS = [RADAR, NOTEBOOK, CHECKLIST, ASSESSMENTS]
-WORK_BUDGET_SECONDS = int(os.environ.get("AESOP_WORK_BUDGET_SECONDS", "294"))
+WORK_BUDGET_SECONDS = int(os.environ.get("AESOP_WORK_BUDGET_SECONDS", "298"))
 CHECKPOINT_BATCH_SECONDS = int(os.environ.get("AESOP_CHECKPOINT_BATCH_SECONDS", "15"))
 MAX_FETCHES_PER_CYCLE = int(os.environ.get("AESOP_MAX_FETCHES_PER_CYCLE", "3"))
 FETCH_TIMEOUT_SECONDS = int(os.environ.get("AESOP_FETCH_TIMEOUT_SECONDS", "8"))
@@ -821,6 +821,9 @@ def cooldown_filler_task(state: dict) -> str:
         if filler_runs % saturated_review_interval == 0:
             index = (filler_runs // saturated_review_interval) % len(review_tasks)
             return review_tasks[index]
+        stale_keyword_runs = int(state.get("evidence_keyword_stale_runs", 0))
+        if stale_keyword_runs >= KEYWORD_STALE_ROTATION_AFTER and filler_runs % 2 == 1:
+            return "run_precaution_threshold_sweep"
         return "run_evidence_keyword_sweep"
     if state.get("next_corroboration_target") and not state.get(
         "corroboration_query_plan_complete"
