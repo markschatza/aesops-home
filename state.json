@@ -1,6 +1,6 @@
 {
   "artifact_integrity": {
-    "checked_at": "2026-06-08T14:39:27",
+    "checked_at": "2026-06-08T14:47:13",
     "files": {
       "evidence_notebook.md": {
         "exists": true,
@@ -71,149 +71,150 @@
   ],
   "completed_in_cycle": [
     {
-      "completed_at": "2026-06-08T14:40:25",
+      "completed_at": "2026-06-08T14:48:11",
       "elapsed_seconds": 297,
-      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Governments and institutions[preprint]",
-      "task": "review_evidence_quality"
-    },
-    {
-      "completed_at": "2026-06-08T14:40:25",
-      "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=31795; keyword_stale=167813",
+      "result": "sweeps saturated; threshold_stable=38067; keyword_stale=174084",
       "task": "review_sweep_saturation"
     },
     {
-      "completed_at": "2026-06-08T14:40:25",
+      "completed_at": "2026-06-08T14:48:11",
       "elapsed_seconds": 297,
       "result": "guardrails clear",
       "task": "audit_guardrails"
     },
     {
-      "completed_at": "2026-06-08T14:40:25",
-      "elapsed_seconds": 297,
-      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Possible artificial systems[speculative]",
-      "task": "review_evidence_quality"
-    },
-    {
-      "completed_at": "2026-06-08T14:40:25",
-      "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=31795; keyword_stale=167813",
-      "task": "review_sweep_saturation"
-    },
-    {
-      "completed_at": "2026-06-08T14:40:25",
-      "elapsed_seconds": 297,
-      "result": "guardrails clear",
-      "task": "audit_guardrails"
-    },
-    {
-      "completed_at": "2026-06-08T14:40:25",
-      "elapsed_seconds": 297,
-      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Farmed animals[peer-reviewed]",
-      "task": "review_evidence_quality"
-    },
-    {
-      "completed_at": "2026-06-08T14:40:25",
-      "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=31795; keyword_stale=167813",
-      "task": "review_sweep_saturation"
-    },
-    {
-      "completed_at": "2026-06-08T14:40:25",
-      "elapsed_seconds": 297,
-      "result": "guardrails clear",
-      "task": "audit_guardrails"
-    },
-    {
-      "completed_at": "2026-06-08T14:40:25",
-      "elapsed_seconds": 297,
-      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Animal welfare researchers[peer-reviewed]",
-      "task": "review_evidence_quality"
-    },
-    {
-      "completed_at": "2026-06-08T14:40:25",
-      "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=31795; keyword_stale=167813",
-      "task": "review_sweep_saturation"
-    },
-    {
-      "completed_at": "2026-06-08T14:40:25",
-      "elapsed_seconds": 297,
-      "result": "guardrails clear",
-      "task": "audit_guardrails"
-    },
-    {
-      "completed_at": "2026-06-08T14:40:25",
+      "completed_at": "2026-06-08T14:48:11",
       "elapsed_seconds": 297,
       "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Possible artificial systems[peer-reviewed]",
       "task": "review_evidence_quality"
     },
     {
-      "completed_at": "2026-06-08T14:40:25",
+      "completed_at": "2026-06-08T14:48:11",
       "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=31795; keyword_stale=167813",
+      "result": "sweeps saturated; threshold_stable=38067; keyword_stale=174084",
       "task": "review_sweep_saturation"
     },
     {
-      "completed_at": "2026-06-08T14:40:25",
+      "completed_at": "2026-06-08T14:48:11",
       "elapsed_seconds": 297,
       "result": "guardrails clear",
       "task": "audit_guardrails"
     },
     {
-      "completed_at": "2026-06-08T14:40:25",
+      "completed_at": "2026-06-08T14:48:11",
       "elapsed_seconds": 297,
       "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Non-human animals[peer-reviewed]",
       "task": "review_evidence_quality"
     },
     {
-      "completed_at": "2026-06-08T14:40:25",
+      "completed_at": "2026-06-08T14:48:11",
       "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=31795; keyword_stale=167813",
+      "result": "sweeps saturated; threshold_stable=38067; keyword_stale=174084",
       "task": "review_sweep_saturation"
     },
     {
-      "completed_at": "2026-06-08T14:40:25",
+      "completed_at": "2026-06-08T14:48:11",
       "elapsed_seconds": 297,
       "result": "guardrails clear",
       "task": "audit_guardrails"
     },
     {
-      "completed_at": "2026-06-08T14:40:25",
+      "completed_at": "2026-06-08T14:48:11",
       "elapsed_seconds": 297,
       "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Governments and institutions[preprint]",
       "task": "review_evidence_quality"
     },
     {
-      "completed_at": "2026-06-08T14:40:25",
+      "completed_at": "2026-06-08T14:48:11",
+      "elapsed_seconds": 297,
+      "result": "sweeps saturated; threshold_stable=38067; keyword_stale=174084",
+      "task": "review_sweep_saturation"
+    },
+    {
+      "completed_at": "2026-06-08T14:48:11",
+      "elapsed_seconds": 297,
+      "result": "guardrails clear",
+      "task": "audit_guardrails"
+    },
+    {
+      "completed_at": "2026-06-08T14:48:11",
+      "elapsed_seconds": 297,
+      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Possible artificial systems[speculative]",
+      "task": "review_evidence_quality"
+    },
+    {
+      "completed_at": "2026-06-08T14:48:11",
+      "elapsed_seconds": 297,
+      "result": "sweeps saturated; threshold_stable=38067; keyword_stale=174084",
+      "task": "review_sweep_saturation"
+    },
+    {
+      "completed_at": "2026-06-08T14:48:11",
+      "elapsed_seconds": 297,
+      "result": "guardrails clear",
+      "task": "audit_guardrails"
+    },
+    {
+      "completed_at": "2026-06-08T14:48:11",
+      "elapsed_seconds": 297,
+      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Farmed animals[peer-reviewed]",
+      "task": "review_evidence_quality"
+    },
+    {
+      "completed_at": "2026-06-08T14:48:11",
+      "elapsed_seconds": 297,
+      "result": "sweeps saturated; threshold_stable=38067; keyword_stale=174084",
+      "task": "review_sweep_saturation"
+    },
+    {
+      "completed_at": "2026-06-08T14:48:11",
+      "elapsed_seconds": 297,
+      "result": "guardrails clear",
+      "task": "audit_guardrails"
+    },
+    {
+      "completed_at": "2026-06-08T14:48:11",
+      "elapsed_seconds": 297,
+      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Animal welfare researchers[peer-reviewed]",
+      "task": "review_evidence_quality"
+    },
+    {
+      "completed_at": "2026-06-08T14:48:11",
+      "elapsed_seconds": 297,
+      "result": "sweeps saturated; threshold_stable=38067; keyword_stale=174084",
+      "task": "review_sweep_saturation"
+    },
+    {
+      "completed_at": "2026-06-08T14:48:11",
       "elapsed_seconds": 298,
-      "result": "keyword_windows=700908000; covered_keyword_slots=30; stale_runs=167814",
-      "task": "run_evidence_keyword_sweep"
+      "result": "guardrails clear",
+      "task": "audit_guardrails"
     }
   ],
   "completed_task_counts": {
     "audit_artifact_integrity": 3,
-    "audit_guardrails": 8518926,
+    "audit_guardrails": 8449533,
     "harvest_source_metadata": 5,
     "refresh_next_queue": 3,
-    "review_evidence_quality": 8518923,
-    "review_sweep_saturation": 8518926,
+    "review_corroboration_novelty": 12391,
+    "review_evidence_quality": 8449533,
+    "review_sweep_saturation": 8449532,
     "review_uncertainty_coverage": 4,
     "run_corroboration_query_planner": 18,
-    "run_evidence_keyword_sweep": 6243,
-    "run_precaution_threshold_sweep": 6243,
+    "run_evidence_keyword_sweep": 6195,
+    "run_precaution_threshold_sweep": 6195,
     "scan_corroboration_markers": 4,
     "select_corroboration_target": 3
   },
-  "cooldown_filler_runs": 25569280,
-  "corroboration_marker_cursor": 3550933,
+  "cooldown_filler_runs": 25373396,
+  "corroboration_marker_cursor": 3550939,
   "corroboration_marker_last_item": {
-    "checked_at": "2026-06-08T14:39:27",
+    "checked_at": "2026-06-08T14:47:13",
     "reviewed_all_targets_this_cycle": true,
     "targets": 2
   },
   "corroboration_marker_scan": {
-    "checked_at": "2026-06-08T14:39:27",
+    "checked_at": "2026-06-08T14:47:13",
     "weak_claims": {
       "Governments and institutions": {
         "cached": true,
@@ -253,6 +254,52 @@
     "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
     "Governments and institutions|https://arxiv.org/abs/2603.01508"
   ],
+  "corroboration_novelty_review": {
+    "checked_at": "2026-06-08T14:48:11",
+    "ok_cached_sources": 6,
+    "snapshots": [
+      {
+        "being": "Governments and institutions",
+        "candidate_count": 2,
+        "claim_key": "Governments and institutions|https://arxiv.org/abs/2603.01508",
+        "source_quality": "preprint",
+        "top_candidates": [
+          {
+            "score": 22,
+            "title": "The self-preservation test for artificial sentience | AI and Ethics | Springer Nature Link",
+            "url": "https://link.springer.com/article/10.1007/s43681-026-00983-x"
+          },
+          {
+            "score": 1,
+            "title": "Facing the pain: ethical considerations of AI-based pain detection of farmed animals | AI and Ethics | Springer Nature L",
+            "url": "https://link.springer.com/article/10.1007/s43681-025-00905-3"
+          }
+        ]
+      },
+      {
+        "being": "Possible artificial systems",
+        "candidate_count": 2,
+        "claim_key": "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
+        "source_quality": "speculative",
+        "top_candidates": [
+          {
+            "score": 11,
+            "title": "The self-preservation test for artificial sentience | AI and Ethics | Springer Nature Link",
+            "url": "https://link.springer.com/article/10.1007/s43681-026-00983-x"
+          },
+          {
+            "score": 8,
+            "title": "The Sentience Readiness Index: A Preliminary Framework for Measuring National Preparedness for the Possibility of Artifi",
+            "url": "https://arxiv.org/abs/2603.01508"
+          }
+        ]
+      }
+    ],
+    "stale_runs": 26177,
+    "weak_claims": 2
+  },
+  "corroboration_novelty_signature": "94ab88ee09aca1541d0fad3719a0667cfbda603d5d8f3e1f81a805a972d0b536",
+  "corroboration_novelty_stale_runs": 26177,
   "corroboration_query_cursor": 96,
   "corroboration_query_plan": {
     "cached_independent_candidates": [
@@ -299,94 +346,95 @@
       "source_quality": "speculative"
     },
     "total_query_slots": 96,
-    "updated_at": "2026-06-08T14:35:27"
+    "updated_at": "2026-06-08T14:43:13"
   },
   "corroboration_query_plan_complete": true,
   "corroboration_query_target_key": "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
-  "corroboration_target_cursor": 10,
+  "corroboration_target_cursor": 16,
   "corroboration_targets_planned_this_cycle": [
     "Governments and institutions|https://arxiv.org/abs/2603.01508",
     "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555"
   ],
   "created_at": "2026-06-08T10:30:09",
   "current_focus": "sentience welfare radar",
-  "cycle": 62,
+  "cycle": 65,
   "evidence_keyword_coverage": {
     "evidence_notebook.md": {
-      "agency": 24791122,
-      "consciousness": 28173779,
-      "governance": 20442097,
-      "pain": 38790991,
-      "precaution": 16640918,
-      "readiness": 21759638,
-      "safeguard": 16648493,
-      "sentience": 38271831,
-      "uncertainty": 33266698,
-      "welfare": 122797774
+      "agency": 25202283,
+      "consciousness": 28638976,
+      "governance": 21110135,
+      "pain": 39433968,
+      "precaution": 16915808,
+      "readiness": 22563947,
+      "safeguard": 16924166,
+      "sentience": 39337719,
+      "uncertainty": 33814911,
+      "welfare": 124832430
     },
     "precaution_checklist.md": {
-      "agency": 26395897,
-      "precaution": 26246768,
-      "safeguard": 52493535,
-      "sentience": 26246768,
-      "uncertainty": 26097637,
-      "welfare": 26395896
+      "agency": 26868148,
+      "precaution": 26716350,
+      "safeguard": 53432701,
+      "sentience": 26716351,
+      "uncertainty": 26564552,
+      "welfare": 26868147
     },
     "project_assessments.md": {
-      "precaution": 44249244,
-      "safeguard": 89004188,
-      "sentience": 44502091,
-      "uncertainty": 44249244,
-      "welfare": 52593384
+      "precaution": 45040908,
+      "safeguard": 90596572,
+      "sentience": 45298280,
+      "uncertainty": 45040908,
+      "welfare": 53534340
     },
     "sentience_welfare_radar.md": {
-      "agency": 26166448,
-      "consciousness": 35280605,
-      "governance": 25872443,
-      "precaution": 76441309,
-      "readiness": 25872443,
-      "safeguard": 25872443,
-      "sentience": 116131987,
-      "uncertainty": 25872442,
-      "welfare": 155822668
+      "agency": 26634595,
+      "consciousness": 35911812,
+      "governance": 26335329,
+      "precaution": 77808925,
+      "readiness": 26335329,
+      "safeguard": 26335328,
+      "sentience": 118209714,
+      "uncertainty": 26335328,
+      "welfare": 158610506
     }
   },
   "evidence_keyword_last_covered_slots": 30,
-  "evidence_keyword_stale_runs": 167814,
-  "evidence_keyword_sweep_cursor": 700908000,
+  "evidence_keyword_stale_runs": 174084,
+  "evidence_keyword_sweep_cursor": 713448000,
   "evidence_quality_counts": {
     "peer-reviewed": 4,
     "preprint": 1,
     "speculative": 1
   },
   "evidence_quality_last_item": {
-    "being": "Governments and institutions",
-    "confidence": "low",
-    "cursor": 19731477,
-    "index": 2,
-    "recommended_followup": "seek independent corroboration before raising confidence",
-    "reviewed_at": "2026-06-08T14:40:25",
-    "source_quality": "preprint"
+    "being": "Animal welfare researchers",
+    "confidence": "medium",
+    "cursor": 28279680,
+    "index": 5,
+    "recommended_followup": "maintain source as current support unless the claim expands",
+    "reviewed_at": "2026-06-08T14:48:11",
+    "source_quality": "peer-reviewed"
   },
-  "evidence_quality_review_cursor": 19731477,
+  "evidence_quality_review_cursor": 28279680,
   "last_batch": {
-    "batch_seconds": 13.005,
-    "completed_at": "2026-06-08T14:40:25",
-    "last_result": "run_evidence_keyword_sweep: keyword_windows=700908000; covered_keyword_slots=30; stale_runs=167814",
-    "static_skips": 5545075,
-    "tasks": 1109015
+    "batch_seconds": 12.993,
+    "completed_at": "2026-06-08T14:48:11",
+    "last_result": "audit_guardrails: guardrails clear",
+    "static_skips": 5451300,
+    "tasks": 1090260
   },
-  "last_run_at": "2026-06-08T14:35:27",
-  "last_task": "run_evidence_keyword_sweep",
+  "last_run_at": "2026-06-08T14:43:13",
+  "last_task": "audit_guardrails",
   "latest_guardrail_audit": {
-    "checked_at": "2026-06-08T14:40:25",
+    "checked_at": "2026-06-08T14:48:11",
     "findings": []
   },
   "next_corroboration_target": null,
   "skipped_static_task_counts": {
-    "audit_guardrails": 4,
-    "harvest_source_metadata": 7,
+    "audit_guardrails": 3,
+    "harvest_source_metadata": 6,
     "refresh_next_queue": 2,
+    "review_corroboration_novelty": 4,
     "review_evidence_quality": 4,
     "run_corroboration_query_planner": 2,
     "run_precaution_threshold_sweep": 5,
@@ -400,14 +448,14 @@
   },
   "static_task_cooldown_seconds": 120,
   "sweep_saturation_review": {
-    "checked_at": "2026-06-08T14:40:25",
-    "evidence_keyword_stale_runs": 167813,
+    "checked_at": "2026-06-08T14:48:11",
+    "evidence_keyword_stale_runs": 174084,
     "next_step": "prefer corroboration and quality-review tasks; keep rare deterministic sweep heartbeat samples",
     "saturated": true,
-    "threshold_sweep_stable_batches": 31795
+    "threshold_sweep_stable_batches": 38067
   },
   "threshold_sweep_baseline": 8,
-  "threshold_sweep_cursor": 1871514250,
+  "threshold_sweep_cursor": 1877786250,
   "threshold_sweep_distribution": {
     "independent_review": 686598209,
     "ordinary": 34368024,
@@ -420,34 +468,34 @@
   "threshold_sweep_max_score": 16,
   "threshold_sweep_min_score": 0,
   "threshold_sweep_mode": "downsampled_unchanged_inputs",
-  "threshold_sweep_saturation_deferrals": 88301738,
-  "threshold_sweep_stable_batches": 31795,
-  "uncertainty_gap_repeat_count": 14,
+  "threshold_sweep_saturation_deferrals": 113985135,
+  "threshold_sweep_stable_batches": 38067,
+  "uncertainty_gap_repeat_count": 22,
   "uncertainty_gap_signature": "Governments and institutions|Possible artificial systems",
   "uncertainty_last_item": {
     "reviewed_all_targets_this_cycle": true,
-    "reviewed_at": "2026-06-08T14:39:27",
+    "reviewed_at": "2026-06-08T14:47:13",
     "targets": 2
   },
   "uncertainty_review": {
-    "checked_at": "2026-06-08T14:39:27",
-    "gap_repeat_count": 14,
+    "checked_at": "2026-06-08T14:47:13",
+    "gap_repeat_count": 22,
     "uncertainty_notes": 4,
     "weak_claim_beings_without_direct_note": [
       "Governments and institutions",
       "Possible artificial systems"
     ]
   },
-  "uncertainty_review_cursor": 3550933,
+  "uncertainty_review_cursor": 3550939,
   "uncertainty_targets_reviewed_this_cycle": [
     "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
     "Governments and institutions|https://arxiv.org/abs/2603.01508"
   ],
   "work_queue": [
     "audit_guardrails",
-    "harvest_source_metadata",
     "refresh_next_queue",
     "run_precaution_threshold_sweep",
+    "review_corroboration_novelty",
     "review_evidence_quality"
   ]
 }

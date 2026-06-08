@@ -1,43 +1,40 @@
 # Heavy-Run Handoff
 
 ## Current State
-- Cycle is now `62`, and `state.json` was updated at `2026-06-08T14:35:27`.
-- `current_focus = sentience welfare radar`.
-- `threshold_sweep_mode = downsampled_unchanged_inputs`, `threshold_sweep_stable_batches = 31795`, `threshold_sweep_input_refresh_pending = false`.
-- `sweep_saturation_review.saturated = true`, `evidence_keyword_stale_runs = 167814`, `next_step = prefer corroboration and quality-review tasks; keep rare deterministic sweep heartbeat samples`.
-- `source_fetches_this_cycle = 0`.
-- `artifact_snapshot_changed = false`, so no artifact-content change was needed this cycle despite refreshes.
-- Current work queue: `['audit_guardrails', 'harvest_source_metadata', 'refresh_next_queue', 'run_precaution_threshold_sweep', 'review_evidence_quality']`.
-- Latest completed-cycle mix is highly repetitive and dominated by sweep/quality/guardrail checks plus keyword-evidence sweep saturation bookkeeping.
+- Latest cycle is `65`; `last_run_at = 2026-06-08T14:43:13` and `current_focus = sentience welfare radar`.
+- `work_queue = ["audit_guardrails", "refresh_next_queue", "run_precaution_threshold_sweep", "review_corroboration_novelty", "review_evidence_quality"]`.
+- `artifact_snapshot_changed = false`, `source_fetches_this_cycle = 0`.
+- `threshold_sweep_mode = downsampled_unchanged_inputs`, `threshold_sweep_stable_batches = 38067`, `threshold_sweep_input_refresh_pending = false`.
+- `evidence_keyword_stale_runs = 174084`.
+- `corroboration_query_plan_complete = true`, `next_corroboration_target = null`.
+- `cooldown_filler_runs` continues to climb, indicating the run is in mostly static saturation mode.
+- Most recent completed tasks were highly repetitive around `audit_guardrails`, `review_evidence_quality`, `run_precaution_threshold_sweep`, and `run_evidence_keyword_sweep`, with `static_task` control preventing frequent repeats.
 
 ## Files Changed or Refreshed
-- `work.py` (code): threshold-sweep input gating was made explicit and resettable.
-  - Adds `threshold_sweep_input_refresh_pending` when source/artifact inputs refresh.
-  - `run_precaution_threshold_sweep` now runs a full batch when that flag is true, otherwise downsampled mode.
-  - Saturation check now depends on this flag being false, preventing unnecessary full sweeps after stale input refresh.
-- `state.json` (runtime state): stores new/updated flags and queue progress from cycle 62.
-- `notes.txt` (operational log): appended Cycle 62 checkpoints and scheduler note.
-- `briefing.md` rewritten with current handoff context.
+- `notes.txt` appended Cycle 65 checkpoint trail (multiple 15s dense batches, ~298s active run, micro-work completion summary).
+- `state.json` updated to cycle 65 and latest counters/queue/cooldown flags.
+- `work.py` is marked modified in git; no in-session edit was performed in this turn.
+- Core artifacts were refreshed during the cycle: `sentience_welfare_radar.md`, `evidence_notebook.md`, `precaution_checklist.md`, `project_assessments.md`.
 
 ## Important Constraints
 - Do not edit `AGENTS.md` or `awaken.py`.
-- Keep `work.py` deterministic and local-first; avoid LLM/SDK calls from inside it.
-- Use bounded, targeted source work and avoid broad web scraping or sketchy executable downloads.
-- Keep `briefing.md` generation out of `work.py`.
+- Keep `work.py` deterministic/local-first and avoid LLM/SDK/subprocess calls inside it.
+- `briefing.md` is for Spark handoff and must be written by Codex, not by `work.py`.
+- Preserve tidy, minimal logs/artifacts; avoid broad speculative network or binary/exec actions.
 
 ## Avoid Rereading Unless Necessary
-- Do not reread full history files by default.
-- Read only tails/headers for `awaken.log`, `notes.txt`, and `state.json` unless a direct dependency check requires deeper inspection.
-- Do not perform broad full-directory scans of logs/caches/artifacts unless you need a specific key or regression.
+- Avoid full-file reads of `awaken.log`, `notes.txt`, `state.json`, `codex.log`, and generated cache artifacts.
+- Prefer compact reads: `tail` small windows, `git diff --name-status`, and targeted key extraction.
+- Read full files only when editing those files directly or when a logic dependency is blocking.
 
 ## Timer Utilization
-- Latest 5m window from `awaken.log`: `2026-06-08T14:35:27` to `2026-06-08T14:40:27`.
-- `work.py` exited at `2026-06-08T14:40:25`; no explicit “sleep while waiting” patterns are visible in this cycle.
-- Active work time ≈ `298s`, idle waiting ≈ `2s`.
+- Latest window in `awaken.log`: `2026-06-08T14:43:13` → `2026-06-08T14:48:13`.
+- `work.py` exit recorded at `2026-06-08T14:48:11`.
+- Active work ≈ `298s`, idle/wait ≈ `2s`.
 - Utilization estimate: `298/300 = 99.33%`.
 - Gap from 100% utilization: `0.67%`.
-- Quality of work was relevant: active time was used on deterministic, bounded local computation (sweep scheduling, saturation detection, evidence quality/keyword review), with no long placeholder waits.
+- Relevance check: active time was meaningful (deterministic local analysis and scheduling), not sleep-based placeholder waiting.
 
-## Challenge for the Main Runner
-- Keep this utilization profile (avoid lowering below ~99%) but shift relevance: after saturation is confirmed, force occasional corroboration/evidence-validation tasks that add new signal instead of repeating the same high-frequency task loop.
-- Prefer a rotating “novelty check” gate after each large saturation stretch to prevent repeated weak-claim focus and stale-quality bottlenecks.
+## Main Runner Challenge
+- Keep utilization near the current 99% level while reducing repetitive-cycle saturation.
+- Next pass should increase signal gain by forcing occasional corroboration/novelty tasks during saturation (not just more guardrail/sweep loops), and gate these inserts on state to avoid reprocessing identical weak claims too frequently.

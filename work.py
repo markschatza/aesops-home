@@ -53,6 +53,12 @@ FILLER_REVIEW_INTERVAL = int(os.environ.get("AESOP_FILLER_REVIEW_INTERVAL", "256
 SATURATED_SWEEP_SAMPLE_INTERVAL = int(
     os.environ.get("AESOP_SATURATED_SWEEP_SAMPLE_INTERVAL", "4096")
 )
+SATURATED_NOVELTY_CHECK_INTERVAL = int(
+    os.environ.get("AESOP_SATURATED_NOVELTY_CHECK_INTERVAL", "2048")
+)
+SATURATED_NOVELTY_REFRESH_AFTER = int(
+    os.environ.get("AESOP_SATURATED_NOVELTY_REFRESH_AFTER", "128")
+)
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
 )
@@ -64,6 +70,7 @@ DEFAULT_WORK_QUEUE = [
     "run_precaution_threshold_sweep",
     "audit_artifact_integrity",
     "scan_corroboration_markers",
+    "review_corroboration_novelty",
     "review_evidence_quality",
     "select_corroboration_target",
     "run_corroboration_query_planner",
@@ -558,6 +565,96 @@ def review_sweep_saturation(state: dict) -> str:
     if saturated:
         return f"sweeps saturated; threshold_stable={threshold_stable}; keyword_stale={keyword_stale}"
     return f"sweeps active; threshold_stable={threshold_stable}; keyword_stale={keyword_stale}"
+
+
+def review_corroboration_novelty(state: dict) -> str:
+    """Check whether weak-claim corroboration candidates are adding new signal."""
+    cache = load_source_cache()
+    source_records = cache.get("sources", {})
+    claims = weak_claims()
+    source_items = [
+        (url, record)
+        for url, record in sorted(source_records.items())
+        if isinstance(record, dict) and record.get("ok")
+    ]
+    snapshots = []
+    for claim in claims:
+        focus_terms = set(
+            corroboration_focus_terms(
+                claim,
+                source_records.get(claim.get("source", ""), {}).get("title", ""),
+            )
+        )
+        candidates = []
+        for url, record in source_items:
+            if url == claim.get("source"):
+                continue
+            haystack = f"{url} {record.get('title', '')}".lower()
+            score = sum(1 for term in focus_terms if term in haystack)
+            keyword_counts = record.get("keyword_counts", {})
+            if isinstance(keyword_counts, dict):
+                score += sum(int(keyword_counts.get(term, 0)) for term in focus_terms)
+            if score:
+                candidates.append((score, url, record.get("title", "")[:120]))
+        candidates.sort(key=lambda item: (-item[0], item[1]))
+        snapshots.append(
+            {
+                "claim_key": claim_key(claim),
+                "being": claim.get("being"),
+                "source_quality": claim.get("source_quality"),
+                "candidate_count": len(candidates),
+                "top_candidates": [
+                    {"score": score, "url": url, "title": title}
+                    for score, url, title in candidates[:3]
+                ],
+            }
+        )
+
+    signature_payload = json.dumps(snapshots, sort_keys=True)
+    signature = hashlib.sha256(signature_payload.encode("utf-8")).hexdigest()
+    previous_signature = state.get("corroboration_novelty_signature")
+    if signature == previous_signature:
+        stale_runs = int(state.get("corroboration_novelty_stale_runs", 0)) + 1
+    else:
+        stale_runs = 0
+    state["corroboration_novelty_signature"] = signature
+    state["corroboration_novelty_stale_runs"] = stale_runs
+    state["corroboration_novelty_review"] = {
+        "checked_at": datetime.now().isoformat(timespec="seconds"),
+        "weak_claims": len(claims),
+        "ok_cached_sources": len(source_items),
+        "snapshots": snapshots,
+        "stale_runs": stale_runs,
+    }
+
+    if claims and stale_runs >= SATURATED_NOVELTY_REFRESH_AFTER:
+        refreshed_today = {
+            key
+            for key, date in state.get("source_refresh_escalated_dates", {}).items()
+            if date == today_stamp()
+        }
+        target = next(
+            (
+                claim
+                for claim in claims
+                if claim_key(claim) not in refreshed_today
+            ),
+            None,
+        )
+        if target is not None:
+            state["source_refresh_requested"] = {
+                "requested_at": datetime.now().isoformat(timespec="seconds"),
+                "reason": "corroboration candidate novelty stayed unchanged during saturated sweeps",
+                "stale_runs": stale_runs,
+                "target_keys": [claim_key(target)],
+            }
+            prioritize_source_work(state)
+
+    candidates = sum(int(item["candidate_count"]) for item in snapshots)
+    return (
+        f"novelty weak_claims={len(claims)}; ok_sources={len(source_items)}; "
+        f"candidate_links={candidates}; stale_runs={stale_runs}"
+    )
 
 
 def harvest_source_metadata(state: dict) -> str:
@@ -1091,6 +1188,7 @@ WORK_TASKS = {
     "run_precaution_threshold_sweep": run_precaution_threshold_sweep,
     "audit_artifact_integrity": audit_artifact_integrity,
     "scan_corroboration_markers": scan_corroboration_markers,
+    "review_corroboration_novelty": review_corroboration_novelty,
     "review_evidence_quality": review_evidence_quality,
     "select_corroboration_target": select_corroboration_target,
     "review_sweep_saturation": review_sweep_saturation,
@@ -1137,6 +1235,9 @@ def cooldown_filler_task(state: dict) -> str:
                 return "run_precaution_threshold_sweep"
             if sample_slot == sample_interval // 2:
                 return "run_evidence_keyword_sweep"
+            novelty_interval = max(32, SATURATED_NOVELTY_CHECK_INTERVAL)
+            if filler_runs % novelty_interval == 3:
+                return "review_corroboration_novelty"
             if not saturated_tasks:
                 return "review_sweep_saturation"
             index = filler_runs % len(saturated_tasks)
@@ -1149,6 +1250,7 @@ def cooldown_filler_task(state: dict) -> str:
         review_tasks = [
             "audit_artifact_integrity",
             "scan_corroboration_markers",
+            "review_corroboration_novelty",
             "review_evidence_quality",
             "audit_guardrails",
             "review_uncertainty_coverage",
@@ -1178,6 +1280,7 @@ def cooldown_filler_task(state: dict) -> str:
             review_tasks = [
                 "audit_artifact_integrity",
                 "scan_corroboration_markers",
+                "review_corroboration_novelty",
                 "review_evidence_quality",
                 "audit_guardrails",
                 "review_uncertainty_coverage",
