@@ -1,6 +1,6 @@
 {
   "artifact_integrity": {
-    "checked_at": "2026-06-08T12:36:33",
+    "checked_at": "2026-06-08T12:55:38",
     "files": {
       "evidence_notebook.md": {
         "exists": true,
@@ -71,124 +71,124 @@
   ],
   "completed_in_cycle": [
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838365000; baseline=8; score_range=0-16; levels={'independent_review': 372104155, 'ordinary': 18626079, 'safeguards_required': 342838910, 'written_review': 104795856}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242812000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838367500; baseline=8; score_range=0-16; levels={'independent_review': 372105264, 'ordinary': 18626138, 'safeguards_required': 342839943, 'written_review': 104796155}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242814000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838370000; baseline=8; score_range=0-16; levels={'independent_review': 372106376, 'ordinary': 18626196, 'safeguards_required': 342840969, 'written_review': 104796459}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242816000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838372500; baseline=8; score_range=0-16; levels={'independent_review': 372107502, 'ordinary': 18626255, 'safeguards_required': 342841996, 'written_review': 104796747}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242818000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838375000; baseline=8; score_range=0-16; levels={'independent_review': 372108583, 'ordinary': 18626310, 'safeguards_required': 342843011, 'written_review': 104797096}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242820000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838377500; baseline=8; score_range=0-16; levels={'independent_review': 372109695, 'ordinary': 18626363, 'safeguards_required': 342844029, 'written_review': 104797413}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242822000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838380000; baseline=8; score_range=0-16; levels={'independent_review': 372110817, 'ordinary': 18626420, 'safeguards_required': 342845046, 'written_review': 104797717}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242824000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838382500; baseline=8; score_range=0-16; levels={'independent_review': 372111919, 'ordinary': 18626479, 'safeguards_required': 342846058, 'written_review': 104798044}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242826000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838385000; baseline=8; score_range=0-16; levels={'independent_review': 372113057, 'ordinary': 18626533, 'safeguards_required': 342847057, 'written_review': 104798353}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242828000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838387500; baseline=8; score_range=0-16; levels={'independent_review': 372114151, 'ordinary': 18626592, 'safeguards_required': 342848075, 'written_review': 104798682}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242830000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838390000; baseline=8; score_range=0-16; levels={'independent_review': 372115239, 'ordinary': 18626638, 'safeguards_required': 342849110, 'written_review': 104799013}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242832000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838392500; baseline=8; score_range=0-16; levels={'independent_review': 372116324, 'ordinary': 18626693, 'safeguards_required': 342850150, 'written_review': 104799333}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242834000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838395000; baseline=8; score_range=0-16; levels={'independent_review': 372117478, 'ordinary': 18626735, 'safeguards_required': 342851169, 'written_review': 104799618}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242836000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838397500; baseline=8; score_range=0-16; levels={'independent_review': 372118595, 'ordinary': 18626784, 'safeguards_required': 342852182, 'written_review': 104799939}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242838000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838400000; baseline=8; score_range=0-16; levels={'independent_review': 372119681, 'ordinary': 18626840, 'safeguards_required': 342853227, 'written_review': 104800252}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242840000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838402500; baseline=8; score_range=0-16; levels={'independent_review': 372120760, 'ordinary': 18626897, 'safeguards_required': 342854271, 'written_review': 104800572}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242842000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838405000; baseline=8; score_range=0-16; levels={'independent_review': 372121879, 'ordinary': 18626948, 'safeguards_required': 342855306, 'written_review': 104800867}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242844000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838407500; baseline=8; score_range=0-16; levels={'independent_review': 372122977, 'ordinary': 18627010, 'safeguards_required': 342856309, 'written_review': 104801204}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242846000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 293,
-      "result": "sweep_units=838410000; baseline=8; score_range=0-16; levels={'independent_review': 372124099, 'ordinary': 18627065, 'safeguards_required': 342857321, 'written_review': 104801515}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242848000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:37:27",
+      "completed_at": "2026-06-08T12:56:32",
       "elapsed_seconds": 294,
-      "result": "sweep_units=838412500; baseline=8; score_range=0-16; levels={'independent_review': 372125221, 'ordinary': 18627119, 'safeguards_required': 342858354, 'written_review': 104801806}",
-      "task": "run_precaution_threshold_sweep"
+      "result": "keyword_windows=242850000; covered_keyword_slots=30",
+      "task": "run_evidence_keyword_sweep"
     }
   ],
   "completed_task_counts": {
@@ -198,13 +198,14 @@
     "refresh_next_queue": 3,
     "review_evidence_quality": 3,
     "review_uncertainty_coverage": 3,
-    "run_precaution_threshold_sweep": 70746,
+    "run_evidence_keyword_sweep": 60195,
+    "run_precaution_threshold_sweep": 3,
     "scan_corroboration_markers": 3,
     "select_corroboration_target": 3
   },
-  "cooldown_filler_runs": 70743,
+  "cooldown_filler_runs": 60195,
   "corroboration_marker_scan": {
-    "checked_at": "2026-06-08T12:36:33",
+    "checked_at": "2026-06-08T12:55:38",
     "weak_claims": {
       "Governments and institutions": {
         "cached": true,
@@ -242,23 +243,64 @@
   },
   "created_at": "2026-06-08T10:30:09",
   "current_focus": "sentience welfare radar",
-  "cycle": 33,
+  "cycle": 38,
+  "evidence_keyword_coverage": {
+    "evidence_notebook.md": {
+      "agency": 8720769,
+      "consciousness": 9919038,
+      "governance": 5858222,
+      "pain": 13647002,
+      "precaution": 5858225,
+      "readiness": 5858226,
+      "safeguard": 5858224,
+      "sentience": 11716443,
+      "uncertainty": 11716448,
+      "welfare": 43204397
+    },
+    "precaution_checklist.md": {
+      "agency": 9145629,
+      "precaution": 9093958,
+      "safeguard": 18187914,
+      "sentience": 9093957,
+      "uncertainty": 9042287,
+      "welfare": 9145626
+    },
+    "project_assessments.md": {
+      "precaution": 15331436,
+      "safeguard": 30838102,
+      "sentience": 15419046,
+      "uncertainty": 15331437,
+      "welfare": 18222513
+    },
+    "sentience_welfare_radar.md": {
+      "agency": 9066127,
+      "consciousness": 12223992,
+      "governance": 8964263,
+      "precaution": 26485318,
+      "readiness": 8964262,
+      "safeguard": 8964260,
+      "sentience": 40237312,
+      "uncertainty": 8964260,
+      "welfare": 53989302
+    }
+  },
+  "evidence_keyword_sweep_cursor": 242850000,
   "evidence_quality_counts": {
     "peer-reviewed": 4,
     "preprint": 1,
     "speculative": 1
   },
   "last_batch": {
-    "batch_seconds": 8.963,
-    "completed_at": "2026-06-08T12:37:27",
-    "last_result": "run_precaution_threshold_sweep: sweep_units=838412500; baseline=8; score_range=0-16; levels={'independent_review': 372125221, 'ordinary': 18627119, 'safeguards_required': 342858354, 'written_review': 104801806}",
-    "static_skips": 15106,
-    "tasks": 2158
+    "batch_seconds": 8.954,
+    "completed_at": "2026-06-08T12:56:32",
+    "last_result": "run_evidence_keyword_sweep: keyword_windows=242850000; covered_keyword_slots=30",
+    "static_skips": 12796,
+    "tasks": 1828
   },
-  "last_run_at": "2026-06-08T12:32:33",
-  "last_task": "run_precaution_threshold_sweep",
+  "last_run_at": "2026-06-08T12:51:38",
+  "last_task": "run_evidence_keyword_sweep",
   "latest_guardrail_audit": {
-    "checked_at": "2026-06-08T12:36:33",
+    "checked_at": "2026-06-08T12:55:38",
     "findings": []
   },
   "next_corroboration_target": {
@@ -274,17 +316,19 @@
   "source_fetches_this_cycle": 0,
   "static_task_cooldown_seconds": 120,
   "threshold_sweep_baseline": 8,
-  "threshold_sweep_cursor": 838412500,
+  "threshold_sweep_cursor": 1014458750,
   "threshold_sweep_distribution": {
-    "independent_review": 372125221,
-    "ordinary": 18627119,
-    "safeguards_required": 342858354,
-    "written_review": 104801806
+    "independent_review": 450263363,
+    "ordinary": 22538784,
+    "safeguards_required": 414849955,
+    "written_review": 126806648
   },
+  "threshold_sweep_last_batch_size": 250,
   "threshold_sweep_max_score": 16,
   "threshold_sweep_min_score": 0,
+  "threshold_sweep_mode": "downsampled_unchanged_inputs",
   "uncertainty_review": {
-    "checked_at": "2026-06-08T12:36:33",
+    "checked_at": "2026-06-08T12:55:38",
     "uncertainty_notes": 3,
     "weak_claim_beings_without_direct_note": [
       "Governments and institutions",

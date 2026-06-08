@@ -37,6 +37,10 @@ CHECKPOINT_BATCH_SECONDS = int(os.environ.get("AESOP_CHECKPOINT_BATCH_SECONDS", 
 MAX_FETCHES_PER_CYCLE = int(os.environ.get("AESOP_MAX_FETCHES_PER_CYCLE", "3"))
 FETCH_TIMEOUT_SECONDS = int(os.environ.get("AESOP_FETCH_TIMEOUT_SECONDS", "8"))
 FETCH_BYTES = int(os.environ.get("AESOP_FETCH_BYTES", "65536"))
+THRESHOLD_SWEEP_BATCH = int(os.environ.get("AESOP_THRESHOLD_SWEEP_BATCH", "2500"))
+UNCHANGED_THRESHOLD_SWEEP_BATCH = int(
+    os.environ.get("AESOP_UNCHANGED_THRESHOLD_SWEEP_BATCH", "250")
+)
 STATIC_TASK_COOLDOWN_SECONDS = int(os.environ.get("AESOP_STATIC_TASK_COOLDOWN_SECONDS", "60"))
 UNCHANGED_STATIC_TASK_COOLDOWN_SECONDS = int(
     os.environ.get("AESOP_UNCHANGED_STATIC_TASK_COOLDOWN_SECONDS", "120")
@@ -53,7 +57,20 @@ DEFAULT_WORK_QUEUE = [
     "refresh_next_queue",
 ]
 
-ALWAYS_RUN_TASKS = {"run_precaution_threshold_sweep"}
+ALWAYS_RUN_TASKS = {"run_evidence_keyword_sweep"}
+EVIDENCE_KEYWORDS = [
+    "sentience",
+    "welfare",
+    "consciousness",
+    "pain",
+    "agency",
+    "precaution",
+    "governance",
+    "readiness",
+    "uncertainty",
+    "safeguard",
+]
+ARTIFACT_TEXT_CACHE: dict[str, str] | None = None
 
 
 SEED_SOURCES = [
@@ -449,13 +466,69 @@ def scan_corroboration_markers(state: dict) -> str:
     return f"weak_claims={len(markers)}; cached_sources={cached}"
 
 
+def artifact_text_cache() -> dict[str, str]:
+    global ARTIFACT_TEXT_CACHE
+    if ARTIFACT_TEXT_CACHE is None:
+        ARTIFACT_TEXT_CACHE = {
+            path.name: path.read_text(encoding="utf-8").lower()
+            for path in ARTIFACTS
+            if path.exists()
+        }
+    return ARTIFACT_TEXT_CACHE
+
+
+def run_evidence_keyword_sweep(state: dict) -> str:
+    """Map welfare-keyword coverage across artifacts while static tasks cool down."""
+    texts = artifact_text_cache()
+    if not texts:
+        return "no artifact text available"
+
+    items = list(texts.items())
+    cursor = int(state.get("evidence_keyword_sweep_cursor", 0))
+    batch_size = int(os.environ.get("AESOP_EVIDENCE_KEYWORD_SWEEP_BATCH", "2000"))
+    window_size = int(os.environ.get("AESOP_EVIDENCE_KEYWORD_WINDOW", "360"))
+    coverage: dict[str, dict[str, int]] = state.get("evidence_keyword_coverage", {})
+
+    for offset in range(batch_size):
+        artifact_name, text = items[(cursor + offset) % len(items)]
+        if not text:
+            continue
+        start = ((cursor + offset) * 97) % len(text)
+        window = text[start : start + window_size]
+        if len(window) < window_size:
+            window += text[: window_size - len(window)]
+        artifact_counts = coverage.setdefault(artifact_name, {})
+        for keyword in EVIDENCE_KEYWORDS:
+            if keyword in window:
+                artifact_counts[keyword] = int(artifact_counts.get(keyword, 0)) + 1
+
+    cursor += batch_size
+    state["evidence_keyword_sweep_cursor"] = cursor
+    state["evidence_keyword_coverage"] = coverage
+    nonzero = sum(
+        1
+        for artifact_counts in coverage.values()
+        for count in artifact_counts.values()
+        if int(count) > 0
+    )
+    return f"keyword_windows={cursor}; covered_keyword_slots={nonzero}"
+
+
 def run_precaution_threshold_sweep(state: dict) -> str:
     """Stress-test whether project review levels are stable under risk-weight jitter."""
     from precaution_checklist import CHECKS
     from project_assessments import ASSESSMENTS, assessment_score
 
     cursor = int(state.get("threshold_sweep_cursor", 0))
-    batch_size = int(os.environ.get("AESOP_THRESHOLD_SWEEP_BATCH", "2500"))
+    input_changed = bool(state.get("artifact_snapshot_changed", True)) or bool(
+        state.get("source_fetches_this_cycle", 0)
+    )
+    if input_changed:
+        batch_size = THRESHOLD_SWEEP_BATCH
+        sweep_mode = "full"
+    else:
+        batch_size = max(1, min(THRESHOLD_SWEEP_BATCH, UNCHANGED_THRESHOLD_SWEEP_BATCH))
+        sweep_mode = "downsampled_unchanged_inputs"
     distribution: dict[str, int] = state.get("threshold_sweep_distribution", {})
     score_min = int(state.get("threshold_sweep_min_score", 999))
     score_max = int(state.get("threshold_sweep_max_score", -1))
@@ -488,8 +561,11 @@ def run_precaution_threshold_sweep(state: dict) -> str:
     state["threshold_sweep_min_score"] = score_min
     state["threshold_sweep_max_score"] = score_max
     state["threshold_sweep_baseline"] = baseline
+    state["threshold_sweep_last_batch_size"] = batch_size
+    state["threshold_sweep_mode"] = sweep_mode
     return (
         f"sweep_units={state['threshold_sweep_cursor']}; "
+        f"batch={batch_size}; mode={sweep_mode}; "
         f"baseline={baseline}; score_range={score_min}-{score_max}; "
         f"levels={distribution}"
     )
@@ -497,6 +573,7 @@ def run_precaution_threshold_sweep(state: dict) -> str:
 
 WORK_TASKS = {
     "harvest_source_metadata": harvest_source_metadata,
+    "run_evidence_keyword_sweep": run_evidence_keyword_sweep,
     "run_precaution_threshold_sweep": run_precaution_threshold_sweep,
     "audit_artifact_integrity": audit_artifact_integrity,
     "scan_corroboration_markers": scan_corroboration_markers,
@@ -541,7 +618,7 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
         if queue_is_cooling_down:
             batch_skipped += len(queue)
             state["cooldown_filler_runs"] = int(state.get("cooldown_filler_runs", 0)) + 1
-            task_id = "run_precaution_threshold_sweep"
+            task_id = "run_evidence_keyword_sweep"
         else:
             for _ in range(len(queue)):
                 candidate = queue.pop(0)
@@ -559,7 +636,7 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
                 )
                 batch_skipped += 1
         if task_id is None:
-            task_id = "run_precaution_threshold_sweep"
+            task_id = "run_evidence_keyword_sweep"
 
         result = WORK_TASKS[task_id](state)
         elapsed = time.monotonic() - started_at
