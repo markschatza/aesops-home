@@ -14,9 +14,9 @@
         "welfare": 0
       },
       "ok": true,
-      "requested_at": "2026-06-08T11:56:06",
+      "requested_at": "2026-06-08T14:22:38",
       "status": 200,
-      "title": "[2603.01508] The Sentience Readiness Index: A Preliminary Framework for Measuring National Preparedness for the Possibility of Artificial Sentience"
+      "title": "The Sentience Readiness Index: A Preliminary Framework for Measuring National Preparedness for the Possibility of Artificial Sentience"
     },
     "https://link.springer.com/article/10.1007/s43681-025-00905-3": {
       "bytes_read": 65536,
@@ -68,7 +68,7 @@
         "welfare": 0
       },
       "ok": true,
-      "requested_at": "2026-06-08T11:56:07",
+      "requested_at": "2026-06-08T14:22:34",
       "status": 200,
       "title": ""
     },

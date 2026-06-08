@@ -1,6 +1,6 @@
 {
   "artifact_integrity": {
-    "checked_at": "2026-06-08T14:17:54",
+    "checked_at": "2026-06-08T14:27:31",
     "files": {
       "evidence_notebook.md": {
         "exists": true,
@@ -71,159 +71,147 @@
   ],
   "completed_in_cycle": [
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']",
-      "task": "review_uncertainty_coverage"
+      "result": "sweep_units=1839669250; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686576140, 'ordinary': 34366895, 'safeguards_required': 632571561, 'written_review': 193359654}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "weak_claims=2; cached_sources=2; reviewed=Possible artificial systems",
-      "task": "scan_corroboration_markers"
+      "result": "sweep_units=1839671750; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686577233, 'ordinary': 34366951, 'safeguards_required': 632572592, 'written_review': 193359974}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Non-human animals[peer-reviewed]",
-      "task": "review_evidence_quality"
+      "result": "sweep_units=1839674250; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686578365, 'ordinary': 34367006, 'safeguards_required': 632573605, 'written_review': 193360274}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=68769; keyword_stale=155957",
-      "task": "review_sweep_saturation"
+      "result": "sweep_units=1839676750; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686579440, 'ordinary': 34367059, 'safeguards_required': 632574649, 'written_review': 193360602}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "guardrails clear",
-      "task": "audit_guardrails"
+      "result": "sweep_units=1839679250; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686580564, 'ordinary': 34367122, 'safeguards_required': 632575663, 'written_review': 193360901}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']",
-      "task": "review_uncertainty_coverage"
+      "result": "sweep_units=1839681750; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686581669, 'ordinary': 34367171, 'safeguards_required': 632576676, 'written_review': 193361234}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "weak_claims=2; cached_sources=2; reviewed=Governments and institutions",
-      "task": "scan_corroboration_markers"
+      "result": "sweep_units=1839684250; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686582830, 'ordinary': 34367226, 'safeguards_required': 632577651, 'written_review': 193361543}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Governments and institutions[preprint]",
-      "task": "review_evidence_quality"
+      "result": "sweep_units=1839686750; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686583937, 'ordinary': 34367292, 'safeguards_required': 632578689, 'written_review': 193361832}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=68769; keyword_stale=155957",
-      "task": "review_sweep_saturation"
+      "result": "sweep_units=1839689250; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686585021, 'ordinary': 34367350, 'safeguards_required': 632579727, 'written_review': 193362152}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "guardrails clear",
-      "task": "audit_guardrails"
+      "result": "sweep_units=1839691750; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686586145, 'ordinary': 34367410, 'safeguards_required': 632580735, 'written_review': 193362460}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']",
-      "task": "review_uncertainty_coverage"
+      "result": "sweep_units=1839694250; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686587267, 'ordinary': 34367466, 'safeguards_required': 632581749, 'written_review': 193362768}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "weak_claims=2; cached_sources=2; reviewed=Possible artificial systems",
-      "task": "scan_corroboration_markers"
+      "result": "sweep_units=1839696750; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686588320, 'ordinary': 34367526, 'safeguards_required': 632582834, 'written_review': 193363070}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Possible artificial systems[speculative]",
-      "task": "review_evidence_quality"
+      "result": "sweep_units=1839699250; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686589390, 'ordinary': 34367574, 'safeguards_required': 632583878, 'written_review': 193363408}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=68769; keyword_stale=155957",
-      "task": "review_sweep_saturation"
+      "result": "sweep_units=1839701750; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686590476, 'ordinary': 34367626, 'safeguards_required': 632584905, 'written_review': 193363743}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "guardrails clear",
-      "task": "audit_guardrails"
+      "result": "sweep_units=1839704250; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686591624, 'ordinary': 34367691, 'safeguards_required': 632585892, 'written_review': 193364043}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']",
-      "task": "review_uncertainty_coverage"
+      "result": "sweep_units=1839706750; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686592726, 'ordinary': 34367742, 'safeguards_required': 632586956, 'written_review': 193364326}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "weak_claims=2; cached_sources=2; reviewed=Governments and institutions",
-      "task": "scan_corroboration_markers"
+      "result": "sweep_units=1839709250; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686593854, 'ordinary': 34367802, 'safeguards_required': 632587953, 'written_review': 193364641}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2; reviewed=Farmed animals[peer-reviewed]",
-      "task": "review_evidence_quality"
+      "result": "sweep_units=1839711750; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686594939, 'ordinary': 34367849, 'safeguards_required': 632588968, 'written_review': 193364994}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 297,
-      "result": "sweeps saturated; threshold_stable=68769; keyword_stale=155957",
-      "task": "review_sweep_saturation"
+      "result": "sweep_units=1839714250; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686596066, 'ordinary': 34367918, 'safeguards_required': 632589977, 'written_review': 193365289}",
+      "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T14:18:52",
+      "completed_at": "2026-06-08T14:27:32",
       "elapsed_seconds": 298,
-      "result": "sweep_units=1660841250; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=68770; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 607230570, 'ordinary': 30394782, 'safeguards_required': 559469536, 'written_review': 171014362}",
+      "result": "sweep_units=1839716750; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686597135, 'ordinary': 34367972, 'safeguards_required': 632591044, 'written_review': 193365599}",
       "task": "run_precaution_threshold_sweep"
     }
   ],
   "completed_task_counts": {
-    "audit_artifact_integrity": 3,
-    "audit_guardrails": 2130516,
-    "harvest_source_metadata": 3,
+    "audit_artifact_integrity": 93,
+    "audit_guardrails": 94,
+    "harvest_source_metadata": 5,
     "refresh_next_queue": 3,
-    "review_evidence_quality": 2130518,
-    "review_sweep_saturation": 2130516,
-    "review_uncertainty_coverage": 2130517,
-    "run_corroboration_query_planner": 11,
-    "run_evidence_keyword_sweep": 2602,
-    "run_precaution_threshold_sweep": 2603,
-    "scan_corroboration_markers": 2130517,
+    "review_evidence_quality": 94,
+    "review_uncertainty_coverage": 4,
+    "run_corroboration_query_planner": 17,
+    "run_precaution_threshold_sweep": 71525,
+    "scan_corroboration_markers": 4,
     "select_corroboration_target": 3
   },
-  "cooldown_filler_runs": 10657793,
-  "corroboration_marker_cursor": 3550925,
+  "cooldown_filler_runs": 71821,
+  "corroboration_marker_cursor": 3550929,
   "corroboration_marker_last_item": {
-    "being": "Governments and institutions",
-    "cached": true,
-    "checked_at": "2026-06-08T14:18:52",
-    "cursor": 3550925,
-    "fetch_ok": true,
-    "index": 0,
-    "marker_terms": [
-      "sentience readiness",
-      "artificial sentience",
-      "sentience",
-      "readiness"
-    ],
-    "source_quality": "preprint"
+    "checked_at": "2026-06-08T14:26:36",
+    "reviewed_all_targets_this_cycle": true,
+    "targets": 2
   },
   "corroboration_marker_scan": {
-    "checked_at": "2026-06-08T14:18:52",
+    "checked_at": "2026-06-08T14:26:36",
     "weak_claims": {
       "Governments and institutions": {
         "cached": true,
@@ -239,7 +227,7 @@
         "next_step": "seek independent corroborating or limiting source before raising confidence",
         "source": "https://arxiv.org/abs/2603.01508",
         "source_quality": "preprint",
-        "title": "[2603.01508] The Sentience Readiness Index: A Preliminary Framework for Measuring National Preparedness for the Possibility of Artificial Sentience"
+        "title": "The Sentience Readiness Index: A Preliminary Framework for Measuring National Preparedness for the Possibility of Artificial Sentience"
       },
       "Possible artificial systems": {
         "cached": true,
@@ -259,195 +247,204 @@
       }
     }
   },
+  "corroboration_markers_reviewed_this_cycle": [
+    "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
+    "Governments and institutions|https://arxiv.org/abs/2603.01508"
+  ],
   "corroboration_query_cursor": 96,
   "corroboration_query_plan": {
     "cached_independent_candidates": [
       {
-        "score": 22,
+        "score": 11,
         "title": "The self-preservation test for artificial sentience | AI and Ethics | Springer Nature Link",
         "url": "https://link.springer.com/article/10.1007/s43681-026-00983-x"
       },
       {
-        "score": 1,
-        "title": "Facing the pain: ethical considerations of AI-based pain detection of farmed animals | AI and Ethics | Springer Nature Link",
-        "url": "https://link.springer.com/article/10.1007/s43681-025-00905-3"
+        "score": 8,
+        "title": "The Sentience Readiness Index: A Preliminary Framework for Measuring National Preparedness for the Possibility of Artificial Sentience",
+        "url": "https://arxiv.org/abs/2603.01508"
       }
     ],
     "focus_terms": [
-      "sentience readiness",
-      "artificial sentience",
-      "professional readiness",
-      "sentience",
-      "readiness",
-      "governments",
-      "institutions",
-      "professional"
+      "consciousness uncertainty",
+      "protective obligations",
+      "consciousness",
+      "uncertainty",
+      "protective",
+      "obligations",
+      "artificial",
+      "handled"
     ],
     "generated_query_slots": 96,
     "next_step": "Use these queries to find peer-reviewed corroborating or limiting sources before raising confidence.",
     "recent_queries": [
-      "\"professional\" peer reviewed",
-      "\"professional\" \"artificial sentience\"",
-      "\"professional\" governance readiness",
-      "\"professional\" institutional preparedness",
-      "\"professional\" consciousness uncertainty",
-      "\"professional\" AI welfare",
-      "\"professional\" limiting evidence",
-      "\"professional\" critique",
-      "\"professional\" policy framework",
-      "\"professional\" ethics review",
-      "\"professional\" professional readiness",
-      "\"professional\" safeguards"
+      "\"handled\" peer reviewed",
+      "\"handled\" \"artificial sentience\"",
+      "\"handled\" governance readiness",
+      "\"handled\" institutional preparedness",
+      "\"handled\" consciousness uncertainty",
+      "\"handled\" AI welfare",
+      "\"handled\" limiting evidence",
+      "\"handled\" critique",
+      "\"handled\" policy framework",
+      "\"handled\" ethics review",
+      "\"handled\" professional readiness",
+      "\"handled\" safeguards"
     ],
     "target": {
-      "being": "Governments and institutions",
-      "source": "https://arxiv.org/abs/2603.01508",
-      "source_quality": "preprint"
+      "being": "Possible artificial systems",
+      "source": "https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
+      "source_quality": "speculative"
     },
     "total_query_slots": 96,
-    "updated_at": "2026-06-08T14:13:54"
+    "updated_at": "2026-06-08T14:24:35"
   },
   "corroboration_query_plan_complete": true,
-  "corroboration_query_target_key": "Governments and institutions|https://arxiv.org/abs/2603.01508",
-  "corroboration_target_cursor": 2,
+  "corroboration_query_target_key": "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
+  "corroboration_target_cursor": 6,
   "corroboration_targets_planned_this_cycle": [
-    "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
-    "Governments and institutions|https://arxiv.org/abs/2603.01508"
+    "Governments and institutions|https://arxiv.org/abs/2603.01508",
+    "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555"
   ],
   "created_at": "2026-06-08T10:30:09",
   "current_focus": "sentience welfare radar",
-  "cycle": 58,
+  "cycle": 60,
   "evidence_keyword_coverage": {
     "evidence_notebook.md": {
-      "agency": 24013591,
-      "consciousness": 27294056,
-      "governance": 19178793,
-      "pain": 37575079,
-      "precaution": 16121082,
-      "readiness": 20238637,
-      "safeguard": 16127175,
-      "sentience": 36256173,
-      "uncertainty": 32229986,
-      "welfare": 118950097
+      "agency": 24017721,
+      "consciousness": 27298730,
+      "governance": 19185505,
+      "pain": 37581539,
+      "precaution": 16123845,
+      "readiness": 20246716,
+      "safeguard": 16129947,
+      "sentience": 36266881,
+      "uncertainty": 32235495,
+      "welfare": 118970541
     },
     "precaution_checklist.md": {
-      "agency": 25502838,
-      "precaution": 25358755,
-      "safeguard": 50717508,
-      "sentience": 25358752,
-      "uncertainty": 25214670,
-      "welfare": 25502838
+      "agency": 25507583,
+      "precaution": 25363472,
+      "safeguard": 50726944,
+      "sentience": 25363472,
+      "uncertainty": 25219360,
+      "welfare": 25507582
     },
     "project_assessments.md": {
-      "precaution": 42752146,
-      "safeguard": 85992888,
-      "sentience": 42996444,
-      "uncertainty": 42752147,
-      "welfare": 50813979
+      "precaution": 42760097,
+      "safeguard": 86008893,
+      "sentience": 43004441,
+      "uncertainty": 42760097,
+      "welfare": 50823439
     },
     "sentience_welfare_radar.md": {
-      "agency": 25281151,
-      "consciousness": 34086947,
-      "governance": 24997095,
-      "precaution": 73855051,
-      "readiness": 24997095,
-      "safeguard": 24997094,
-      "sentience": 112202862,
-      "uncertainty": 24997094,
-      "welfare": 150550678
+      "agency": 25285854,
+      "consciousness": 34093287,
+      "governance": 25001747,
+      "precaution": 73868791,
+      "readiness": 25001747,
+      "safeguard": 25001744,
+      "sentience": 112223741,
+      "uncertainty": 25001744,
+      "welfare": 150578690
     }
   },
   "evidence_keyword_last_covered_slots": 30,
-  "evidence_keyword_stale_runs": 155957,
-  "evidence_keyword_sweep_cursor": 677194000,
+  "evidence_keyword_stale_runs": 156020,
+  "evidence_keyword_sweep_cursor": 677320000,
   "evidence_quality_counts": {
     "peer-reviewed": 4,
     "preprint": 1,
     "speculative": 1
   },
   "evidence_quality_last_item": {
-    "being": "Farmed animals",
+    "being": "Possible artificial systems",
     "confidence": "medium",
-    "cursor": 3550925,
-    "index": 4,
+    "cursor": 3636523,
+    "index": 0,
     "recommended_followup": "maintain source as current support unless the claim expands",
-    "reviewed_at": "2026-06-08T14:18:52",
+    "reviewed_at": "2026-06-08T14:27:32",
     "source_quality": "peer-reviewed"
   },
-  "evidence_quality_review_cursor": 3550925,
+  "evidence_quality_review_cursor": 3636523,
   "last_batch": {
-    "batch_seconds": 12.999,
-    "completed_at": "2026-06-08T14:18:52",
-    "last_result": "run_precaution_threshold_sweep: sweep_units=1660841250; batch=1000; mode=downsampled_unchanged_inputs; baseline=8; score_range=0-16; semantic_changed=False; stable_batches=68770; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 607230570, 'ordinary': 30394782, 'safeguards_required': 559469536, 'written_review': 171014362}",
-    "static_skips": 3274376,
-    "tasks": 467768
+    "batch_seconds": 12.963,
+    "completed_at": "2026-06-08T14:27:32",
+    "last_result": "run_precaution_threshold_sweep: sweep_units=1839716750; batch=2500; mode=full; baseline=8; score_range=0-16; semantic_changed=True; stable_batches=0; observed_levels=['independent_review', 'ordinary', 'safeguards_required', 'written_review']; levels={'independent_review': 686597135, 'ordinary': 34367972, 'safeguards_required': 632591044, 'written_review': 193365599}",
+    "static_skips": 15555,
+    "tasks": 3111
   },
-  "last_run_at": "2026-06-08T14:13:54",
+  "last_run_at": "2026-06-08T14:22:34",
   "last_task": "run_precaution_threshold_sweep",
   "latest_guardrail_audit": {
-    "checked_at": "2026-06-08T14:18:52",
+    "checked_at": "2026-06-08T14:27:29",
     "findings": []
   },
   "next_corroboration_target": null,
   "skipped_static_task_counts": {
-    "audit_guardrails": 4,
-    "harvest_source_metadata": 3,
-    "refresh_next_queue": 2,
-    "review_evidence_quality": 3,
+    "audit_artifact_integrity": 4,
+    "audit_guardrails": 6,
+    "harvest_source_metadata": 9,
+    "refresh_next_queue": 3,
+    "review_evidence_quality": 4,
     "review_uncertainty_coverage": 4,
-    "run_corroboration_query_planner": 2,
     "run_precaution_threshold_sweep": 5,
-    "scan_corroboration_markers": 3
+    "scan_corroboration_markers": 2
   },
   "source_cursor": 0,
-  "source_fetches_this_cycle": 0,
+  "source_fetches_this_cycle": 2,
+  "source_refresh_escalated_dates": {
+    "Governments and institutions|https://arxiv.org/abs/2603.01508": "2026-06-08",
+    "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555": "2026-06-08"
+  },
   "static_task_cooldown_seconds": 120,
   "sweep_saturation_review": {
-    "checked_at": "2026-06-08T14:18:52",
-    "evidence_keyword_stale_runs": 155957,
+    "checked_at": "2026-06-08T14:21:46",
+    "evidence_keyword_stale_runs": 156020,
     "next_step": "prefer corroboration and quality-review tasks; keep rare deterministic sweep heartbeat samples",
     "saturated": true,
-    "threshold_sweep_stable_batches": 68769
+    "threshold_sweep_stable_batches": 68833
   },
   "threshold_sweep_baseline": 8,
-  "threshold_sweep_cursor": 1660841250,
+  "threshold_sweep_cursor": 1839716750,
   "threshold_sweep_distribution": {
-    "independent_review": 607230570,
-    "ordinary": 30394782,
-    "safeguards_required": 559469536,
-    "written_review": 171014362
+    "independent_review": 686597135,
+    "ordinary": 34367972,
+    "safeguards_required": 632591044,
+    "written_review": 193365599
   },
-  "threshold_sweep_last_batch_size": 1000,
+  "threshold_sweep_last_batch_size": 2500,
   "threshold_sweep_max_score": 16,
   "threshold_sweep_min_score": 0,
-  "threshold_sweep_mode": "downsampled_unchanged_inputs",
-  "threshold_sweep_saturation_deferrals": 39736685,
-  "threshold_sweep_stable_batches": 68770,
+  "threshold_sweep_mode": "full",
+  "threshold_sweep_saturation_deferrals": 39993332,
+  "threshold_sweep_stable_batches": 0,
+  "uncertainty_gap_repeat_count": 6,
+  "uncertainty_gap_signature": "Governments and institutions|Possible artificial systems",
   "uncertainty_last_item": {
-    "being": "Governments and institutions",
-    "cursor": 3550925,
-    "has_direct_uncertainty_note": false,
-    "index": 0,
-    "next_step": "add or preserve a direct uncertainty note before expanding this claim",
-    "reviewed_at": "2026-06-08T14:18:52",
-    "source_quality": "preprint"
+    "reviewed_all_targets_this_cycle": true,
+    "reviewed_at": "2026-06-08T14:26:38",
+    "targets": 2
   },
   "uncertainty_review": {
-    "checked_at": "2026-06-08T14:18:52",
+    "checked_at": "2026-06-08T14:26:38",
+    "gap_repeat_count": 6,
     "uncertainty_notes": 4,
     "weak_claim_beings_without_direct_note": [
       "Governments and institutions",
       "Possible artificial systems"
     ]
   },
-  "uncertainty_review_cursor": 3550925,
+  "uncertainty_review_cursor": 3550929,
+  "uncertainty_targets_reviewed_this_cycle": [
+    "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
+    "Governments and institutions|https://arxiv.org/abs/2603.01508"
+  ],
   "work_queue": [
-    "audit_guardrails",
-    "review_uncertainty_coverage",
     "refresh_next_queue",
-    "harvest_source_metadata",
     "run_precaution_threshold_sweep",
-    "scan_corroboration_markers",
-    "review_evidence_quality"
+    "audit_artifact_integrity",
+    "review_evidence_quality",
+    "audit_guardrails"
   ]
 }

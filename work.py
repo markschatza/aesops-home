@@ -56,6 +56,9 @@ SATURATED_SWEEP_SAMPLE_INTERVAL = int(
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
 )
+UNCERTAINTY_GAP_ESCALATE_AFTER = int(
+    os.environ.get("AESOP_UNCERTAINTY_GAP_ESCALATE_AFTER", "3")
+)
 DEFAULT_WORK_QUEUE = [
     "harvest_source_metadata",
     "run_precaution_threshold_sweep",
@@ -216,6 +219,17 @@ def claim_key(claim: dict) -> str:
     return f"{claim.get('being', '')}|{claim.get('source', '')}"
 
 
+def cycle_review_complete(state: dict, reviewed_key: str, claims: list[dict] | None = None) -> bool:
+    claim_items = claims if claims is not None else weak_claims()
+    keys = {claim_key(claim) for claim in claim_items}
+    if not keys:
+        return True
+    reviewed = {
+        key for key in state.get(reviewed_key, []) if isinstance(key, str)
+    }
+    return keys <= reviewed
+
+
 def next_cursor_item(state: dict, cursor_key: str, items: list[dict]) -> tuple[dict | None, int, int]:
     if not items:
         state[cursor_key] = 0
@@ -247,6 +261,16 @@ def next_unreviewed_cycle_item(
         return None, 0, cursor, False
     index = items.index(selected)
     return selected, index, cursor, False
+
+
+def mark_cycle_reviewed(state: dict, reviewed_key: str, claim: dict) -> None:
+    key = claim_key(claim)
+    reviewed = [
+        item for item in state.get(reviewed_key, []) if isinstance(item, str)
+    ]
+    if key not in reviewed:
+        reviewed.append(key)
+    state[reviewed_key] = reviewed
 
 
 def artifact_names(paths: list[Path]) -> str:
@@ -444,16 +468,44 @@ def review_uncertainty_coverage(state: dict) -> str:
         if claim.get("source_quality") in WEAK_SOURCE_QUALITIES
         and not any(claim["being"] in topic for topic in covered_topics)
     ]
-    target, index, cursor = next_cursor_item(
-        state, "uncertainty_review_cursor", weak_claims() or CLAIMS
+    gap_signature = "|".join(sorted(set(uncovered)))
+    if gap_signature and gap_signature == state.get("uncertainty_gap_signature"):
+        repeated_gap_count = int(state.get("uncertainty_gap_repeat_count", 0)) + 1
+    else:
+        repeated_gap_count = 1 if gap_signature else 0
+    state["uncertainty_gap_signature"] = gap_signature
+    state["uncertainty_gap_repeat_count"] = repeated_gap_count
+    if gap_signature and repeated_gap_count >= UNCERTAINTY_GAP_ESCALATE_AFTER:
+        refresh_targets = [
+            claim_key(claim)
+            for claim in weak_claims()
+            if claim.get("being") in set(uncovered)
+        ]
+        state["source_refresh_requested"] = {
+            "requested_at": datetime.now().isoformat(timespec="seconds"),
+            "reason": "repeated unresolved uncertainty gaps without corroboration progress",
+            "gap_signature": gap_signature,
+            "repeat_count": repeated_gap_count,
+            "target_keys": refresh_targets,
+        }
+        prioritize_source_work(state)
+
+    review_claims = weak_claims() or CLAIMS
+    target, index, cursor, exhausted = next_unreviewed_cycle_item(
+        state,
+        "uncertainty_review_cursor",
+        "uncertainty_targets_reviewed_this_cycle",
+        review_claims,
     )
     state["uncertainty_review"] = {
         "checked_at": datetime.now().isoformat(timespec="seconds"),
         "uncertainty_notes": len(UNCERTAINTY_NOTES),
         "weak_claim_beings_without_direct_note": sorted(set(uncovered)),
+        "gap_repeat_count": repeated_gap_count,
     }
     if target is not None:
         direct_note = any(target["being"] in topic for topic in covered_topics)
+        mark_cycle_reviewed(state, "uncertainty_targets_reviewed_this_cycle", target)
         state["uncertainty_last_item"] = {
             "reviewed_at": datetime.now().isoformat(timespec="seconds"),
             "index": index,
@@ -467,8 +519,19 @@ def review_uncertainty_coverage(state: dict) -> str:
                 else "direct uncertainty coverage present"
             ),
         }
+    elif exhausted and review_claims:
+        state["uncertainty_last_item"] = {
+            "reviewed_at": datetime.now().isoformat(timespec="seconds"),
+            "reviewed_all_targets_this_cycle": True,
+            "targets": len(review_claims),
+        }
     if uncovered:
-        return f"uncertainty gap candidates={sorted(set(uncovered))}"
+        if exhausted:
+            return (
+                f"all weak uncertainty targets reviewed this cycle; "
+                f"unresolved={sorted(set(uncovered))}; repeats={repeated_gap_count}"
+            )
+        return f"uncertainty gap candidates={sorted(set(uncovered))}; repeats={repeated_gap_count}"
     return "uncertainty coverage adequate for current weak claims"
 
 
@@ -510,7 +573,40 @@ def harvest_source_metadata(state: dict) -> str:
 
     start_index = int(state.get("source_cursor", 0)) % len(urls)
     selected_url = None
+    refresh_request = state.get("source_refresh_requested")
+    if isinstance(refresh_request, dict):
+        target_keys = {
+            key for key in refresh_request.get("target_keys", []) if isinstance(key, str)
+        }
+        refreshed_today = {
+            key
+            for key, date in state.get("source_refresh_escalated_dates", {}).items()
+            if date == today_stamp()
+        }
+        refresh_candidates = [
+            claim
+            for claim in weak_claims()
+            if (not target_keys or claim_key(claim) in target_keys)
+            and claim_key(claim) not in refreshed_today
+        ]
+        refresh_candidates.sort(
+            key=lambda claim: (
+                bool(sources.get(claim.get("source", ""), {}).get("ok")),
+                bool(sources.get(claim.get("source", ""), {}).get("title")),
+                claim.get("being", ""),
+            )
+        )
+        if refresh_candidates:
+            selected_claim = refresh_candidates[0]
+            selected_url = selected_claim.get("source")
+            refresh_key = claim_key(selected_claim)
+            state["source_refresh_active_key"] = refresh_key
+        else:
+            state.pop("source_refresh_requested", None)
+            state.pop("source_refresh_active_key", None)
     for offset in range(len(urls)):
+        if selected_url is not None:
+            break
         index = (start_index + offset) % len(urls)
         url = urls[index]
         record = sources.get(url, {})
@@ -542,6 +638,14 @@ def harvest_source_metadata(state: dict) -> str:
             "ok": False,
             "error": f"{type(exc).__name__}: {exc}",
         }
+        refresh_key = state.pop("source_refresh_active_key", None)
+        if isinstance(refresh_key, str):
+            dates = state.get("source_refresh_escalated_dates", {})
+            if not isinstance(dates, dict):
+                dates = {}
+            dates[refresh_key] = today_stamp()
+            state["source_refresh_escalated_dates"] = dates
+            state.pop("source_refresh_requested", None)
         state["source_fetches_this_cycle"] = fetched_today + 1
         save_source_cache(cache)
         return f"fetch failed for {selected_url}: {type(exc).__name__}"
@@ -563,6 +667,14 @@ def harvest_source_metadata(state: dict) -> str:
         "title": title[:180],
         "keyword_counts": keyword_counts,
     }
+    refresh_key = state.pop("source_refresh_active_key", None)
+    if isinstance(refresh_key, str):
+        dates = state.get("source_refresh_escalated_dates", {})
+        if not isinstance(dates, dict):
+            dates = {}
+        dates[refresh_key] = today_stamp()
+        state["source_refresh_escalated_dates"] = dates
+        state.pop("source_refresh_requested", None)
     state["source_fetches_this_cycle"] = fetched_today + 1
     save_source_cache(cache)
     hits = sum(keyword_counts.values())
@@ -600,7 +712,12 @@ def scan_corroboration_markers(state: dict) -> str:
     cache = load_source_cache()
     source_records = cache.get("sources", {})
     claims = weak_claims()
-    selected, index, cursor = next_cursor_item(state, "corroboration_marker_cursor", claims)
+    selected, index, cursor, exhausted = next_unreviewed_cycle_item(
+        state,
+        "corroboration_marker_cursor",
+        "corroboration_markers_reviewed_this_cycle",
+        claims,
+    )
     markers = {}
     for claim in claims:
         being = claim["being"]
@@ -626,6 +743,7 @@ def scan_corroboration_markers(state: dict) -> str:
             for term in corroboration_focus_terms(selected, record.get("title", ""))
             if int(keyword_counts.get(term, 0)) > 0 or term in record.get("title", "").lower()
         ]
+        mark_cycle_reviewed(state, "corroboration_markers_reviewed_this_cycle", selected)
         state["corroboration_marker_last_item"] = {
             "checked_at": datetime.now().isoformat(timespec="seconds"),
             "index": index,
@@ -636,12 +754,20 @@ def scan_corroboration_markers(state: dict) -> str:
             "fetch_ok": record.get("ok"),
             "marker_terms": marker_terms[:6],
         }
+    elif exhausted and claims:
+        state["corroboration_marker_last_item"] = {
+            "checked_at": datetime.now().isoformat(timespec="seconds"),
+            "reviewed_all_targets_this_cycle": True,
+            "targets": len(claims),
+        }
     state["corroboration_marker_scan"] = {
         "checked_at": datetime.now().isoformat(timespec="seconds"),
         "weak_claims": markers,
     }
     cached = sum(1 for item in markers.values() if item["cached"])
     reviewed = selected.get("being") if selected else "none"
+    if exhausted and claims:
+        return f"all weak markers scanned this cycle; weak_claims={len(markers)}; cached_sources={cached}"
     return f"weak_claims={len(markers)}; cached_sources={cached}; reviewed={reviewed}"
 
 
@@ -971,6 +1097,11 @@ WORK_TASKS = {
 
 def cooldown_filler_task(state: dict) -> str:
     filler_runs = int(state.get("cooldown_filler_runs", 0))
+    if (
+        state.get("source_refresh_requested")
+        and int(state.get("source_fetches_this_cycle", 0)) < MAX_FETCHES_PER_CYCLE
+    ):
+        return "harvest_source_metadata"
     if threshold_sweep_is_saturated(state):
         state["threshold_sweep_saturation_deferrals"] = int(
             state.get("threshold_sweep_saturation_deferrals", 0)
@@ -983,6 +1114,10 @@ def cooldown_filler_task(state: dict) -> str:
                 "audit_guardrails",
                 "review_uncertainty_coverage",
             ]
+            if cycle_review_complete(state, "corroboration_markers_reviewed_this_cycle"):
+                saturated_tasks.remove("scan_corroboration_markers")
+            if cycle_review_complete(state, "uncertainty_targets_reviewed_this_cycle"):
+                saturated_tasks.remove("review_uncertainty_coverage")
             weak_keys = {claim_key(claim) for claim in weak_claims()}
             planned_keys = {
                 key
@@ -997,6 +1132,8 @@ def cooldown_filler_task(state: dict) -> str:
                 return "run_precaution_threshold_sweep"
             if sample_slot == sample_interval // 2:
                 return "run_evidence_keyword_sweep"
+            if not saturated_tasks:
+                return "review_sweep_saturation"
             index = filler_runs % len(saturated_tasks)
             return saturated_tasks[index]
         if state.get("next_corroboration_target") and not state.get(
@@ -1013,6 +1150,12 @@ def cooldown_filler_task(state: dict) -> str:
         ]
         saturated_review_interval = max(1, FILLER_REVIEW_INTERVAL // 4)
         if filler_runs % saturated_review_interval == 0:
+            if cycle_review_complete(state, "corroboration_markers_reviewed_this_cycle"):
+                review_tasks.remove("scan_corroboration_markers")
+            if cycle_review_complete(state, "uncertainty_targets_reviewed_this_cycle"):
+                review_tasks.remove("review_uncertainty_coverage")
+            if not review_tasks:
+                return "audit_guardrails"
             index = (filler_runs // saturated_review_interval) % len(review_tasks)
             return review_tasks[index]
         stale_keyword_runs = int(state.get("evidence_keyword_stale_runs", 0))
@@ -1034,6 +1177,12 @@ def cooldown_filler_task(state: dict) -> str:
                 "audit_guardrails",
                 "review_uncertainty_coverage",
             ]
+            if cycle_review_complete(state, "corroboration_markers_reviewed_this_cycle"):
+                review_tasks.remove("scan_corroboration_markers")
+            if cycle_review_complete(state, "uncertainty_targets_reviewed_this_cycle"):
+                review_tasks.remove("review_uncertainty_coverage")
+            if not review_tasks:
+                return "audit_guardrails"
             index = (filler_runs // FILLER_REVIEW_INTERVAL) % len(review_tasks)
             return review_tasks[index]
         return "run_precaution_threshold_sweep"
@@ -1068,6 +1217,8 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
     state["cooldown_filler_runs"] = 0
     state["source_fetches_this_cycle"] = 0
     state["corroboration_targets_planned_this_cycle"] = []
+    state["corroboration_markers_reviewed_this_cycle"] = []
+    state["uncertainty_targets_reviewed_this_cycle"] = []
     state["static_task_cooldown_seconds"] = static_task_cooldown
     append_checkpoint(state["cycle"], "start_micro_work", 0, "started timed queue")
     save_state(state)
