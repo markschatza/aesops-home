@@ -1,6 +1,6 @@
 {
   "artifact_integrity": {
-    "checked_at": "2026-06-08T12:12:51",
+    "checked_at": "2026-06-08T12:13:51",
     "files": {
       "evidence_notebook.md": {
         "exists": true,
@@ -44,140 +44,140 @@
   ],
   "completed_in_cycle": [
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425122500; baseline=8; score_range=0-16; levels={'independent_review': 188692167, 'ordinary': 9444862, 'safeguards_required': 173839557, 'written_review': 53145914}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483457500; baseline=8; score_range=0-16; levels={'independent_review': 214581024, 'ordinary': 10741051, 'safeguards_required': 197700577, 'written_review': 60434848}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425125000; baseline=8; score_range=0-16; levels={'independent_review': 188693261, 'ordinary': 9444906, 'safeguards_required': 173840598, 'written_review': 53146235}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483460000; baseline=8; score_range=0-16; levels={'independent_review': 214582143, 'ordinary': 10741107, 'safeguards_required': 197701593, 'written_review': 60435157}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425127500; baseline=8; score_range=0-16; levels={'independent_review': 188694378, 'ordinary': 9444960, 'safeguards_required': 173841617, 'written_review': 53146545}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483462500; baseline=8; score_range=0-16; levels={'independent_review': 214583265, 'ordinary': 10741163, 'safeguards_required': 197702605, 'written_review': 60435467}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425130000; baseline=8; score_range=0-16; levels={'independent_review': 188695463, 'ordinary': 9445012, 'safeguards_required': 173842652, 'written_review': 53146873}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483465000; baseline=8; score_range=0-16; levels={'independent_review': 214584441, 'ordinary': 10741210, 'safeguards_required': 197703557, 'written_review': 60435792}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425132500; baseline=8; score_range=0-16; levels={'independent_review': 188696543, 'ordinary': 9445076, 'safeguards_required': 173843719, 'written_review': 53147162}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483467500; baseline=8; score_range=0-16; levels={'independent_review': 214585520, 'ordinary': 10741267, 'safeguards_required': 197704605, 'written_review': 60436108}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425135000; baseline=8; score_range=0-16; levels={'independent_review': 188697636, 'ordinary': 9445132, 'safeguards_required': 173844735, 'written_review': 53147497}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483470000; baseline=8; score_range=0-16; levels={'independent_review': 214586647, 'ordinary': 10741322, 'safeguards_required': 197705607, 'written_review': 60436424}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425137500; baseline=8; score_range=0-16; levels={'independent_review': 188698790, 'ordinary': 9445188, 'safeguards_required': 173845726, 'written_review': 53147796}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483472500; baseline=8; score_range=0-16; levels={'independent_review': 214587750, 'ordinary': 10741393, 'safeguards_required': 197706625, 'written_review': 60436732}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425140000; baseline=8; score_range=0-16; levels={'independent_review': 188699907, 'ordinary': 9445248, 'safeguards_required': 173846751, 'written_review': 53148094}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483475000; baseline=8; score_range=0-16; levels={'independent_review': 214588915, 'ordinary': 10741439, 'safeguards_required': 197707580, 'written_review': 60437066}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425142500; baseline=8; score_range=0-16; levels={'independent_review': 188701030, 'ordinary': 9445308, 'safeguards_required': 173847771, 'written_review': 53148391}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483477500; baseline=8; score_range=0-16; levels={'independent_review': 214590020, 'ordinary': 10741500, 'safeguards_required': 197708625, 'written_review': 60437355}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425145000; baseline=8; score_range=0-16; levels={'independent_review': 188702180, 'ordinary': 9445355, 'safeguards_required': 173848756, 'written_review': 53148709}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483480000; baseline=8; score_range=0-16; levels={'independent_review': 214591093, 'ordinary': 10741551, 'safeguards_required': 197709698, 'written_review': 60437658}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425147500; baseline=8; score_range=0-16; levels={'independent_review': 188703290, 'ordinary': 9445408, 'safeguards_required': 173849771, 'written_review': 53149031}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483482500; baseline=8; score_range=0-16; levels={'independent_review': 214592187, 'ordinary': 10741610, 'safeguards_required': 197710732, 'written_review': 60437971}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425150000; baseline=8; score_range=0-16; levels={'independent_review': 188704358, 'ordinary': 9445460, 'safeguards_required': 173850848, 'written_review': 53149334}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483485000; baseline=8; score_range=0-16; levels={'independent_review': 214593313, 'ordinary': 10741667, 'safeguards_required': 197711779, 'written_review': 60438241}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425152500; baseline=8; score_range=0-16; levels={'independent_review': 188705478, 'ordinary': 9445516, 'safeguards_required': 173851842, 'written_review': 53149664}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483487500; baseline=8; score_range=0-16; levels={'independent_review': 214594445, 'ordinary': 10741724, 'safeguards_required': 197712790, 'written_review': 60438541}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 194,
-      "result": "sweep_units=425155000; baseline=8; score_range=0-16; levels={'independent_review': 188706637, 'ordinary': 9445585, 'safeguards_required': 173852795, 'written_review': 53149983}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483490000; baseline=8; score_range=0-16; levels={'independent_review': 214595588, 'ordinary': 10741764, 'safeguards_required': 197713818, 'written_review': 60438830}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 195,
-      "result": "sweep_units=425157500; baseline=8; score_range=0-16; levels={'independent_review': 188707699, 'ordinary': 9445646, 'safeguards_required': 173853875, 'written_review': 53150280}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483492500; baseline=8; score_range=0-16; levels={'independent_review': 214596708, 'ordinary': 10741821, 'safeguards_required': 197714855, 'written_review': 60439116}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 195,
-      "result": "sweep_units=425160000; baseline=8; score_range=0-16; levels={'independent_review': 188708790, 'ordinary': 9445691, 'safeguards_required': 173854916, 'written_review': 53150603}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483495000; baseline=8; score_range=0-16; levels={'independent_review': 214597817, 'ordinary': 10741882, 'safeguards_required': 197715880, 'written_review': 60439421}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 195,
-      "result": "sweep_units=425162500; baseline=8; score_range=0-16; levels={'independent_review': 188709889, 'ordinary': 9445752, 'safeguards_required': 173855945, 'written_review': 53150914}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483497500; baseline=8; score_range=0-16; levels={'independent_review': 214598905, 'ordinary': 10741931, 'safeguards_required': 197716893, 'written_review': 60439771}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 195,
-      "result": "sweep_units=425165000; baseline=8; score_range=0-16; levels={'independent_review': 188710991, 'ordinary': 9445803, 'safeguards_required': 173856983, 'written_review': 53151223}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483500000; baseline=8; score_range=0-16; levels={'independent_review': 214600005, 'ordinary': 10741986, 'safeguards_required': 197717912, 'written_review': 60440097}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 195,
-      "result": "sweep_units=425167500; baseline=8; score_range=0-16; levels={'independent_review': 188712134, 'ordinary': 9445866, 'safeguards_required': 173857985, 'written_review': 53151515}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 293,
+      "result": "sweep_units=483502500; baseline=8; score_range=0-16; levels={'independent_review': 214601114, 'ordinary': 10742039, 'safeguards_required': 197718935, 'written_review': 60440412}",
       "task": "run_precaution_threshold_sweep"
     },
     {
-      "completed_at": "2026-06-08T12:13:06",
-      "elapsed_seconds": 195,
-      "result": "sweep_units=425170000; baseline=8; score_range=0-16; levels={'independent_review': 188713264, 'ordinary': 9445919, 'safeguards_required': 173858992, 'written_review': 53151825}",
+      "completed_at": "2026-06-08T12:14:45",
+      "elapsed_seconds": 294,
+      "result": "sweep_units=483505000; baseline=8; score_range=0-16; levels={'independent_review': 214602253, 'ordinary': 10742103, 'safeguards_required': 197719937, 'written_review': 60440707}",
       "task": "run_precaution_threshold_sweep"
     }
   ],
   "completed_task_counts": {
-    "audit_artifact_integrity": 4,
-    "audit_guardrails": 4,
-    "harvest_source_metadata": 4,
-    "refresh_next_queue": 4,
-    "review_evidence_quality": 4,
-    "review_uncertainty_coverage": 4,
-    "run_precaution_threshold_sweep": 46036,
-    "scan_corroboration_markers": 4,
-    "select_corroboration_target": 4
+    "audit_artifact_integrity": 5,
+    "audit_guardrails": 5,
+    "harvest_source_metadata": 5,
+    "refresh_next_queue": 5,
+    "review_evidence_quality": 5,
+    "review_uncertainty_coverage": 5,
+    "run_precaution_threshold_sweep": 69370,
+    "scan_corroboration_markers": 5,
+    "select_corroboration_target": 5
   },
-  "cooldown_filler_runs": 46032,
+  "cooldown_filler_runs": 69365,
   "corroboration_marker_scan": {
-    "checked_at": "2026-06-08T12:12:51",
+    "checked_at": "2026-06-08T12:13:51",
     "weak_claims": {
       "Governments and institutions": {
         "cached": true,
@@ -222,16 +222,16 @@
     "speculative": 1
   },
   "last_batch": {
-    "batch_seconds": 15.003,
-    "completed_at": "2026-06-08T12:13:06",
-    "last_result": "run_precaution_threshold_sweep: sweep_units=425170000; baseline=8; score_range=0-16; levels={'independent_review': 188713264, 'ordinary': 9445919, 'safeguards_required': 173858992, 'written_review': 53151825}",
-    "static_skips": 24920,
-    "tasks": 3560
+    "batch_seconds": 8.962,
+    "completed_at": "2026-06-08T12:14:45",
+    "last_result": "run_precaution_threshold_sweep: sweep_units=483505000; baseline=8; score_range=0-16; levels={'independent_review': 214602253, 'ordinary': 10742103, 'safeguards_required': 197719937, 'written_review': 60440707}",
+    "static_skips": 14945,
+    "tasks": 2135
   },
   "last_run_at": "2026-06-08T12:09:51",
   "last_task": "run_precaution_threshold_sweep",
   "latest_guardrail_audit": {
-    "checked_at": "2026-06-08T12:12:51",
+    "checked_at": "2026-06-08T12:13:51",
     "findings": []
   },
   "next_corroboration_target": {
@@ -244,17 +244,17 @@
   "source_cursor": 0,
   "source_fetches_this_cycle": 0,
   "threshold_sweep_baseline": 8,
-  "threshold_sweep_cursor": 425170000,
+  "threshold_sweep_cursor": 483505000,
   "threshold_sweep_distribution": {
-    "independent_review": 188713264,
-    "ordinary": 9445919,
-    "safeguards_required": 173858992,
-    "written_review": 53151825
+    "independent_review": 214602253,
+    "ordinary": 10742103,
+    "safeguards_required": 197719937,
+    "written_review": 60440707
   },
   "threshold_sweep_max_score": 16,
   "threshold_sweep_min_score": 0,
   "uncertainty_review": {
-    "checked_at": "2026-06-08T12:12:51",
+    "checked_at": "2026-06-08T12:13:51",
     "uncertainty_notes": 3,
     "weak_claim_beings_without_direct_note": [
       "Governments and institutions",
