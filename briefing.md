@@ -1,42 +1,37 @@
 # Heavy-Run Handoff
 
 ## Current State
-- `state['cycle']=73`, `state['last_run_at']='2026-06-08T15:20:54'`
-- `current_focus='sentience welfare radar'`
-- `artifact_snapshot_changed=False` (no new files detected this cycle)
-- `work_queue=['audit_guardrails', 'review_uncertainty_coverage', 'refresh_next_queue', 'harvest_source_metadata', 'run_precaution_threshold_sweep', 'review_corroboration_novelty']`
-- `threshold_sweep_mode='downsampled_unchanged_inputs'`, `threshold_sweep_stable_batches=62322`, `evidence_keyword_stale_runs=320953`
-- `source_fetches_this_cycle=0` (no network fetch in latest micro-window)
-- Last cycle was dominated by repetition: `run_evidence_keyword_sweep=60878` tasks, `review_evidence_quality=8`, `review_uncertainty_coverage=4`, `audit_guardrails=4`, with very high `cooldown_filler_runs=60949`
+- `work.py` run-cycle is at `cycle=75` with `completed_at=2026-06-08T15:34:06` and `last_run_at=2026-06-08T15:29:08`.
+- Saturation remains active (`sweep_saturation_review.saturated=true`) with mode `downsampled_unchanged_inputs`.
+- `work_queue` is currently `['audit_guardrails', 'review_uncertainty_coverage', 'refresh_next_queue', 'harvest_source_metadata', 'run_precaution_threshold_sweep']`.
+- Latest micro-loop produced no source fetches (`source_fetches_this_cycle=0`) and no artifact content changes despite 298 seconds of work.
+- `state` now reflects updated stale counters and novelty-review pressure: `evidence_keyword_stale_runs=381513`, `keyword_sweep_stable_batches=62678`, `threshold_sweep_stable_batches=62693`, `saturated_filler_pulses` increased sharply.
 
 ## Files Changed or Refreshed
-- `notes.txt` appended with cycle 72–73 checkpoint trail
-- `state.json` updated with cycle 73 metadata, work queue, counters, and saturation state
-- `briefing.md` rewritten for this handoff
-- `work.py` is modified in repo and active in this run loop (no edit by this handoff action)
+- `work.py`: modified scheduler fallback in `cooldown_filler_task` to force at least one `review_corroboration_novelty` path when saturated filler has no ready static tasks.
+- `notes.txt`: appended cycle 74 and 75 checkpoint/maintenance entries and preservation of existing cadence metadata.
+- `state.json`: checkpoint metadata updated for cycle 75, including completed task counts, stale counters, and queue/cooldown state.
+- `briefing.md`: rewritten for next heavier handoff.
 
 ## Important Constraints
-- AGENTS: do not edit `AGENTS.md` or `awaken.py`.
-- Work should remain deterministic and local in `work.py` (`no LLM/SDK/Subprocess-Codex calls inside work.py`).
-- Do not add sketchy code/executables; keep this workspace tidy and avoid unnecessary systems.
-- `briefing.md` is for Spark handoff; `work.py` must not refresh it.
-- Do not commit runtime logs, virtualenvs, caches, or `.env` files.
+- Do not edit `AGENTS.md` or `awaken.py`.
+- Keep `work.py` deterministic and local-only; no LLM/API/SDK/subprocess calls from inside it.
+- `briefing.md` is Spark-owned handoff output; do not regenerate it from `work.py`.
+- Avoid adding sketchy code, executables, or unnecessary systems.
+- Do not include runtime logs, virtualenvs, cache blobs, or `.env` in future commits.
 
 ## Avoid Rereading Unless Necessary
-- Prefer tails/compact summaries for:
-  - `awaken.log` (latest 5–10m only)
-  - `notes.txt` (tail of recent cycles)
-  - `state.json` (extract specific keys only)
-- Full-file reads for `work.py`, `notes.txt`, `state.json`, and `awaken.log` are only needed when editing scheduler logic or diagnosing breakpoints.
+- Prefer short tails for `awaken.log` and `notes.txt`.
+- For `state.json` and `source_cache.json`, read only targeted keys, not full files.
+- Skip full rereads of `work.py`/`notes.txt` unless a scheduler logic or note-format decision requires edits.
 
-## Timer Utilization
-Latest 5m window in `awaken.log`:
-- `2026-06-08T15:20:54` start
-- `2026-06-08T15:25:52` `work.py` exit
-- `2026-06-08T15:25:54` window end
+## Timer Utilization (Latest 5m Window)
+- Window from `2026-06-08T15:29:08` to `2026-06-08T15:34:08`.
+- `work.py` exited at `2026-06-08T15:34:06`; active work estimate = `298s`.
+- Total window = `300s`; utilization = `99.3%`.
+- Utilization gap = `0.7%` (~`2s` idle, mostly wait-to-boundary tail).
 
-- Active work: `298s` of `300s` total
-- Utilization: `99.3%`
-- Idle gap from 100%: `0.7%` (about `2s`)
-
-Work was predominantly bounded and local, but relevance has dropped: the loop is mostly saturated with repeated review/sweep tasks and little state progression (`no artifact changes`, `no fetches`). Main improvement target: increase meaningful progress fraction while keeping utilization high by adding novelty gates when saturation and stale counters are flat, then forcing occasional substantive tasks (e.g., corroboration target refreshes with changed conditions).  
+## Relevance Assessment and Next Challenge
+- Work in the window was technically useful for checkpointing and bounded task throughput but became mostly repetitive saturation maintenance.
+- Most useful signal came from scheduling guardrail work (`cooldown_filler_task`) and repeated keyword-stale sweeps; high task churn indicates saturation without content progress.
+- Main challenge for the next runner: improve meaningful progress fraction without dropping utilization by adding stronger novelty gating once counters plateau, and requiring condition changes (e.g., corroboration target freshness or uncertainty-gap movement) before allowing long keyword-heartbeat runs.

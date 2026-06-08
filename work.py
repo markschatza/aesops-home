@@ -1279,6 +1279,8 @@ def cooldown_filler_task(state: dict) -> str:
             ):
                 return "review_corroboration_novelty"
             if not saturated_tasks:
+                if novelty_reviews < max(1, SATURATED_NOVELTY_REVIEWS_PER_CYCLE):
+                    return "review_corroboration_novelty"
                 return "run_evidence_keyword_sweep"
             index = saturation_pulse % len(saturated_tasks)
             return saturated_tasks[index]
