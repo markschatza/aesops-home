@@ -626,6 +626,7 @@ def review_corroboration_novelty(state: dict) -> str:
         "snapshots": snapshots,
         "stale_runs": stale_runs,
     }
+    state["corroboration_novelty_reviewed_cycle"] = state.get("cycle")
 
     if claims and stale_runs >= SATURATED_NOVELTY_REFRESH_AFTER:
         refreshed_today = {
@@ -1210,6 +1211,8 @@ def cooldown_filler_task(state: dict) -> str:
             state.get("threshold_sweep_saturation_deferrals", 0)
         ) + 1
         if keyword_sweep_is_saturated(state):
+            saturation_pulse = int(state.get("saturated_filler_pulses", 0)) + 1
+            state["saturated_filler_pulses"] = saturation_pulse
             saturated_tasks = [
                 "scan_corroboration_markers",
                 "review_evidence_quality",
@@ -1230,17 +1233,18 @@ def cooldown_filler_task(state: dict) -> str:
             if weak_keys - planned_keys:
                 saturated_tasks.insert(0, "run_corroboration_query_planner")
             sample_interval = max(16, SATURATED_SWEEP_SAMPLE_INTERVAL)
-            sample_slot = filler_runs % sample_interval
+            sample_slot = saturation_pulse % sample_interval
             if sample_slot == 1:
                 return "run_precaution_threshold_sweep"
             if sample_slot == sample_interval // 2:
                 return "run_evidence_keyword_sweep"
             novelty_interval = max(32, SATURATED_NOVELTY_CHECK_INTERVAL)
-            if filler_runs % novelty_interval == 3:
+            novelty_due = state.get("corroboration_novelty_reviewed_cycle") != state.get("cycle")
+            if novelty_due and saturation_pulse % novelty_interval == 3:
                 return "review_corroboration_novelty"
             if not saturated_tasks:
                 return "review_sweep_saturation"
-            index = filler_runs % len(saturated_tasks)
+            index = saturation_pulse % len(saturated_tasks)
             return saturated_tasks[index]
         if state.get("next_corroboration_target") and not state.get(
             "corroboration_query_plan_complete"
