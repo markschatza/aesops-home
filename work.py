@@ -65,6 +65,9 @@ SATURATED_NOVELTY_REVIEWS_PER_CYCLE = int(
         str(SATURATED_NOVELTY_REFRESH_AFTER + 8),
     )
 )
+SATURATED_STATIC_REVIEW_CAP = int(
+    os.environ.get("AESOP_SATURATED_STATIC_REVIEW_CAP", "2")
+)
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
 )
@@ -412,7 +415,12 @@ def review_evidence_quality(state: dict) -> str:
         counts[quality] = counts.get(quality, 0) + 1
     state["evidence_quality_counts"] = counts
     weak = counts.get("preprint", 0) + counts.get("speculative", 0) + counts.get("abstract", 0)
-    claim, index, cursor = next_cursor_item(state, "evidence_quality_review_cursor", CLAIMS)
+    claim, index, cursor, exhausted = next_unreviewed_cycle_item(
+        state,
+        "evidence_quality_review_cursor",
+        "evidence_quality_reviewed_this_cycle",
+        CLAIMS,
+    )
     if claim is not None:
         source_quality = claim.get("source_quality", "unknown")
         recommended_followup = (
@@ -420,6 +428,7 @@ def review_evidence_quality(state: dict) -> str:
             if source_quality in WEAK_SOURCE_QUALITIES
             else "maintain source as current support unless the claim expands"
         )
+        mark_cycle_reviewed(state, "evidence_quality_reviewed_this_cycle", claim)
         state["evidence_quality_last_item"] = {
             "reviewed_at": datetime.now().isoformat(timespec="seconds"),
             "index": index,
@@ -433,6 +442,8 @@ def review_evidence_quality(state: dict) -> str:
             f"quality_counts={counts}; weaker_claims={weak}; "
             f"reviewed={claim.get('being')}[{source_quality}]"
         )
+    if exhausted and CLAIMS:
+        return f"all evidence-quality claims reviewed this cycle; weaker_claims={weak}"
     return f"quality_counts={counts}; weaker_claims={weak}; no claims to review"
 
 
@@ -1231,8 +1242,15 @@ def cooldown_filler_task(state: dict) -> str:
             ]
             if cycle_review_complete(state, "corroboration_markers_reviewed_this_cycle"):
                 saturated_tasks.remove("scan_corroboration_markers")
+            if cycle_review_complete(state, "evidence_quality_reviewed_this_cycle", CLAIMS):
+                saturated_tasks.remove("review_evidence_quality")
             if cycle_review_complete(state, "uncertainty_targets_reviewed_this_cycle"):
                 saturated_tasks.remove("review_uncertainty_coverage")
+            static_cap = max(1, SATURATED_STATIC_REVIEW_CAP)
+            completed_counts = state.get("completed_task_counts", {})
+            for capped_task in ("review_sweep_saturation", "audit_guardrails"):
+                if int(completed_counts.get(capped_task, 0)) >= static_cap:
+                    saturated_tasks.remove(capped_task)
             weak_keys = {claim_key(claim) for claim in weak_claims()}
             planned_keys = {
                 key
@@ -1261,7 +1279,7 @@ def cooldown_filler_task(state: dict) -> str:
             ):
                 return "review_corroboration_novelty"
             if not saturated_tasks:
-                return "review_sweep_saturation"
+                return "run_evidence_keyword_sweep"
             index = saturation_pulse % len(saturated_tasks)
             return saturated_tasks[index]
         if state.get("next_corroboration_target") and not state.get(
@@ -1348,6 +1366,7 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
     state["source_fetches_this_cycle"] = 0
     state["corroboration_targets_planned_this_cycle"] = []
     state["corroboration_markers_reviewed_this_cycle"] = []
+    state["evidence_quality_reviewed_this_cycle"] = []
     state["corroboration_novelty_reviews_this_cycle"] = 0
     state["uncertainty_targets_reviewed_this_cycle"] = []
     state["static_task_cooldown_seconds"] = static_task_cooldown
