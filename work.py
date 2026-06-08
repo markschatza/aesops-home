@@ -68,6 +68,9 @@ SATURATED_NOVELTY_REVIEWS_PER_CYCLE = int(
 SATURATED_STATIC_REVIEW_CAP = int(
     os.environ.get("AESOP_SATURATED_STATIC_REVIEW_CAP", "2")
 )
+SATURATED_BACKOFF_SECONDS = float(
+    os.environ.get("AESOP_SATURATED_BACKOFF_SECONDS", "0.25")
+)
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
 )
@@ -1202,11 +1205,32 @@ def run_precaution_threshold_sweep(state: dict) -> str:
     )
 
 
+def saturated_condition_backoff(state: dict) -> str:
+    """Slow the saturated loop after all condition-changing checks are capped."""
+    pulses = int(state.get("saturated_condition_backoff_pulses", 0)) + 1
+    state["saturated_condition_backoff_pulses"] = pulses
+    state["saturated_condition_backoff"] = {
+        "checked_at": datetime.now().isoformat(timespec="seconds"),
+        "reason": "sweeps and in-cycle review tasks are saturated; waiting for source or artifact changes",
+        "pulses": pulses,
+        "keyword_stale_runs": int(state.get("evidence_keyword_stale_runs", 0)),
+        "threshold_stable_batches": int(state.get("threshold_sweep_stable_batches", 0)),
+        "novelty_stale_runs": int(state.get("corroboration_novelty_stale_runs", 0)),
+    }
+    time.sleep(max(0.0, SATURATED_BACKOFF_SECONDS))
+    return (
+        f"saturated backoff pulse={pulses}; "
+        f"keyword_stale={state['saturated_condition_backoff']['keyword_stale_runs']}; "
+        f"threshold_stable={state['saturated_condition_backoff']['threshold_stable_batches']}"
+    )
+
+
 WORK_TASKS = {
     "harvest_source_metadata": harvest_source_metadata,
     "run_evidence_keyword_sweep": run_evidence_keyword_sweep,
     "run_corroboration_query_planner": run_corroboration_query_planner,
     "run_precaution_threshold_sweep": run_precaution_threshold_sweep,
+    "saturated_condition_backoff": saturated_condition_backoff,
     "audit_artifact_integrity": audit_artifact_integrity,
     "scan_corroboration_markers": scan_corroboration_markers,
     "review_corroboration_novelty": review_corroboration_novelty,
@@ -1281,7 +1305,7 @@ def cooldown_filler_task(state: dict) -> str:
             if not saturated_tasks:
                 if novelty_reviews < max(1, SATURATED_NOVELTY_REVIEWS_PER_CYCLE):
                     return "review_corroboration_novelty"
-                return "run_evidence_keyword_sweep"
+                return "saturated_condition_backoff"
             index = saturation_pulse % len(saturated_tasks)
             return saturated_tasks[index]
         if state.get("next_corroboration_target") and not state.get(

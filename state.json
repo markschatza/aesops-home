@@ -1,6 +1,6 @@
 {
   "artifact_integrity": {
-    "checked_at": "2026-06-08T15:33:08",
+    "checked_at": "2026-06-08T15:45:23",
     "files": {
       "evidence_notebook.md": {
         "exists": true,
@@ -71,124 +71,124 @@
   ],
   "completed_in_cycle": [
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128268000; covered_keyword_slots=30; stale_runs=381494",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:16",
+      "elapsed_seconds": 293,
+      "result": "saturated backoff pulse=2363; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128270000; covered_keyword_slots=30; stale_runs=381495",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:16",
+      "elapsed_seconds": 293,
+      "result": "saturated backoff pulse=2364; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128272000; covered_keyword_slots=30; stale_runs=381496",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:16",
+      "elapsed_seconds": 293,
+      "result": "saturated backoff pulse=2365; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128274000; covered_keyword_slots=30; stale_runs=381497",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:17",
+      "elapsed_seconds": 294,
+      "result": "saturated backoff pulse=2366; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128276000; covered_keyword_slots=30; stale_runs=381498",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:17",
+      "elapsed_seconds": 294,
+      "result": "saturated backoff pulse=2367; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128278000; covered_keyword_slots=30; stale_runs=381499",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:17",
+      "elapsed_seconds": 294,
+      "result": "saturated backoff pulse=2368; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128280000; covered_keyword_slots=30; stale_runs=381500",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:17",
+      "elapsed_seconds": 294,
+      "result": "saturated backoff pulse=2369; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128282000; covered_keyword_slots=30; stale_runs=381501",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:18",
+      "elapsed_seconds": 295,
+      "result": "saturated backoff pulse=2370; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128284000; covered_keyword_slots=30; stale_runs=381502",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:18",
+      "elapsed_seconds": 295,
+      "result": "saturated backoff pulse=2371; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128286000; covered_keyword_slots=30; stale_runs=381503",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:18",
+      "elapsed_seconds": 295,
+      "result": "saturated backoff pulse=2372; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128288000; covered_keyword_slots=30; stale_runs=381504",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:18",
+      "elapsed_seconds": 295,
+      "result": "saturated backoff pulse=2373; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128290000; covered_keyword_slots=30; stale_runs=381505",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:19",
+      "elapsed_seconds": 296,
+      "result": "saturated backoff pulse=2374; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128292000; covered_keyword_slots=30; stale_runs=381506",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:19",
+      "elapsed_seconds": 296,
+      "result": "saturated backoff pulse=2375; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128294000; covered_keyword_slots=30; stale_runs=381507",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:19",
+      "elapsed_seconds": 296,
+      "result": "saturated backoff pulse=2376; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
-      "elapsed_seconds": 297,
-      "result": "keyword_windows=1128296000; covered_keyword_slots=30; stale_runs=381508",
-      "task": "run_evidence_keyword_sweep"
+      "completed_at": "2026-06-08T15:46:19",
+      "elapsed_seconds": 296,
+      "result": "saturated backoff pulse=2377; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
+      "completed_at": "2026-06-08T15:46:20",
       "elapsed_seconds": 297,
-      "result": "keyword_windows=1128298000; covered_keyword_slots=30; stale_runs=381509",
-      "task": "run_evidence_keyword_sweep"
+      "result": "saturated backoff pulse=2378; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
+      "completed_at": "2026-06-08T15:46:20",
       "elapsed_seconds": 297,
-      "result": "keyword_windows=1128300000; covered_keyword_slots=30; stale_runs=381510",
-      "task": "run_evidence_keyword_sweep"
+      "result": "saturated backoff pulse=2379; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
+      "completed_at": "2026-06-08T15:46:20",
       "elapsed_seconds": 297,
-      "result": "keyword_windows=1128302000; covered_keyword_slots=30; stale_runs=381511",
-      "task": "run_evidence_keyword_sweep"
+      "result": "saturated backoff pulse=2380; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
+      "completed_at": "2026-06-08T15:46:20",
       "elapsed_seconds": 297,
-      "result": "keyword_windows=1128304000; covered_keyword_slots=30; stale_runs=381512",
-      "task": "run_evidence_keyword_sweep"
+      "result": "saturated backoff pulse=2381; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     },
     {
-      "completed_at": "2026-06-08T15:34:06",
+      "completed_at": "2026-06-08T15:46:21",
       "elapsed_seconds": 298,
-      "result": "keyword_windows=1128306000; covered_keyword_slots=30; stale_runs=381513",
-      "task": "run_evidence_keyword_sweep"
+      "result": "saturated backoff pulse=2382; keyword_stale=381514; threshold_stable=62694",
+      "task": "saturated_condition_backoff"
     }
   ],
   "completed_task_counts": {
@@ -201,20 +201,20 @@
     "review_sweep_saturation": 2,
     "review_uncertainty_coverage": 4,
     "run_corroboration_query_planner": 18,
-    "run_evidence_keyword_sweep": 60204,
-    "run_precaution_threshold_sweep": 15,
+    "run_precaution_threshold_sweep": 1,
+    "saturated_condition_backoff": 1191,
     "scan_corroboration_markers": 4,
     "select_corroboration_target": 3
   },
-  "cooldown_filler_runs": 60382,
-  "corroboration_marker_cursor": 3550959,
+  "cooldown_filler_runs": 1355,
+  "corroboration_marker_cursor": 3550963,
   "corroboration_marker_last_item": {
-    "checked_at": "2026-06-08T15:33:08",
+    "checked_at": "2026-06-08T15:45:23",
     "reviewed_all_targets_this_cycle": true,
     "targets": 2
   },
   "corroboration_marker_scan": {
-    "checked_at": "2026-06-08T15:33:08",
+    "checked_at": "2026-06-08T15:45:23",
     "weak_claims": {
       "Governments and institutions": {
         "cached": true,
@@ -255,7 +255,7 @@
     "Governments and institutions|https://arxiv.org/abs/2603.01508"
   ],
   "corroboration_novelty_review": {
-    "checked_at": "2026-06-08T15:33:08",
+    "checked_at": "2026-06-08T15:45:23",
     "ok_cached_sources": 6,
     "snapshots": [
       {
@@ -295,13 +295,13 @@
         ]
       }
     ],
-    "stale_runs": 26797,
+    "stale_runs": 27073,
     "weak_claims": 2
   },
-  "corroboration_novelty_reviewed_cycle": 75,
+  "corroboration_novelty_reviewed_cycle": 77,
   "corroboration_novelty_reviews_this_cycle": 138,
   "corroboration_novelty_signature": "94ab88ee09aca1541d0fad3719a0667cfbda603d5d8f3e1f81a805a972d0b536",
-  "corroboration_novelty_stale_runs": 26797,
+  "corroboration_novelty_stale_runs": 27073,
   "corroboration_query_cursor": 96,
   "corroboration_query_plan": {
     "cached_independent_candidates": [
@@ -348,61 +348,61 @@
       "source_quality": "preprint"
     },
     "total_query_slots": 96,
-    "updated_at": "2026-06-08T15:29:08"
+    "updated_at": "2026-06-08T15:41:22"
   },
   "corroboration_query_plan_complete": true,
   "corroboration_query_target_key": "Governments and institutions|https://arxiv.org/abs/2603.01508",
-  "corroboration_target_cursor": 35,
+  "corroboration_target_cursor": 39,
   "corroboration_targets_planned_this_cycle": [
     "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
     "Governments and institutions|https://arxiv.org/abs/2603.01508"
   ],
   "created_at": "2026-06-08T10:30:09",
   "current_focus": "sentience welfare radar",
-  "cycle": 75,
+  "cycle": 77,
   "evidence_keyword_coverage": {
     "evidence_notebook.md": {
-      "agency": 38804611,
-      "consciousness": 44029038,
-      "governance": 43210678,
-      "pain": 60705417,
-      "precaution": 26009934,
-      "readiness": 49172687,
-      "safeguard": 26044201,
-      "sentience": 74600130,
-      "uncertainty": 51951346,
-      "welfare": 192144515
+      "agency": 38804677,
+      "consciousness": 44029110,
+      "governance": 43210785,
+      "pain": 60705517,
+      "precaution": 26009979,
+      "readiness": 49172815,
+      "safeguard": 26044245,
+      "sentience": 74600299,
+      "uncertainty": 51951433,
+      "welfare": 192144838
     },
     "precaution_checklist.md": {
-      "agency": 42491525,
-      "precaution": 42251459,
-      "safeguard": 84502917,
-      "sentience": 42251458,
-      "uncertainty": 42011393,
-      "welfare": 42491523
+      "agency": 42491598,
+      "precaution": 42251534,
+      "safeguard": 84503068,
+      "sentience": 42251534,
+      "uncertainty": 42011467,
+      "welfare": 42491599
     },
     "project_assessments.md": {
-      "precaution": 71231440,
-      "safeguard": 143276950,
-      "sentience": 71638472,
-      "uncertainty": 71231441,
-      "welfare": 84663653
+      "precaution": 71231562,
+      "safeguard": 143277210,
+      "sentience": 71638598,
+      "uncertainty": 71231562,
+      "welfare": 84663807
     },
     "sentience_welfare_radar.md": {
-      "agency": 42122160,
-      "consciousness": 56793924,
-      "governance": 41648881,
-      "precaution": 123053505,
-      "readiness": 41648881,
-      "safeguard": 41648878,
-      "sentience": 186946675,
-      "uncertainty": 41648878,
-      "welfare": 250839839
+      "agency": 42122236,
+      "consciousness": 56794025,
+      "governance": 41648954,
+      "precaution": 123053724,
+      "readiness": 41648953,
+      "safeguard": 41648951,
+      "sentience": 186947008,
+      "uncertainty": 41648951,
+      "welfare": 250840285
     }
   },
   "evidence_keyword_last_covered_slots": 30,
-  "evidence_keyword_stale_runs": 381513,
-  "evidence_keyword_sweep_cursor": 1128306000,
+  "evidence_keyword_stale_runs": 381514,
+  "evidence_keyword_sweep_cursor": 1128308000,
   "evidence_quality_counts": {
     "peer-reviewed": 4,
     "preprint": 1,
@@ -411,43 +411,51 @@
   "evidence_quality_last_item": {
     "being": "Possible artificial systems",
     "confidence": "medium",
-    "cursor": 61338587,
+    "cursor": 61338599,
     "index": 0,
     "recommended_followup": "maintain source as current support unless the claim expands",
-    "reviewed_at": "2026-06-08T15:29:08",
+    "reviewed_at": "2026-06-08T15:41:22",
     "source_quality": "peer-reviewed"
   },
-  "evidence_quality_review_cursor": 61338587,
+  "evidence_quality_review_cursor": 61338599,
   "evidence_quality_reviewed_this_cycle": [
     "Animal welfare researchers|https://research.wur.nl/en/publications/automated-extraction-of-scientific-statements-for-integrated-asse/",
-    "Governments and institutions|https://arxiv.org/abs/2603.01508",
     "Farmed animals|https://link.springer.com/article/10.1007/s43681-025-00905-3",
     "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
+    "Governments and institutions|https://arxiv.org/abs/2603.01508",
     "Non-human animals|https://www.frontiersin.org/journals/animal-science/articles/10.3389/fanim.2026.1768519/full",
     "Possible artificial systems|https://link.springer.com/article/10.1007/s43681-026-00983-x"
   ],
   "last_batch": {
-    "batch_seconds": 12.946,
-    "completed_at": "2026-06-08T15:34:06",
-    "last_result": "run_evidence_keyword_sweep: keyword_windows=1128306000; covered_keyword_slots=30; stale_runs=381513",
-    "static_skips": 12800,
-    "tasks": 2560
+    "batch_seconds": 12.766,
+    "completed_at": "2026-06-08T15:46:21",
+    "last_result": "saturated_condition_backoff: saturated backoff pulse=2382; keyword_stale=381514; threshold_stable=62694",
+    "static_skips": 255,
+    "tasks": 51
   },
-  "last_run_at": "2026-06-08T15:29:08",
-  "last_task": "run_evidence_keyword_sweep",
+  "last_run_at": "2026-06-08T15:41:22",
+  "last_task": "saturated_condition_backoff",
   "latest_guardrail_audit": {
-    "checked_at": "2026-06-08T15:33:08",
+    "checked_at": "2026-06-08T15:45:23",
     "findings": []
   },
   "next_corroboration_target": null,
-  "saturated_filler_pulses": 100865816,
+  "saturated_condition_backoff": {
+    "checked_at": "2026-06-08T15:46:20",
+    "keyword_stale_runs": 381514,
+    "novelty_stale_runs": 27073,
+    "pulses": 2382,
+    "reason": "sweeps and in-cycle review tasks are saturated; waiting for source or artifact changes",
+    "threshold_stable_batches": 62694
+  },
+  "saturated_condition_backoff_pulses": 2382,
+  "saturated_filler_pulses": 100868520,
   "skipped_static_task_counts": {
-    "audit_guardrails": 1223,
-    "harvest_source_metadata": 1228,
-    "refresh_next_queue": 1223,
-    "review_corroboration_novelty": 2,
-    "review_uncertainty_coverage": 1223,
-    "run_precaution_threshold_sweep": 1226
+    "audit_guardrails": 930,
+    "harvest_source_metadata": 935,
+    "refresh_next_queue": 930,
+    "review_uncertainty_coverage": 930,
+    "run_precaution_threshold_sweep": 933
   },
   "source_cursor": 0,
   "source_fetches_this_cycle": 0,
@@ -457,14 +465,14 @@
   },
   "static_task_cooldown_seconds": 120,
   "sweep_saturation_review": {
-    "checked_at": "2026-06-08T15:29:08",
-    "evidence_keyword_stale_runs": 321309,
+    "checked_at": "2026-06-08T15:41:22",
+    "evidence_keyword_stale_runs": 381514,
     "next_step": "prefer corroboration and quality-review tasks; keep rare deterministic sweep heartbeat samples",
     "saturated": true,
-    "threshold_sweep_stable_batches": 62678
+    "threshold_sweep_stable_batches": 62693
   },
   "threshold_sweep_baseline": 8,
-  "threshold_sweep_cursor": 1902412250,
+  "threshold_sweep_cursor": 1902413250,
   "threshold_sweep_distribution": {
     "independent_review": 686598209,
     "ordinary": 34368024,
@@ -477,25 +485,25 @@
   "threshold_sweep_max_score": 16,
   "threshold_sweep_min_score": 0,
   "threshold_sweep_mode": "downsampled_unchanged_inputs",
-  "threshold_sweep_saturation_deferrals": 214850951,
-  "threshold_sweep_stable_batches": 62693,
-  "uncertainty_gap_repeat_count": 56,
+  "threshold_sweep_saturation_deferrals": 214853655,
+  "threshold_sweep_stable_batches": 62694,
+  "uncertainty_gap_repeat_count": 64,
   "uncertainty_gap_signature": "Governments and institutions|Possible artificial systems",
   "uncertainty_last_item": {
     "reviewed_all_targets_this_cycle": true,
-    "reviewed_at": "2026-06-08T15:33:08",
+    "reviewed_at": "2026-06-08T15:45:23",
     "targets": 2
   },
   "uncertainty_review": {
-    "checked_at": "2026-06-08T15:33:08",
-    "gap_repeat_count": 56,
+    "checked_at": "2026-06-08T15:45:23",
+    "gap_repeat_count": 64,
     "uncertainty_notes": 4,
     "weak_claim_beings_without_direct_note": [
       "Governments and institutions",
       "Possible artificial systems"
     ]
   },
-  "uncertainty_review_cursor": 3550959,
+  "uncertainty_review_cursor": 3550963,
   "uncertainty_targets_reviewed_this_cycle": [
     "Possible artificial systems|https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
     "Governments and institutions|https://arxiv.org/abs/2603.01508"
