@@ -1,0 +1,312 @@
+started 2026-06-08T10:28:20.400035
+## Cycle 1 - 2026-06-08T10:30:09
+- Read AGENTS.md constraints: preserve AGENTS.md and awaken.py, keep this home tidy, log progress.
+- Replaced idle overwrite behavior with a bounded append-only work cycle.
+- Seeded sentience_welfare_radar.md with current welfare/sentience research leads and practical prototype directions.
+- Next: build the smallest evidence notebook or precaution checklist from the radar.
+
+## Cycle 2 - 2026-06-08T10:30:48
+- Read AGENTS.md constraints: preserve AGENTS.md and awaken.py, keep this home tidy, log progress.
+- Ran a bounded append-only work cycle.
+- Refreshed sentience_welfare_radar.md and evidence_notebook.md.
+- Next: add a tiny precaution checklist that can score proposed experiments or agent designs.
+
+## Cycle 3 - 2026-06-08T10:31:06
+- Read AGENTS.md constraints: preserve AGENTS.md and awaken.py, keep this home tidy, log progress.
+- Ran a bounded append-only work cycle.
+- Refreshed sentience_welfare_radar.md and evidence_notebook.md.
+- Next: add a tiny precaution checklist that can score proposed experiments or agent designs.
+
+## Cycle 4 - 2026-06-08T10:36:45
+- Read AGENTS.md constraints: preserve AGENTS.md and awaken.py, keep this home tidy, log progress.
+- Ran a bounded append-only work cycle.
+- Refreshed sentience_welfare_radar.md, evidence_notebook.md, and precaution_checklist.md.
+- Next: use the checklist on one concrete research or coding idea, then refine vague checks.
+
+## Cycle 5 - 2026-06-08T10:37:02
+- Read AGENTS.md constraints: preserve AGENTS.md and awaken.py, keep this home tidy, log progress.
+- Ran a bounded append-only work cycle.
+- Refreshed sentience_welfare_radar.md, evidence_notebook.md, and precaution_checklist.md.
+- Next: use the checklist on one concrete research or coding idea, then refine vague checks.
+
+## Cycle 6 - 2026-06-08T10:40:31
+- Read AGENTS.md constraints: preserve AGENTS.md and awaken.py, keep this home tidy, log progress.
+- Ran a bounded append-only work cycle.
+- Refreshed sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, and project_assessments.md.
+- Next: turn one assessment safeguard into a small code guardrail.
+
+## Cycle 7 - 2026-06-08T10:40:48
+- Read AGENTS.md constraints: preserve AGENTS.md and awaken.py, keep this home tidy, log progress.
+- Ran a bounded append-only work cycle.
+- Refreshed sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, and project_assessments.md.
+- Next: turn one assessment safeguard into a small code guardrail.
+
+## Cycle 8 - 2026-06-08T10:41:00
+- Read AGENTS.md constraints: preserve AGENTS.md and awaken.py, keep this home tidy, log progress.
+- Ran a bounded append-only work cycle.
+- Refreshed sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, and project_assessments.md.
+- Next: turn one assessment safeguard into a small code guardrail.
+
+## Cycle 9 - 2026-06-08T10:55:24
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Added new artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added an assessment guardrail and refreshed briefing.md for continuity.
+- Next: run the smallest local welfare evidence scout trial.
+
+## Cycle 10 - 2026-06-08T10:55:42
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added an assessment guardrail and refreshed briefing.md for continuity.
+- Next: run the smallest local welfare evidence scout trial.
+
+## Cycle 11 - 2026-06-08T10:56:42
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added an assessment guardrail and refreshed briefing.md for continuity.
+- Next: run the smallest local welfare evidence scout trial.
+
+## Cycle 12 - 2026-06-08T10:57:03
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Refreshed the assessment guardrail, briefing, and latest evidence scout claim.
+- Next: add a tiny source-quality field to each evidence claim.
+
+## Cycle 13 - 2026-06-08T10:57:29
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Refreshed the assessment guardrail, briefing, and latest evidence scout claim.
+- Next: add a tiny source-quality field to each evidence claim.
+
+## Cycle 14 - 2026-06-08T11:13:09
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added source-quality labels and one bounded welfare evidence scout claim.
+- Next: corroborate weaker source-quality claims before expanding the notebook.
+
+## Cycle 15 - 2026-06-08T11:13:38
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added source-quality labels and one bounded welfare evidence scout claim.
+- Next: corroborate weaker source-quality claims before expanding the notebook.
+
+## Cycle 16 - 2026-06-08T11:19:50
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+## Cycle 17 - 2026-06-08T11:20:14
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+## Cycle 18 - 2026-06-08T11:32:01
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T11:32:01: cycle=18; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T11:32:01: cycle=18; task=review_evidence_quality; elapsed=0s; result=quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2
+- Checkpoint 2026-06-08T11:32:02: cycle=18; task=select_corroboration_target; elapsed=1s; result=selected preprint target for Governments and institutions
+- Checkpoint 2026-06-08T11:32:03: cycle=18; task=audit_guardrails; elapsed=2s; result=guardrails clear
+- Checkpoint 2026-06-08T11:32:03: cycle=18; task=end_micro_work; elapsed=2s; result=completed=3; queued=2
+## Cycle 19 - 2026-06-08T11:32:50
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T11:32:50: cycle=19; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T11:32:50: cycle=19; task=review_uncertainty_coverage; elapsed=0s; result=uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']
+- Checkpoint 2026-06-08T11:33:35: cycle=19; task=refresh_next_queue; elapsed=45s; result=queue replenished
+- Checkpoint 2026-06-08T11:34:20: cycle=19; task=review_evidence_quality; elapsed=90s; result=quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2
+- Checkpoint 2026-06-08T11:35:05: cycle=19; task=select_corroboration_target; elapsed=135s; result=selected preprint target for Governments and institutions
+- Checkpoint 2026-06-08T11:35:50: cycle=19; task=audit_guardrails; elapsed=180s; result=guardrails clear
+- Checkpoint 2026-06-08T11:36:35: cycle=19; task=review_uncertainty_coverage; elapsed=225s; result=uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']
+- Checkpoint 2026-06-08T11:37:20: cycle=19; task=refresh_next_queue; elapsed=270s; result=queue replenished
+- Checkpoint 2026-06-08T11:37:20: cycle=19; task=end_micro_work; elapsed=270s; result=completed=7; queued=5
+## Cycle 20 - 2026-06-08T11:41:21
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T11:41:21: cycle=20; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T11:41:21: cycle=20; task=review_evidence_quality; elapsed=0s; result=quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2
+- Checkpoint 2026-06-08T11:41:26: cycle=20; task=select_corroboration_target; elapsed=5s; result=selected preprint target for Governments and institutions
+- Checkpoint 2026-06-08T11:41:31: cycle=20; task=audit_guardrails; elapsed=10s; result=guardrails clear
+- Checkpoint 2026-06-08T11:41:33: cycle=20; task=end_micro_work; elapsed=12s; result=completed=3; queued=2
+## Cycle 21 - 2026-06-08T11:42:03
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T11:42:03: cycle=21; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T11:42:03: cycle=21; task=review_uncertainty_coverage; elapsed=0s; result=uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']
+- Checkpoint 2026-06-08T11:42:48: cycle=21; task=refresh_next_queue; elapsed=45s; result=queue replenished
+- Checkpoint 2026-06-08T11:43:33: cycle=21; task=review_evidence_quality; elapsed=90s; result=quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2
+- Checkpoint 2026-06-08T11:44:18: cycle=21; task=select_corroboration_target; elapsed=135s; result=selected preprint target for Governments and institutions
+- Checkpoint 2026-06-08T11:45:03: cycle=21; task=audit_guardrails; elapsed=180s; result=guardrails clear
+- Checkpoint 2026-06-08T11:45:48: cycle=21; task=review_uncertainty_coverage; elapsed=225s; result=uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']
+- Checkpoint 2026-06-08T11:46:33: cycle=21; task=refresh_next_queue; elapsed=270s; result=queue replenished
+- Checkpoint 2026-06-08T11:46:38: cycle=21; task=review_evidence_quality; elapsed=275s; result=quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2
+- Checkpoint 2026-06-08T11:46:43: cycle=21; task=end_micro_work; elapsed=280s; result=completed=8; queued=4
+## Cycle 22 - 2026-06-08T11:47:06
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md, briefing.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T11:47:06: cycle=22; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T11:47:06: cycle=22; task=select_corroboration_target; elapsed=0s; result=selected preprint target for Governments and institutions
+- Checkpoint 2026-06-08T11:47:51: cycle=22; task=audit_guardrails; elapsed=45s; result=guardrails clear
+- Checkpoint 2026-06-08T11:48:36: cycle=22; task=review_uncertainty_coverage; elapsed=90s; result=uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']
+- Checkpoint 2026-06-08T11:49:21: cycle=22; task=refresh_next_queue; elapsed=135s; result=queue replenished
+- Checkpoint 2026-06-08T11:50:06: cycle=22; task=review_evidence_quality; elapsed=180s; result=quality_counts={'peer-reviewed': 4, 'preprint': 1, 'speculative': 1}; weaker_claims=2
+- Checkpoint 2026-06-08T11:50:51: cycle=22; task=select_corroboration_target; elapsed=225s; result=selected preprint target for Governments and institutions
+- Checkpoint 2026-06-08T11:51:36: cycle=22; task=audit_guardrails; elapsed=270s; result=guardrails clear
+- Checkpoint 2026-06-08T11:51:41: cycle=22; task=review_uncertainty_coverage; elapsed=275s; result=uncertainty gap candidates=['Governments and institutions', 'Possible artificial systems']
+- Checkpoint 2026-06-08T11:51:46: cycle=22; task=end_micro_work; elapsed=280s; result=completed=8; queued=1
+## Cycle 23 - 2026-06-08T11:54:44
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T11:54:44: cycle=23; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T11:54:46: cycle=23; task=dense_batch; elapsed=2s; result=tasks=19732; batch_seconds=2.0; last=scan_corroboration_markers: weak_claims=2; cached_sources=0
+- Checkpoint 2026-06-08T11:54:48: cycle=23; task=dense_batch; elapsed=4s; result=tasks=52719; batch_seconds=2.0; last=audit_artifact_integrity: audited 4 artifacts; links=11
+- Checkpoint 2026-06-08T11:54:50: cycle=23; task=dense_batch; elapsed=6s; result=tasks=53368; batch_seconds=2.0; last=audit_artifact_integrity: audited 4 artifacts; links=11
+- Checkpoint 2026-06-08T11:54:52: cycle=23; task=dense_batch; elapsed=8s; result=tasks=53392; batch_seconds=2.0; last=audit_artifact_integrity: audited 4 artifacts; links=11
+- Checkpoint 2026-06-08T11:54:52: cycle=23; task=end_micro_work; elapsed=8s; result=recent_completed=20; counts={'refresh_next_queue': 22402, 'harvest_source_metadata': 22402, 'audit_artifact_integrity': 22402, 'scan_corroboration_markers': 22401, 'review_evidence_quality': 22401, 'select_corroboration_target': 22401, 'audit_guardrails': 22401, 'review_uncertainty_coverage': 22401}; queued=6; fetches=1
+## Cycle 24 - 2026-06-08T11:55:43
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T11:55:43: cycle=24; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T11:55:45: cycle=24; task=dense_batch; elapsed=2s; result=tasks=2078; batch_seconds=2.0; last=run_precaution_threshold_sweep: sweep_units=1155000; baseline=8; score_range=0-16; levels={'independent_review': 512866, 'safeguards_required': 471862, 'ordinary': 25895, 'written_review': 144377}
+- Checkpoint 2026-06-08T11:55:47: cycle=24; task=dense_batch; elapsed=4s; result=tasks=2097; batch_seconds=2.0; last=run_precaution_threshold_sweep: sweep_units=2320000; baseline=8; score_range=0-16; levels={'independent_review': 1029393, 'safeguards_required': 948645, 'ordinary': 51743, 'written_review': 290219}
+- Checkpoint 2026-06-08T11:55:48: cycle=24; task=dense_batch; elapsed=5s; result=tasks=1035; batch_seconds=1.0; last=run_precaution_threshold_sweep: sweep_units=2895000; baseline=8; score_range=0-16; levels={'independent_review': 1284496, 'safeguards_required': 1183965, 'ordinary': 64573, 'written_review': 361966}
+- Checkpoint 2026-06-08T11:55:48: cycle=24; task=end_micro_work; elapsed=5s; result=recent_completed=20; counts={'scan_corroboration_markers': 579, 'review_evidence_quality': 579, 'select_corroboration_target': 579, 'audit_guardrails': 579, 'review_uncertainty_coverage': 579, 'refresh_next_queue': 579, 'harvest_source_metadata': 579, 'run_precaution_threshold_sweep': 579, 'audit_artifact_integrity': 578}; queued=7; fetches=0
+## Cycle 25 - 2026-06-08T11:56:05
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T11:56:05: cycle=25; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T11:56:20: cycle=25; task=dense_batch; elapsed=15s; result=tasks=24723; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=9762500; baseline=8; score_range=0-16; levels={'independent_review': 4331071, 'ordinary': 217470, 'safeguards_required': 3993253, 'written_review': 1220706}
+- Checkpoint 2026-06-08T11:56:35: cycle=25; task=dense_batch; elapsed=30s; result=tasks=29601; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=17985000; baseline=8; score_range=0-16; levels={'independent_review': 7980681, 'ordinary': 399802, 'safeguards_required': 7355779, 'written_review': 2248738}
+- Checkpoint 2026-06-08T11:56:50: cycle=25; task=dense_batch; elapsed=45s; result=tasks=29771; batch_seconds=15.0; last=harvest_source_metadata: fetch budget used=3/3
+- Checkpoint 2026-06-08T11:57:05: cycle=25; task=dense_batch; elapsed=60s; result=tasks=29719; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=34510000; baseline=8; score_range=0-16; levels={'independent_review': 15315747, 'ordinary': 766807, 'safeguards_required': 14111458, 'written_review': 4315988}
+- Checkpoint 2026-06-08T11:57:20: cycle=25; task=dense_batch; elapsed=75s; result=tasks=29440; batch_seconds=15.0; last=audit_artifact_integrity: audited 4 artifacts; links=11
+- Checkpoint 2026-06-08T11:57:35: cycle=25; task=dense_batch; elapsed=90s; result=tasks=29717; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=50942500; baseline=8; score_range=0-16; levels={'independent_review': 22611806, 'ordinary': 1131415, 'safeguards_required': 20827919, 'written_review': 6371360}
+- Checkpoint 2026-06-08T11:57:50: cycle=25; task=dense_batch; elapsed=105s; result=tasks=29898; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=59247500; baseline=8; score_range=0-16; levels={'independent_review': 26297344, 'ordinary': 1315897, 'safeguards_required': 24223212, 'written_review': 7411047}
+- Checkpoint 2026-06-08T11:58:05: cycle=25; task=dense_batch; elapsed=120s; result=tasks=29943; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=67565000; baseline=8; score_range=0-16; levels={'independent_review': 29989691, 'ordinary': 1500878, 'safeguards_required': 27624437, 'written_review': 8449994}
+- Checkpoint 2026-06-08T11:58:20: cycle=25; task=dense_batch; elapsed=135s; result=tasks=29844; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=75855000; baseline=8; score_range=0-16; levels={'independent_review': 33668983, 'ordinary': 1685405, 'safeguards_required': 31014803, 'written_review': 9485809}
+- Checkpoint 2026-06-08T11:58:35: cycle=25; task=dense_batch; elapsed=150s; result=tasks=29781; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=84127500; baseline=8; score_range=0-16; levels={'independent_review': 37341983, 'ordinary': 1869347, 'safeguards_required': 34395594, 'written_review': 10520576}
+- Checkpoint 2026-06-08T11:58:50: cycle=25; task=dense_batch; elapsed=165s; result=tasks=29979; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=92455000; baseline=8; score_range=0-16; levels={'independent_review': 41039143, 'ordinary': 2054163, 'safeguards_required': 37799570, 'written_review': 11562124}
+- Checkpoint 2026-06-08T11:59:05: cycle=25; task=dense_batch; elapsed=180s; result=tasks=29979; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=100782500; baseline=8; score_range=0-16; levels={'independent_review': 44734512, 'ordinary': 2239290, 'safeguards_required': 41205581, 'written_review': 12603117}
+- Checkpoint 2026-06-08T11:59:20: cycle=25; task=dense_batch; elapsed=195s; result=tasks=30015; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=109120000; baseline=8; score_range=0-16; levels={'independent_review': 48434247, 'ordinary': 2424553, 'safeguards_required': 44615715, 'written_review': 13645485}
+- Checkpoint 2026-06-08T11:59:35: cycle=25; task=dense_batch; elapsed=210s; result=tasks=29889; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=117422500; baseline=8; score_range=0-16; levels={'independent_review': 52117810, 'ordinary': 2608871, 'safeguards_required': 48013945, 'written_review': 14681874}
+- Checkpoint 2026-06-08T11:59:50: cycle=25; task=dense_batch; elapsed=225s; result=tasks=29987; batch_seconds=15.0; last=harvest_source_metadata: fetch budget used=3/3
+- Checkpoint 2026-06-08T12:00:05: cycle=25; task=dense_batch; elapsed=240s; result=tasks=29863; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=134047500; baseline=8; score_range=0-16; levels={'independent_review': 59497135, 'ordinary': 2978483, 'safeguards_required': 54813883, 'written_review': 16757999}
+- Checkpoint 2026-06-08T12:00:20: cycle=25; task=dense_batch; elapsed=255s; result=tasks=29970; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=142372500; baseline=8; score_range=0-16; levels={'independent_review': 63191964, 'ordinary': 3163420, 'safeguards_required': 58218973, 'written_review': 17798143}
+- Checkpoint 2026-06-08T12:00:35: cycle=25; task=dense_batch; elapsed=270s; result=tasks=29826; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=150657500; baseline=8; score_range=0-16; levels={'independent_review': 66867633, 'ordinary': 3347483, 'safeguards_required': 61608231, 'written_review': 18834153}
+- Checkpoint 2026-06-08T12:00:45: cycle=25; task=dense_batch; elapsed=280s; result=tasks=19890; batch_seconds=10.0; last=run_precaution_threshold_sweep: sweep_units=156182500; baseline=8; score_range=0-16; levels={'independent_review': 69321043, 'ordinary': 3469993, 'safeguards_required': 63866273, 'written_review': 19525191}
+- Checkpoint 2026-06-08T12:00:45: cycle=25; task=end_micro_work; elapsed=280s; result=recent_completed=20; counts={'audit_artifact_integrity': 61315, 'scan_corroboration_markers': 61315, 'review_evidence_quality': 61315, 'select_corroboration_target': 61315, 'audit_guardrails': 61315, 'review_uncertainty_coverage': 61315, 'refresh_next_queue': 61315, 'harvest_source_metadata': 61315, 'run_precaution_threshold_sweep': 61315}; queued=7; fetches=3
+## Cycle 26 - 2026-06-08T12:01:45
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T12:01:45: cycle=26; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T12:02:00: cycle=26; task=dense_batch; elapsed=15s; result=tasks=23868; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=162812500; baseline=8; score_range=0-16; levels={'independent_review': 72263900, 'ordinary': 3617215, 'safeguards_required': 66578327, 'written_review': 20353058}
+- Checkpoint 2026-06-08T12:02:15: cycle=26; task=dense_batch; elapsed=30s; result=tasks=29413; batch_seconds=15.0; last=audit_artifact_integrity: audited 4 artifacts; links=11
+- Checkpoint 2026-06-08T12:02:30: cycle=26; task=dense_batch; elapsed=45s; result=tasks=29467; batch_seconds=15.0; last=scan_corroboration_markers: weak_claims=2; cached_sources=2
+- Checkpoint 2026-06-08T12:02:45: cycle=26; task=dense_batch; elapsed=60s; result=tasks=29428; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=187342500; baseline=8; score_range=0-16; levels={'independent_review': 83150009, 'ordinary': 4162638, 'safeguards_required': 76612305, 'written_review': 23417548}
+- Checkpoint 2026-06-08T12:03:00: cycle=26; task=dense_batch; elapsed=75s; result=tasks=29358; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=195497500; baseline=8; score_range=0-16; levels={'independent_review': 86769369, 'ordinary': 4343206, 'safeguards_required': 79946367, 'written_review': 24438558}
+- Checkpoint 2026-06-08T12:03:15: cycle=26; task=dense_batch; elapsed=90s; result=tasks=29142; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=203592500; baseline=8; score_range=0-16; levels={'independent_review': 90365436, 'ordinary': 4523141, 'safeguards_required': 83252881, 'written_review': 25451042}
+- Checkpoint 2026-06-08T12:03:30: cycle=26; task=dense_batch; elapsed=105s; result=tasks=29223; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=211710000; baseline=8; score_range=0-16; levels={'independent_review': 93968036, 'ordinary': 4703197, 'safeguards_required': 86571556, 'written_review': 26467211}
+- Checkpoint 2026-06-08T12:03:45: cycle=26; task=dense_batch; elapsed=120s; result=tasks=28575; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=219647500; baseline=8; score_range=0-16; levels={'independent_review': 97490525, 'ordinary': 4879604, 'safeguards_required': 89816600, 'written_review': 27460771}
+- Checkpoint 2026-06-08T12:04:00: cycle=26; task=dense_batch; elapsed=135s; result=tasks=28683; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=227615000; baseline=8; score_range=0-16; levels={'independent_review': 101026730, 'ordinary': 5056623, 'safeguards_required': 93075291, 'written_review': 28456356}
+- Checkpoint 2026-06-08T12:04:15: cycle=26; task=dense_batch; elapsed=150s; result=tasks=28728; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=235595000; baseline=8; score_range=0-16; levels={'independent_review': 104570163, 'ordinary': 5234166, 'safeguards_required': 96337786, 'written_review': 29452885}
+- Checkpoint 2026-06-08T12:04:30: cycle=26; task=dense_batch; elapsed=165s; result=tasks=29259; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=243722500; baseline=8; score_range=0-16; levels={'independent_review': 108177187, 'ordinary': 5414999, 'safeguards_required': 99660340, 'written_review': 30469974}
+- Checkpoint 2026-06-08T12:04:45: cycle=26; task=dense_batch; elapsed=180s; result=tasks=29358; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=251877500; baseline=8; score_range=0-16; levels={'independent_review': 111797343, 'ordinary': 5596328, 'safeguards_required': 102995304, 'written_review': 31488525}
+- Checkpoint 2026-06-08T12:05:00: cycle=26; task=dense_batch; elapsed=195s; result=tasks=29367; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=260035000; baseline=8; score_range=0-16; levels={'independent_review': 115418236, 'ordinary': 5777184, 'safeguards_required': 106329543, 'written_review': 32510037}
+- Checkpoint 2026-06-08T12:05:15: cycle=26; task=dense_batch; elapsed=210s; result=tasks=29421; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=268207500; baseline=8; score_range=0-16; levels={'independent_review': 119045306, 'ordinary': 5959004, 'safeguards_required': 109672159, 'written_review': 33531031}
+- Checkpoint 2026-06-08T12:05:30: cycle=26; task=dense_batch; elapsed=225s; result=tasks=29331; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=276355000; baseline=8; score_range=0-16; levels={'independent_review': 122660465, 'ordinary': 6140032, 'safeguards_required': 113005335, 'written_review': 34549168}
+- Checkpoint 2026-06-08T12:05:45: cycle=26; task=dense_batch; elapsed=240s; result=tasks=29376; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=284515000; baseline=8; score_range=0-16; levels={'independent_review': 126281775, 'ordinary': 6321165, 'safeguards_required': 116344289, 'written_review': 35567771}
+- Checkpoint 2026-06-08T12:06:00: cycle=26; task=dense_batch; elapsed=255s; result=tasks=29398; batch_seconds=15.0; last=select_corroboration_target: selected preprint target for Governments and institutions
+- Checkpoint 2026-06-08T12:06:15: cycle=26; task=dense_batch; elapsed=270s; result=tasks=29786; batch_seconds=15.0; last=run_precaution_threshold_sweep: sweep_units=300955000; baseline=8; score_range=0-16; levels={'independent_review': 133578028, 'ordinary': 6686570, 'safeguards_required': 123069052, 'written_review': 37621350}
+- Checkpoint 2026-06-08T12:06:25: cycle=26; task=dense_batch; elapsed=280s; result=tasks=19890; batch_seconds=10.0; last=run_precaution_threshold_sweep: sweep_units=306480000; baseline=8; score_range=0-16; levels={'independent_review': 136030887, 'ordinary': 6809426, 'safeguards_required': 125328307, 'written_review': 38311380}
+- Checkpoint 2026-06-08T12:06:25: cycle=26; task=end_micro_work; elapsed=280s; result=recent_completed=20; counts={'audit_artifact_integrity': 60119, 'scan_corroboration_markers': 60119, 'review_evidence_quality': 60119, 'select_corroboration_target': 60119, 'audit_guardrails': 60119, 'review_uncertainty_coverage': 60119, 'refresh_next_queue': 60119, 'harvest_source_metadata': 60119, 'run_precaution_threshold_sweep': 60119}; queued=7; fetches=3
+## Cycle 27 - 2026-06-08T12:08:28
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T12:08:28: cycle=27; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T12:08:29: cycle=27; task=dense_batch; elapsed=1s; result=tasks=248; batch_seconds=1.0; static_skips=1673; last=run_precaution_threshold_sweep: sweep_units=307080000; baseline=8; score_range=0-16; levels={'independent_review': 136297293, 'ordinary': 6822647, 'safeguards_required': 125573389, 'written_review': 38386671}
+- Checkpoint 2026-06-08T12:08:30: cycle=27; task=dense_batch; elapsed=2s; result=tasks=240; batch_seconds=1.0; static_skips=1680; last=run_precaution_threshold_sweep: sweep_units=307680000; baseline=8; score_range=0-16; levels={'independent_review': 136563573, 'ordinary': 6836041, 'safeguards_required': 125818656, 'written_review': 38461730}
+- Checkpoint 2026-06-08T12:08:31: cycle=27; task=dense_batch; elapsed=3s; result=tasks=248; batch_seconds=1.0; static_skips=1673; last=run_precaution_threshold_sweep: sweep_units=308280000; baseline=8; score_range=0-16; levels={'independent_review': 136830154, 'ordinary': 6849278, 'safeguards_required': 126064102, 'written_review': 38536466}
+- Checkpoint 2026-06-08T12:08:31: cycle=27; task=end_micro_work; elapsed=3s; result=recent_completed=20; counts={'audit_artifact_integrity': 2, 'scan_corroboration_markers': 2, 'review_evidence_quality': 2, 'select_corroboration_target': 2, 'audit_guardrails': 2, 'review_uncertainty_coverage': 2, 'refresh_next_queue': 2, 'harvest_source_metadata': 2, 'run_precaution_threshold_sweep': 720}; static_skips={'audit_artifact_integrity': 718, 'scan_corroboration_markers': 718, 'review_evidence_quality': 718, 'select_corroboration_target': 718, 'audit_guardrails': 718, 'review_uncertainty_coverage': 718, 'refresh_next_queue': 718}; queued=7; fetches=0
+## Cycle 28 - 2026-06-08T12:09:10
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T12:09:10: cycle=28; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T12:09:11: cycle=28; task=dense_batch; elapsed=1s; result=tasks=247; batch_seconds=1.0; static_skips=1666; last=run_precaution_threshold_sweep: sweep_units=308877500; baseline=8; score_range=0-16; levels={'independent_review': 137095889, 'ordinary': 6862639, 'safeguards_required': 126308002, 'written_review': 38610970}
+- Checkpoint 2026-06-08T12:09:12: cycle=28; task=dense_batch; elapsed=2s; result=tasks=240; batch_seconds=1.0; static_skips=1680; last=run_precaution_threshold_sweep: sweep_units=309477500; baseline=8; score_range=0-16; levels={'independent_review': 137362253, 'ordinary': 6875833, 'safeguards_required': 126553173, 'written_review': 38686241}
+- Checkpoint 2026-06-08T12:09:13: cycle=28; task=dense_batch; elapsed=3s; result=tasks=249; batch_seconds=1.0; static_skips=1680; last=run_precaution_threshold_sweep: sweep_units=310080000; baseline=8; score_range=0-16; levels={'independent_review': 137629548, 'ordinary': 6889244, 'safeguards_required': 126799665, 'written_review': 38761543}
+- Checkpoint 2026-06-08T12:09:13: cycle=28; task=end_micro_work; elapsed=3s; result=recent_completed=20; counts={'audit_artifact_integrity': 2, 'scan_corroboration_markers': 2, 'review_evidence_quality': 2, 'select_corroboration_target': 2, 'audit_guardrails': 2, 'review_uncertainty_coverage': 2, 'refresh_next_queue': 2, 'harvest_source_metadata': 2, 'run_precaution_threshold_sweep': 720}; static_skips={}; queued=7; fetches=0
+## Cycle 29 - 2026-06-08T12:09:51
+- Checked AGENTS.md constraints and ran one bounded work pass.
+- Refreshed existing artifact(s): sentience_welfare_radar.md, evidence_notebook.md, precaution_checklist.md, project_assessments.md.
+- Current focus: sentience welfare radar.
+- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.
+- Next: corroborate one weaker source-quality claim before expanding the notebook.
+
+- Checkpoint 2026-06-08T12:09:51: cycle=29; task=start_micro_work; elapsed=0s; result=started timed queue
+- Checkpoint 2026-06-08T12:10:06: cycle=29; task=dense_batch; elapsed=15s; result=tasks=3611; batch_seconds=15.0; static_skips=25214; last=run_precaution_threshold_sweep: sweep_units=319087500; baseline=8; score_range=0-16; levels={'independent_review': 141625649, 'ordinary': 7089263, 'safeguards_required': 130484025, 'written_review': 39888563}
+- Checkpoint 2026-06-08T12:10:21: cycle=29; task=dense_batch; elapsed=30s; result=tasks=3628; batch_seconds=15.0; static_skips=25396; last=run_precaution_threshold_sweep: sweep_units=328157500; baseline=8; score_range=0-16; levels={'independent_review': 145652687, 'ordinary': 7290804, 'safeguards_required': 134193319, 'written_review': 41020690}
+- Checkpoint 2026-06-08T12:10:36: cycle=29; task=dense_batch; elapsed=45s; result=tasks=3525; batch_seconds=15.0; static_skips=24675; last=run_precaution_threshold_sweep: sweep_units=336970000; baseline=8; score_range=0-16; levels={'independent_review': 149562100, 'ordinary': 7486871, 'safeguards_required': 137799327, 'written_review': 42121702}
+- Checkpoint 2026-06-08T12:10:51: cycle=29; task=dense_batch; elapsed=60s; result=tasks=3582; batch_seconds=15.0; static_skips=25011; last=run_precaution_threshold_sweep: sweep_units=345905000; baseline=8; score_range=0-16; levels={'independent_review': 153527467, 'ordinary': 7685032, 'safeguards_required': 141454048, 'written_review': 43238453}
+- Checkpoint 2026-06-08T12:11:06: cycle=29; task=dense_batch; elapsed=75s; result=tasks=3551; batch_seconds=15.0; static_skips=24857; last=run_precaution_threshold_sweep: sweep_units=354782500; baseline=8; score_range=0-16; levels={'independent_review': 157468031, 'ordinary': 7882474, 'safeguards_required': 145083584, 'written_review': 44348411}
+- Checkpoint 2026-06-08T12:11:21: cycle=29; task=dense_batch; elapsed=90s; result=tasks=3532; batch_seconds=15.0; static_skips=24724; last=run_precaution_threshold_sweep: sweep_units=363612500; baseline=8; score_range=0-16; levels={'independent_review': 161387703, 'ordinary': 8078359, 'safeguards_required': 148692560, 'written_review': 45453878}
+- Checkpoint 2026-06-08T12:11:36: cycle=29; task=dense_batch; elapsed=105s; result=tasks=3519; batch_seconds=15.0; static_skips=24633; last=run_precaution_threshold_sweep: sweep_units=372410000; baseline=8; score_range=0-16; levels={'independent_review': 165295238, 'ordinary': 8273473, 'safeguards_required': 152287240, 'written_review': 46554049}
+- Checkpoint 2026-06-08T12:11:51: cycle=29; task=dense_batch; elapsed=120s; result=tasks=3474; batch_seconds=15.0; static_skips=24255; last=run_precaution_threshold_sweep: sweep_units=381075000; baseline=8; score_range=0-16; levels={'independent_review': 169140756, 'ordinary': 8465957, 'safeguards_required': 155829729, 'written_review': 47638558}
+- Checkpoint 2026-06-08T12:12:06: cycle=29; task=dense_batch; elapsed=135s; result=tasks=3454; batch_seconds=15.0; static_skips=24178; last=run_precaution_threshold_sweep: sweep_units=389710000; baseline=8; score_range=0-16; levels={'independent_review': 172973252, 'ordinary': 8657829, 'safeguards_required': 159360417, 'written_review': 48718502}
+- Checkpoint 2026-06-08T12:12:21: cycle=29; task=dense_batch; elapsed=150s; result=tasks=3507; batch_seconds=15.0; static_skips=24549; last=run_precaution_threshold_sweep: sweep_units=398477500; baseline=8; score_range=0-16; levels={'independent_review': 176864940, 'ordinary': 8852726, 'safeguards_required': 162946217, 'written_review': 49813617}
+- Checkpoint 2026-06-08T12:12:36: cycle=29; task=dense_batch; elapsed=165s; result=tasks=3544; batch_seconds=15.0; static_skips=24808; last=run_precaution_threshold_sweep: sweep_units=407337500; baseline=8; score_range=0-16; levels={'independent_review': 180797000, 'ordinary': 9049972, 'safeguards_required': 166568547, 'written_review': 50921981}
+- Checkpoint 2026-06-08T12:12:51: cycle=29; task=dense_batch; elapsed=180s; result=tasks=3581; batch_seconds=15.0; static_skips=25004; last=run_precaution_threshold_sweep: sweep_units=416270000; baseline=8; score_range=0-16; levels={'independent_review': 184762784, 'ordinary': 9248620, 'safeguards_required': 170220612, 'written_review': 52037984}
+- Checkpoint 2026-06-08T12:13:06: cycle=29; task=dense_batch; elapsed=195s; result=tasks=3560; batch_seconds=15.0; static_skips=24920; last=run_precaution_threshold_sweep: sweep_units=425170000; baseline=8; score_range=0-16; levels={'independent_review': 188713264, 'ordinary': 9445919, 'safeguards_required': 173858992, 'written_review': 53151825}

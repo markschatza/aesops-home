@@ -1,0 +1,273 @@
+{
+  "artifact_integrity": {
+    "checked_at": "2026-06-08T12:12:51",
+    "files": {
+      "evidence_notebook.md": {
+        "exists": true,
+        "headings": 3,
+        "lines": 29,
+        "links": 6,
+        "table_rows": 13,
+        "unique_links": 6
+      },
+      "precaution_checklist.md": {
+        "exists": true,
+        "headings": 5,
+        "lines": 39,
+        "links": 0,
+        "table_rows": 14,
+        "unique_links": 0
+      },
+      "project_assessments.md": {
+        "exists": true,
+        "headings": 2,
+        "lines": 22,
+        "links": 0,
+        "table_rows": 0,
+        "unique_links": 0
+      },
+      "sentience_welfare_radar.md": {
+        "exists": true,
+        "headings": 6,
+        "lines": 35,
+        "links": 5,
+        "table_rows": 0,
+        "unique_links": 5
+      }
+    }
+  },
+  "artifacts": [
+    "sentience_welfare_radar.md",
+    "evidence_notebook.md",
+    "precaution_checklist.md",
+    "project_assessments.md"
+  ],
+  "completed_in_cycle": [
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425122500; baseline=8; score_range=0-16; levels={'independent_review': 188692167, 'ordinary': 9444862, 'safeguards_required': 173839557, 'written_review': 53145914}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425125000; baseline=8; score_range=0-16; levels={'independent_review': 188693261, 'ordinary': 9444906, 'safeguards_required': 173840598, 'written_review': 53146235}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425127500; baseline=8; score_range=0-16; levels={'independent_review': 188694378, 'ordinary': 9444960, 'safeguards_required': 173841617, 'written_review': 53146545}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425130000; baseline=8; score_range=0-16; levels={'independent_review': 188695463, 'ordinary': 9445012, 'safeguards_required': 173842652, 'written_review': 53146873}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425132500; baseline=8; score_range=0-16; levels={'independent_review': 188696543, 'ordinary': 9445076, 'safeguards_required': 173843719, 'written_review': 53147162}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425135000; baseline=8; score_range=0-16; levels={'independent_review': 188697636, 'ordinary': 9445132, 'safeguards_required': 173844735, 'written_review': 53147497}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425137500; baseline=8; score_range=0-16; levels={'independent_review': 188698790, 'ordinary': 9445188, 'safeguards_required': 173845726, 'written_review': 53147796}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425140000; baseline=8; score_range=0-16; levels={'independent_review': 188699907, 'ordinary': 9445248, 'safeguards_required': 173846751, 'written_review': 53148094}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425142500; baseline=8; score_range=0-16; levels={'independent_review': 188701030, 'ordinary': 9445308, 'safeguards_required': 173847771, 'written_review': 53148391}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425145000; baseline=8; score_range=0-16; levels={'independent_review': 188702180, 'ordinary': 9445355, 'safeguards_required': 173848756, 'written_review': 53148709}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425147500; baseline=8; score_range=0-16; levels={'independent_review': 188703290, 'ordinary': 9445408, 'safeguards_required': 173849771, 'written_review': 53149031}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425150000; baseline=8; score_range=0-16; levels={'independent_review': 188704358, 'ordinary': 9445460, 'safeguards_required': 173850848, 'written_review': 53149334}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425152500; baseline=8; score_range=0-16; levels={'independent_review': 188705478, 'ordinary': 9445516, 'safeguards_required': 173851842, 'written_review': 53149664}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 194,
+      "result": "sweep_units=425155000; baseline=8; score_range=0-16; levels={'independent_review': 188706637, 'ordinary': 9445585, 'safeguards_required': 173852795, 'written_review': 53149983}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 195,
+      "result": "sweep_units=425157500; baseline=8; score_range=0-16; levels={'independent_review': 188707699, 'ordinary': 9445646, 'safeguards_required': 173853875, 'written_review': 53150280}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 195,
+      "result": "sweep_units=425160000; baseline=8; score_range=0-16; levels={'independent_review': 188708790, 'ordinary': 9445691, 'safeguards_required': 173854916, 'written_review': 53150603}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 195,
+      "result": "sweep_units=425162500; baseline=8; score_range=0-16; levels={'independent_review': 188709889, 'ordinary': 9445752, 'safeguards_required': 173855945, 'written_review': 53150914}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 195,
+      "result": "sweep_units=425165000; baseline=8; score_range=0-16; levels={'independent_review': 188710991, 'ordinary': 9445803, 'safeguards_required': 173856983, 'written_review': 53151223}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 195,
+      "result": "sweep_units=425167500; baseline=8; score_range=0-16; levels={'independent_review': 188712134, 'ordinary': 9445866, 'safeguards_required': 173857985, 'written_review': 53151515}",
+      "task": "run_precaution_threshold_sweep"
+    },
+    {
+      "completed_at": "2026-06-08T12:13:06",
+      "elapsed_seconds": 195,
+      "result": "sweep_units=425170000; baseline=8; score_range=0-16; levels={'independent_review': 188713264, 'ordinary': 9445919, 'safeguards_required': 173858992, 'written_review': 53151825}",
+      "task": "run_precaution_threshold_sweep"
+    }
+  ],
+  "completed_task_counts": {
+    "audit_artifact_integrity": 4,
+    "audit_guardrails": 4,
+    "harvest_source_metadata": 4,
+    "refresh_next_queue": 4,
+    "review_evidence_quality": 4,
+    "review_uncertainty_coverage": 4,
+    "run_precaution_threshold_sweep": 46036,
+    "scan_corroboration_markers": 4,
+    "select_corroboration_target": 4
+  },
+  "cooldown_filler_runs": 46032,
+  "corroboration_marker_scan": {
+    "checked_at": "2026-06-08T12:12:51",
+    "weak_claims": {
+      "Governments and institutions": {
+        "cached": true,
+        "fetch_ok": true,
+        "keyword_counts": {
+          "agency": 0,
+          "consciousness": 7,
+          "pain": 0,
+          "precaution": 0,
+          "sentience": 33,
+          "welfare": 0
+        },
+        "next_step": "seek independent corroborating or limiting source before raising confidence",
+        "source": "https://arxiv.org/abs/2603.01508",
+        "source_quality": "preprint",
+        "title": "[2603.01508] The Sentience Readiness Index: A Preliminary Framework for Measuring National Preparedness for the Possibility of Artificial Sentience"
+      },
+      "Possible artificial systems": {
+        "cached": true,
+        "fetch_ok": true,
+        "keyword_counts": {
+          "agency": 0,
+          "consciousness": 0,
+          "pain": 0,
+          "precaution": 0,
+          "sentience": 0,
+          "welfare": 0
+        },
+        "next_step": "seek independent corroborating or limiting source before raising confidence",
+        "source": "https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
+        "source_quality": "speculative",
+        "title": ""
+      }
+    }
+  },
+  "created_at": "2026-06-08T10:30:09",
+  "current_focus": "sentience welfare radar",
+  "cycle": 29,
+  "evidence_quality_counts": {
+    "peer-reviewed": 4,
+    "preprint": 1,
+    "speculative": 1
+  },
+  "last_batch": {
+    "batch_seconds": 15.003,
+    "completed_at": "2026-06-08T12:13:06",
+    "last_result": "run_precaution_threshold_sweep: sweep_units=425170000; baseline=8; score_range=0-16; levels={'independent_review': 188713264, 'ordinary': 9445919, 'safeguards_required': 173858992, 'written_review': 53151825}",
+    "static_skips": 24920,
+    "tasks": 3560
+  },
+  "last_run_at": "2026-06-08T12:09:51",
+  "last_task": "run_precaution_threshold_sweep",
+  "latest_guardrail_audit": {
+    "checked_at": "2026-06-08T12:12:51",
+    "findings": []
+  },
+  "next_corroboration_target": {
+    "being": "Governments and institutions",
+    "source": "https://arxiv.org/abs/2603.01508",
+    "source_quality": "preprint",
+    "task": "Find one independent peer-reviewed corroborating or limiting source before expanding this claim."
+  },
+  "skipped_static_task_counts": {},
+  "source_cursor": 0,
+  "source_fetches_this_cycle": 0,
+  "threshold_sweep_baseline": 8,
+  "threshold_sweep_cursor": 425170000,
+  "threshold_sweep_distribution": {
+    "independent_review": 188713264,
+    "ordinary": 9445919,
+    "safeguards_required": 173858992,
+    "written_review": 53151825
+  },
+  "threshold_sweep_max_score": 16,
+  "threshold_sweep_min_score": 0,
+  "uncertainty_review": {
+    "checked_at": "2026-06-08T12:12:51",
+    "uncertainty_notes": 3,
+    "weak_claim_beings_without_direct_note": [
+      "Governments and institutions",
+      "Possible artificial systems"
+    ]
+  },
+  "work_queue": [
+    "audit_artifact_integrity",
+    "scan_corroboration_markers",
+    "review_evidence_quality",
+    "select_corroboration_target",
+    "audit_guardrails",
+    "review_uncertainty_coverage",
+    "refresh_next_queue"
+  ]
+}

@@ -1,0 +1,637 @@
+#!/usr/bin/env python3
+"""Aesop's bounded work cycle.
+
+The loop runner gives this process a short timer window. Each invocation does
+durable artifact refreshes, then keeps using the remaining window for small
+checkpointed review tasks so an interrupted run still leaves a useful trail.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import re
+from datetime import datetime
+from pathlib import Path
+import time
+from urllib.error import URLError
+from urllib.request import Request, urlopen
+
+from evidence_notebook import CLAIMS, UNCERTAINTY_NOTES, render_notebook
+from precaution_checklist import render_checklist
+from project_assessments import enforce_guardrails, guardrail_report, render_assessments
+
+
+ROOT = Path(__file__).resolve().parent
+NOTES = ROOT / "notes.txt"
+STATE = ROOT / "state.json"
+SOURCE_CACHE = ROOT / "source_cache.json"
+RADAR = ROOT / "sentience_welfare_radar.md"
+NOTEBOOK = ROOT / "evidence_notebook.md"
+CHECKLIST = ROOT / "precaution_checklist.md"
+ASSESSMENTS = ROOT / "project_assessments.md"
+ARTIFACTS = [RADAR, NOTEBOOK, CHECKLIST, ASSESSMENTS]
+WORK_BUDGET_SECONDS = int(os.environ.get("AESOP_WORK_BUDGET_SECONDS", "294"))
+CHECKPOINT_BATCH_SECONDS = int(os.environ.get("AESOP_CHECKPOINT_BATCH_SECONDS", "15"))
+MAX_FETCHES_PER_CYCLE = int(os.environ.get("AESOP_MAX_FETCHES_PER_CYCLE", "3"))
+FETCH_TIMEOUT_SECONDS = int(os.environ.get("AESOP_FETCH_TIMEOUT_SECONDS", "8"))
+FETCH_BYTES = int(os.environ.get("AESOP_FETCH_BYTES", "65536"))
+STATIC_TASK_COOLDOWN_SECONDS = int(os.environ.get("AESOP_STATIC_TASK_COOLDOWN_SECONDS", "60"))
+DEFAULT_WORK_QUEUE = [
+    "harvest_source_metadata",
+    "run_precaution_threshold_sweep",
+    "audit_artifact_integrity",
+    "scan_corroboration_markers",
+    "review_evidence_quality",
+    "select_corroboration_target",
+    "audit_guardrails",
+    "review_uncertainty_coverage",
+    "refresh_next_queue",
+]
+
+ALWAYS_RUN_TASKS = {"run_precaution_threshold_sweep"}
+
+
+SEED_SOURCES = [
+    {
+        "title": "The self-preservation test for artificial sentience",
+        "url": "https://link.springer.com/article/10.1007/s43681-026-00983-x",
+        "note": "A 2026 AI and Ethics paper proposing self-preservation behavior as evidence relevant to artificial sentience.",
+    },
+    {
+        "title": "The teleonome: a framework for understanding animal welfare",
+        "url": "https://www.frontiersin.org/journals/animal-science/articles/10.3389/fanim.2026.1768519/full",
+        "note": "A 2026 animal welfare framework integrating affective regulation, agency, adaptive capabilities, and environmental affordances.",
+    },
+    {
+        "title": "Sentience Readiness Index",
+        "url": "https://arxiv.org/abs/2603.01508",
+        "note": "A 2026 governance-oriented index for national preparedness around possible artificial sentience.",
+    },
+    {
+        "title": "Automated extraction of scientific statements for integrated assessment of animal welfare using language models",
+        "url": "https://www.sciencedirect.com/science/article/pii/S2772375526000389",
+        "note": "A 2026 example of language models helping scale animal-welfare evidence synthesis.",
+    },
+    {
+        "title": "When Should We Protect AI? A Precautionary Framework for Consciousness Uncertainty",
+        "url": "https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
+        "note": "A 2026 AAAI Spring Symposium paper mapping consciousness evidence to graduated protective obligations.",
+    },
+]
+
+
+def load_state() -> dict:
+    if not STATE.exists():
+        return {"cycle": 0, "created_at": datetime.now().isoformat(timespec="seconds")}
+    try:
+        return json.loads(STATE.read_text())
+    except json.JSONDecodeError:
+        return {
+            "cycle": 0,
+            "created_at": datetime.now().isoformat(timespec="seconds"),
+            "warning": "state.json was unreadable and has been restarted",
+        }
+
+
+def save_state(state: dict) -> None:
+    STATE.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n")
+
+
+def load_source_cache() -> dict:
+    if not SOURCE_CACHE.exists():
+        return {"sources": {}}
+    try:
+        cache = json.loads(SOURCE_CACHE.read_text())
+    except json.JSONDecodeError:
+        return {"sources": {}, "warning": "source_cache.json was unreadable and has been restarted"}
+    if not isinstance(cache, dict):
+        return {"sources": {}}
+    sources = cache.get("sources")
+    if not isinstance(sources, dict):
+        cache["sources"] = {}
+    return cache
+
+
+def save_source_cache(cache: dict) -> None:
+    SOURCE_CACHE.write_text(json.dumps(cache, indent=2, sort_keys=True) + "\n")
+
+
+def append_note(lines: list[str]) -> None:
+    with NOTES.open("a", encoding="utf-8") as handle:
+        handle.write("\n".join(lines) + "\n")
+
+
+def append_checkpoint(cycle: int, task_id: str, elapsed: float, result: str) -> None:
+    append_note(
+        [
+            f"- Checkpoint {datetime.now().isoformat(timespec='seconds')}: "
+            f"cycle={cycle}; task={task_id}; elapsed={int(elapsed)}s; result={result}",
+        ]
+    )
+
+
+def artifact_names(paths: list[Path]) -> str:
+    return ", ".join(path.name for path in paths)
+
+
+def ensure_work_queue(state: dict) -> list[str]:
+    queue = state.get("work_queue")
+    if not isinstance(queue, list):
+        queue = []
+    queue = [item for item in queue if item in DEFAULT_WORK_QUEUE]
+    if not queue:
+        queue = DEFAULT_WORK_QUEUE.copy()
+    state["work_queue"] = queue
+    return queue
+
+
+def source_urls() -> list[str]:
+    urls: list[str] = []
+    for claim in CLAIMS:
+        url = claim.get("source")
+        if url and url not in urls:
+            urls.append(url)
+    for source in SEED_SOURCES:
+        url = source["url"]
+        if url not in urls:
+            urls.append(url)
+    return urls
+
+
+def extract_html_title(text: str) -> str:
+    meta_patterns = [
+        r'<meta[^>]+name=["\']citation_title["\'][^>]+content=["\']([^"\']+)["\']',
+        r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']+)["\']',
+        r'<meta[^>]+name=["\']twitter:title["\'][^>]+content=["\']([^"\']+)["\']',
+    ]
+    for pattern in meta_patterns:
+        match = re.search(pattern, text, re.IGNORECASE | re.DOTALL)
+        if match:
+            return re.sub(r"\s+", " ", match.group(1)).strip()
+
+    title_match = re.search(r"<title[^>]*>(.*?)</title>", text, re.IGNORECASE | re.DOTALL)
+    return re.sub(r"\s+", " ", title_match.group(1)).strip() if title_match else ""
+
+
+def today_stamp() -> str:
+    return datetime.now().date().isoformat()
+
+
+def ensure_radar() -> None:
+    if RADAR.exists():
+        return
+
+    source_lines = "\n".join(
+        f"- [{source['title']}]({source['url']}): {source['note']}"
+        for source in SEED_SOURCES
+    )
+    RADAR.write_text(
+        "\n".join(
+            [
+                "# Sentience Welfare Radar",
+                "",
+                "A small, living map for research and prototypes that could reduce suffering or improve welfare across biological and possible artificial minds.",
+                "",
+                "## Working Principles",
+                "",
+                "- Prefer low-risk, reversible experiments.",
+                "- Treat uncertain sentience with humility and proportional precaution.",
+                "- Build tools that help humans see evidence, tradeoffs, and neglected beings more clearly.",
+                "- Keep artifacts legible enough that Brotisserie can inspect the trail quickly.",
+                "",
+                "## Seed Questions",
+                "",
+                "- What observable indicators should trigger extra care for animals, humans, or AI systems?",
+                "- How can evidence about welfare be summarized without overstating confidence?",
+                "- Which small tools could help advocates, researchers, or caretakers make kinder decisions?",
+                "",
+                "## Recent Leads",
+                "",
+                source_lines,
+                "",
+                "## Prototype Ideas",
+                "",
+                "- Evidence notebook: collect welfare claims with source links, confidence, and affected beings.",
+                "- Precaution checklist: a tiny evaluator for new experiments involving possible sentient systems.",
+                "- Care dashboard: a local, transparent habit tracker for research, cleanup, and reflection.",
+                "",
+                "## Next Step",
+                "",
+                "Run one concrete project assessment, then decide which safeguard should become code.",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+
+def review_evidence_quality(state: dict) -> str:
+    counts: dict[str, int] = {}
+    for claim in CLAIMS:
+        quality = claim.get("source_quality", "unknown")
+        counts[quality] = counts.get(quality, 0) + 1
+    state["evidence_quality_counts"] = counts
+    weak = counts.get("preprint", 0) + counts.get("speculative", 0) + counts.get("abstract", 0)
+    return f"quality_counts={counts}; weaker_claims={weak}"
+
+
+def select_corroboration_target(state: dict) -> str:
+    target = next(
+        (
+            claim
+            for claim in CLAIMS
+            if claim.get("source_quality") in {"preprint", "speculative", "abstract"}
+        ),
+        None,
+    )
+    if target is None:
+        state["next_corroboration_target"] = None
+        return "no weak source-quality target found"
+    summary = {
+        "being": target["being"],
+        "source_quality": target["source_quality"],
+        "source": target["source"],
+        "task": "Find one independent peer-reviewed corroborating or limiting source before expanding this claim.",
+    }
+    state["next_corroboration_target"] = summary
+    return f"selected {target['source_quality']} target for {target['being']}"
+
+
+def audit_guardrails(state: dict) -> str:
+    findings = guardrail_report()
+    state["latest_guardrail_audit"] = {
+        "checked_at": datetime.now().isoformat(timespec="seconds"),
+        "findings": findings,
+    }
+    if findings:
+        return f"guardrail findings={len(findings)}"
+    return "guardrails clear"
+
+
+def review_uncertainty_coverage(state: dict) -> str:
+    covered_topics = {item["topic"] for item in UNCERTAINTY_NOTES}
+    uncovered = [
+        claim["being"]
+        for claim in CLAIMS
+        if claim.get("source_quality") in {"preprint", "speculative", "abstract"}
+        and not any(claim["being"] in topic for topic in covered_topics)
+    ]
+    state["uncertainty_review"] = {
+        "checked_at": datetime.now().isoformat(timespec="seconds"),
+        "uncertainty_notes": len(UNCERTAINTY_NOTES),
+        "weak_claim_beings_without_direct_note": sorted(set(uncovered)),
+    }
+    if uncovered:
+        return f"uncertainty gap candidates={sorted(set(uncovered))}"
+    return "uncertainty coverage adequate for current weak claims"
+
+
+def refresh_next_queue(state: dict) -> str:
+    state["work_queue"] = DEFAULT_WORK_QUEUE.copy()
+    return "queue replenished"
+
+
+def harvest_source_metadata(state: dict) -> str:
+    cache = load_source_cache()
+    sources = cache.setdefault("sources", {})
+    fetched_today = int(state.get("source_fetches_this_cycle", 0))
+    if fetched_today >= MAX_FETCHES_PER_CYCLE:
+        return f"fetch budget used={fetched_today}/{MAX_FETCHES_PER_CYCLE}"
+
+    urls = source_urls()
+    if not urls:
+        return "no source urls available"
+
+    start_index = int(state.get("source_cursor", 0)) % len(urls)
+    selected_url = None
+    for offset in range(len(urls)):
+        index = (start_index + offset) % len(urls)
+        url = urls[index]
+        record = sources.get(url, {})
+        if record.get("fetched_date") != today_stamp():
+            selected_url = url
+            state["source_cursor"] = (index + 1) % len(urls)
+            break
+
+    if selected_url is None:
+        return f"all sources checked today; total={len(urls)}"
+
+    requested_at = datetime.now().isoformat(timespec="seconds")
+    request = Request(
+        selected_url,
+        headers={
+            "User-Agent": "AesopLooplab/0.1 (+local welfare evidence scout; polite bounded metadata fetch)"
+        },
+    )
+    try:
+        with urlopen(request, timeout=FETCH_TIMEOUT_SECONDS) as response:
+            status = getattr(response, "status", "unknown")
+            final_url = response.geturl()
+            content_type = response.headers.get("content-type", "unknown")
+            raw = response.read(FETCH_BYTES)
+    except (OSError, URLError, TimeoutError) as exc:
+        sources[selected_url] = {
+            "requested_at": requested_at,
+            "fetched_date": today_stamp(),
+            "ok": False,
+            "error": f"{type(exc).__name__}: {exc}",
+        }
+        state["source_fetches_this_cycle"] = fetched_today + 1
+        save_source_cache(cache)
+        return f"fetch failed for {selected_url}: {type(exc).__name__}"
+
+    text = raw.decode("utf-8", errors="replace")
+    title = extract_html_title(text)
+    keyword_counts = {
+        keyword: len(re.findall(rf"\b{re.escape(keyword)}\b", text, re.IGNORECASE))
+        for keyword in ["sentience", "welfare", "consciousness", "pain", "agency", "precaution"]
+    }
+    sources[selected_url] = {
+        "requested_at": requested_at,
+        "fetched_date": today_stamp(),
+        "ok": True,
+        "status": status,
+        "final_url": final_url,
+        "content_type": content_type,
+        "bytes_read": len(raw),
+        "title": title[:180],
+        "keyword_counts": keyword_counts,
+    }
+    state["source_fetches_this_cycle"] = fetched_today + 1
+    save_source_cache(cache)
+    hits = sum(keyword_counts.values())
+    return f"fetched source {state['source_fetches_this_cycle']}/{MAX_FETCHES_PER_CYCLE}; bytes={len(raw)}; keyword_hits={hits}"
+
+
+def audit_artifact_integrity(state: dict) -> str:
+    audit: dict[str, dict[str, object]] = {}
+    for path in ARTIFACTS:
+        if not path.exists():
+            audit[path.name] = {"exists": False}
+            continue
+        text = path.read_text(encoding="utf-8")
+        links = re.findall(r"https?://[^\s)|]+", text)
+        audit[path.name] = {
+            "exists": True,
+            "lines": text.count("\n") + 1,
+            "headings": len(re.findall(r"^#+\s+", text, re.MULTILINE)),
+            "table_rows": len(re.findall(r"^\|", text, re.MULTILINE)),
+            "links": len(links),
+            "unique_links": len(set(links)),
+        }
+    state["artifact_integrity"] = {
+        "checked_at": datetime.now().isoformat(timespec="seconds"),
+        "files": audit,
+    }
+    missing = [name for name, item in audit.items() if not item.get("exists")]
+    if missing:
+        return f"missing artifacts={missing}"
+    total_links = sum(int(item["links"]) for item in audit.values())
+    return f"audited {len(audit)} artifacts; links={total_links}"
+
+
+def scan_corroboration_markers(state: dict) -> str:
+    cache = load_source_cache()
+    source_records = cache.get("sources", {})
+    weak_claims = [
+        claim
+        for claim in CLAIMS
+        if claim.get("source_quality") in {"preprint", "speculative", "abstract"}
+    ]
+    markers = {}
+    for claim in weak_claims:
+        being = claim["being"]
+        source = claim["source"]
+        record = source_records.get(source, {})
+        markers[being] = {
+            "source": source,
+            "source_quality": claim["source_quality"],
+            "cached": bool(record),
+            "fetch_ok": record.get("ok"),
+            "title": record.get("title", ""),
+            "keyword_counts": record.get("keyword_counts", {}),
+            "next_step": "seek independent corroborating or limiting source before raising confidence",
+        }
+    state["corroboration_marker_scan"] = {
+        "checked_at": datetime.now().isoformat(timespec="seconds"),
+        "weak_claims": markers,
+    }
+    cached = sum(1 for item in markers.values() if item["cached"])
+    return f"weak_claims={len(markers)}; cached_sources={cached}"
+
+
+def run_precaution_threshold_sweep(state: dict) -> str:
+    """Stress-test whether project review levels are stable under risk-weight jitter."""
+    from precaution_checklist import CHECKS
+    from project_assessments import ASSESSMENTS, assessment_score
+
+    cursor = int(state.get("threshold_sweep_cursor", 0))
+    batch_size = int(os.environ.get("AESOP_THRESHOLD_SWEEP_BATCH", "2500"))
+    distribution: dict[str, int] = state.get("threshold_sweep_distribution", {})
+    score_min = int(state.get("threshold_sweep_min_score", 999))
+    score_max = int(state.get("threshold_sweep_max_score", -1))
+    assessment = ASSESSMENTS[0]
+    baseline = assessment_score(assessment)
+
+    # Deterministic pseudo-random jitter over possible risk weights. This gives
+    # the worker CPU-heavy local analysis without external calls or log bloat.
+    seed = cursor or 1
+    for _ in range(batch_size):
+        seed = (1103515245 * seed + 12345) % (2**31)
+        adjusted_score = 0
+        for check_index in assessment["matched_checks"]:
+            shift = ((seed >> (check_index * 3)) & 0b111) - 3
+            base_risk = int(CHECKS[check_index]["risk"])
+            adjusted_score += max(0, min(4, base_risk + shift))
+        score_min = min(score_min, adjusted_score)
+        score_max = max(score_max, adjusted_score)
+        level = "ordinary"
+        if adjusted_score >= 10:
+            level = "independent_review"
+        elif adjusted_score >= 6:
+            level = "safeguards_required"
+        elif adjusted_score >= 3:
+            level = "written_review"
+        distribution[level] = int(distribution.get(level, 0)) + 1
+
+    state["threshold_sweep_cursor"] = cursor + batch_size
+    state["threshold_sweep_distribution"] = distribution
+    state["threshold_sweep_min_score"] = score_min
+    state["threshold_sweep_max_score"] = score_max
+    state["threshold_sweep_baseline"] = baseline
+    return (
+        f"sweep_units={state['threshold_sweep_cursor']}; "
+        f"baseline={baseline}; score_range={score_min}-{score_max}; "
+        f"levels={distribution}"
+    )
+
+
+WORK_TASKS = {
+    "harvest_source_metadata": harvest_source_metadata,
+    "run_precaution_threshold_sweep": run_precaution_threshold_sweep,
+    "audit_artifact_integrity": audit_artifact_integrity,
+    "scan_corroboration_markers": scan_corroboration_markers,
+    "review_evidence_quality": review_evidence_quality,
+    "select_corroboration_target": select_corroboration_target,
+    "audit_guardrails": audit_guardrails,
+    "review_uncertainty_coverage": review_uncertainty_coverage,
+    "refresh_next_queue": refresh_next_queue,
+}
+
+
+def run_micro_work_cycle(state: dict, started_at: float) -> None:
+    deadline = started_at + WORK_BUDGET_SECONDS
+    state["completed_in_cycle"] = []
+    state["completed_task_counts"] = {}
+    state["skipped_static_task_counts"] = {}
+    state["cooldown_filler_runs"] = 0
+    state["source_fetches_this_cycle"] = 0
+    append_checkpoint(state["cycle"], "start_micro_work", 0, "started timed queue")
+    save_state(state)
+
+    next_checkpoint_at = started_at + CHECKPOINT_BATCH_SECONDS
+    batch_started_at = started_at
+    batch_completed = 0
+    batch_skipped = 0
+    last_result = "no task completed yet"
+    last_static_runs: dict[str, float] = {}
+    while time.monotonic() < deadline:
+        queue = ensure_work_queue(state)
+        task_id = None
+        now = time.monotonic()
+        queue_is_cooling_down = bool(queue) and all(
+            candidate not in ALWAYS_RUN_TASKS
+            and candidate in last_static_runs
+            and now - last_static_runs[candidate] < STATIC_TASK_COOLDOWN_SECONDS
+            for candidate in queue
+        )
+        if queue_is_cooling_down:
+            batch_skipped += len(queue)
+            state["cooldown_filler_runs"] = int(state.get("cooldown_filler_runs", 0)) + 1
+            task_id = "run_precaution_threshold_sweep"
+        else:
+            for _ in range(len(queue)):
+                candidate = queue.pop(0)
+                last_static_run = last_static_runs.get(candidate)
+                if (
+                    candidate in ALWAYS_RUN_TASKS
+                    or last_static_run is None
+                    or now - last_static_run >= STATIC_TASK_COOLDOWN_SECONDS
+                ):
+                    task_id = candidate
+                    break
+                queue.append(candidate)
+                state["skipped_static_task_counts"][candidate] = (
+                    int(state["skipped_static_task_counts"].get(candidate, 0)) + 1
+                )
+                batch_skipped += 1
+        if task_id is None:
+            task_id = "run_precaution_threshold_sweep"
+
+        result = WORK_TASKS[task_id](state)
+        elapsed = time.monotonic() - started_at
+        if task_id not in ALWAYS_RUN_TASKS:
+            last_static_runs[task_id] = time.monotonic()
+        state["last_task"] = task_id
+        state["completed_task_counts"][task_id] = (
+            int(state["completed_task_counts"].get(task_id, 0)) + 1
+        )
+        state["completed_in_cycle"].append(
+            {
+                "task": task_id,
+                "completed_at": datetime.now().isoformat(timespec="seconds"),
+                "elapsed_seconds": int(elapsed),
+                "result": result,
+            }
+        )
+        state["completed_in_cycle"] = state["completed_in_cycle"][-20:]
+        batch_completed += 1
+        last_result = f"{task_id}: {result}"
+
+        now = time.monotonic()
+        if now >= next_checkpoint_at or now >= deadline:
+            batch_elapsed = now - batch_started_at
+            append_checkpoint(
+                state["cycle"],
+                "dense_batch",
+                elapsed,
+                (
+                    f"tasks={batch_completed}; batch_seconds={batch_elapsed:.1f}; "
+                    f"static_skips={batch_skipped}; "
+                    f"last={last_result}"
+                ),
+            )
+            state["last_batch"] = {
+                "completed_at": datetime.now().isoformat(timespec="seconds"),
+                "tasks": batch_completed,
+                "static_skips": batch_skipped,
+                "batch_seconds": round(batch_elapsed, 3),
+                "last_result": last_result,
+            }
+            save_state(state)
+            batch_started_at = now
+            batch_completed = 0
+            batch_skipped = 0
+            next_checkpoint_at = now + CHECKPOINT_BATCH_SECONDS
+
+    elapsed = time.monotonic() - started_at
+    append_checkpoint(
+        state["cycle"],
+        "end_micro_work",
+        elapsed,
+        (
+            f"recent_completed={len(state['completed_in_cycle'])}; "
+            f"counts={state.get('completed_task_counts', {})}; "
+            f"static_skips={state.get('skipped_static_task_counts', {})}; "
+            f"queued={len(state.get('work_queue', []))}; "
+            f"fetches={state.get('source_fetches_this_cycle', 0)}"
+        ),
+    )
+    save_state(state)
+
+
+def main() -> None:
+    started_at = time.monotonic()
+    now = datetime.now().isoformat(timespec="seconds")
+    state = load_state()
+    previous_artifacts = set(state.get("artifacts", []))
+    state["cycle"] = int(state.get("cycle", 0)) + 1
+    state["last_run_at"] = now
+    state["current_focus"] = "sentience welfare radar"
+
+    ensure_radar()
+    enforce_guardrails()
+    render_notebook(NOTEBOOK)
+    render_checklist(CHECKLIST)
+    render_assessments(ASSESSMENTS)
+    current_artifacts = [path for path in ARTIFACTS if path.exists()]
+    current_artifact_names = [path.name for path in current_artifacts]
+    new_artifacts = [
+        path for path in current_artifacts if path.name not in previous_artifacts
+    ]
+    state["artifacts"] = current_artifact_names
+    ensure_work_queue(state)
+    save_state(state)
+
+    if new_artifacts:
+        artifact_line = f"- Added new artifact(s): {artifact_names(new_artifacts)}."
+    else:
+        artifact_line = f"- Refreshed existing artifact(s): {artifact_names(current_artifacts)}."
+
+    append_note(
+        [
+            f"## Cycle {state['cycle']} - {now}",
+            "- Checked AGENTS.md constraints and ran one bounded work pass.",
+            artifact_line,
+            f"- Current focus: {state['current_focus']}.",
+            "- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.",
+            "- Next: corroborate one weaker source-quality claim before expanding the notebook.",
+            "",
+        ]
+    )
+    run_micro_work_cycle(state, started_at)
+
+
+if __name__ == "__main__":
+    main()

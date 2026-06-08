@@ -1,0 +1,118 @@
+{
+  "sources": {
+    "https://arxiv.org/abs/2603.01508": {
+      "bytes_read": 48495,
+      "content_type": "text/html; charset=utf-8",
+      "fetched_date": "2026-06-08",
+      "final_url": "https://arxiv.org/abs/2603.01508",
+      "keyword_counts": {
+        "agency": 0,
+        "consciousness": 7,
+        "pain": 0,
+        "precaution": 0,
+        "sentience": 33,
+        "welfare": 0
+      },
+      "ok": true,
+      "requested_at": "2026-06-08T11:56:06",
+      "status": 200,
+      "title": "[2603.01508] The Sentience Readiness Index: A Preliminary Framework for Measuring National Preparedness for the Possibility of Artificial Sentience"
+    },
+    "https://link.springer.com/article/10.1007/s43681-025-00905-3": {
+      "bytes_read": 65536,
+      "content_type": "text/html; charset=utf-8",
+      "fetched_date": "2026-06-08",
+      "final_url": "https://link.springer.com/article/10.1007/s43681-025-00905-3?error=cookies_not_supported&code=ee2688bd-c41e-46b5-a3ae-e4cfb7c5a8f7",
+      "keyword_counts": {
+        "agency": 0,
+        "consciousness": 0,
+        "pain": 58,
+        "precaution": 1,
+        "sentience": 1,
+        "welfare": 20
+      },
+      "ok": true,
+      "requested_at": "2026-06-08T12:01:45",
+      "status": 200,
+      "title": "Facing the pain: ethical considerations of AI-based pain detection of farmed animals | AI and Ethics | Springer Nature Link"
+    },
+    "https://link.springer.com/article/10.1007/s43681-026-00983-x": {
+      "bytes_read": 65536,
+      "content_type": "text/html; charset=utf-8",
+      "fetched_date": "2026-06-08",
+      "final_url": "https://link.springer.com/article/10.1007/s43681-026-00983-x?error=cookies_not_supported&code=817fda4c-53ad-4597-bbef-b70d3a7e6a7b",
+      "keyword_counts": {
+        "agency": 0,
+        "consciousness": 10,
+        "pain": 3,
+        "precaution": 1,
+        "sentience": 20,
+        "welfare": 3
+      },
+      "ok": true,
+      "requested_at": "2026-06-08T11:54:44",
+      "status": 200,
+      "title": "The self-preservation test for artificial sentience | AI and Ethics | Springer Nature Link"
+    },
+    "https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555": {
+      "bytes_read": 4533,
+      "content_type": "text/html; charset=utf-8",
+      "fetched_date": "2026-06-08",
+      "final_url": "https://ojs.aaai.org/index.php/AAAI-SS/article/view/42555",
+      "keyword_counts": {
+        "agency": 0,
+        "consciousness": 0,
+        "pain": 0,
+        "precaution": 0,
+        "sentience": 0,
+        "welfare": 0
+      },
+      "ok": true,
+      "requested_at": "2026-06-08T11:56:07",
+      "status": 200,
+      "title": ""
+    },
+    "https://research.wur.nl/en/publications/automated-extraction-of-scientific-statements-for-integrated-asse/": {
+      "bytes_read": 65536,
+      "content_type": "text/html;charset=UTF-8",
+      "fetched_date": "2026-06-08",
+      "final_url": "https://research.wur.nl/en/publications/automated-extraction-of-scientific-statements-for-integrated-asse/",
+      "keyword_counts": {
+        "agency": 0,
+        "consciousness": 0,
+        "pain": 0,
+        "precaution": 0,
+        "sentience": 0,
+        "welfare": 45
+      },
+      "ok": true,
+      "requested_at": "2026-06-08T12:01:46",
+      "status": 200,
+      "title": "Automated extraction of scientific statements for integrated assessment of animal welfare using language models - Research Portal - Wageningen University &amp; Research"
+    },
+    "https://www.frontiersin.org/journals/animal-science/articles/10.3389/fanim.2026.1768519/full": {
+      "bytes_read": 65536,
+      "content_type": "text/html;charset=utf-8",
+      "fetched_date": "2026-06-08",
+      "final_url": "https://www.frontiersin.org/journals/animal-science/articles/10.3389/fanim.2026.1768519/full",
+      "keyword_counts": {
+        "agency": 1,
+        "consciousness": 0,
+        "pain": 0,
+        "precaution": 0,
+        "sentience": 0,
+        "welfare": 1
+      },
+      "ok": true,
+      "requested_at": "2026-06-08T11:56:05",
+      "status": 200,
+      "title": "Frontiers | The teleonome: a framework for understanding animal welfare integrating adaptive capabilities, affective regulation, agency, and environmental affordances"
+    },
+    "https://www.sciencedirect.com/science/article/pii/S2772375526000389": {
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "fetched_date": "2026-06-08",
+      "ok": false,
+      "requested_at": "2026-06-08T12:01:47"
+    }
+  }
+}
