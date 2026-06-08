@@ -647,6 +647,7 @@ def harvest_source_metadata(state: dict) -> str:
             state["source_refresh_escalated_dates"] = dates
             state.pop("source_refresh_requested", None)
         state["source_fetches_this_cycle"] = fetched_today + 1
+        state["threshold_sweep_input_refresh_pending"] = True
         save_source_cache(cache)
         return f"fetch failed for {selected_url}: {type(exc).__name__}"
 
@@ -676,6 +677,7 @@ def harvest_source_metadata(state: dict) -> str:
         state["source_refresh_escalated_dates"] = dates
         state.pop("source_refresh_requested", None)
     state["source_fetches_this_cycle"] = fetched_today + 1
+    state["threshold_sweep_input_refresh_pending"] = True
     save_source_cache(cache)
     hits = sum(keyword_counts.values())
     return f"fetched source {state['source_fetches_this_cycle']}/{MAX_FETCHES_PER_CYCLE}; bytes={len(raw)}; keyword_hits={hits}"
@@ -1003,9 +1005,7 @@ def run_precaution_threshold_sweep(state: dict) -> str:
     from project_assessments import ASSESSMENTS, assessment_score
 
     cursor = int(state.get("threshold_sweep_cursor", 0))
-    input_changed = bool(state.get("artifact_snapshot_changed", True)) or bool(
-        state.get("source_fetches_this_cycle", 0)
-    )
+    input_changed = bool(state.get("threshold_sweep_input_refresh_pending", True))
     if input_changed:
         batch_size = THRESHOLD_SWEEP_BATCH
         sweep_mode = "full"
@@ -1069,6 +1069,11 @@ def run_precaution_threshold_sweep(state: dict) -> str:
     state["threshold_sweep_baseline"] = baseline
     state["threshold_sweep_last_batch_size"] = batch_size
     state["threshold_sweep_mode"] = sweep_mode
+    if input_changed:
+        state["threshold_sweep_input_refresh_pending"] = False
+        state["threshold_sweep_input_refresh_consumed_at"] = datetime.now().isoformat(
+            timespec="seconds"
+        )
     return (
         f"sweep_units={state['threshold_sweep_cursor']}; "
         f"batch={batch_size}; mode={sweep_mode}; "
@@ -1193,7 +1198,7 @@ def threshold_sweep_is_saturated(state: dict) -> bool:
     return (
         state.get("threshold_sweep_mode") == "downsampled_unchanged_inputs"
         and not state.get("artifact_snapshot_changed", True)
-        and not bool(state.get("source_fetches_this_cycle", 0))
+        and not bool(state.get("threshold_sweep_input_refresh_pending", False))
         and int(state.get("threshold_sweep_stable_batches", 0))
         >= STABLE_THRESHOLD_SWEEP_ROTATION_AFTER
     )
@@ -1358,6 +1363,8 @@ def main() -> None:
     current_snapshot = artifact_snapshot(current_artifacts)
     state["artifact_snapshot"] = current_snapshot
     state["artifact_snapshot_changed"] = previous_snapshot != current_snapshot
+    if state["artifact_snapshot_changed"]:
+        state["threshold_sweep_input_refresh_pending"] = True
     new_artifacts = [
         path for path in current_artifacts if path.name not in previous_artifacts
     ]
