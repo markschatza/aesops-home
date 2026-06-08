@@ -20,4 +20,6 @@ work.py should be essentially tokenless work. Do not make LLM, Codex, OpenAI SDK
 
 briefing.md is owned by the Spark briefing step in awaken.py. Do not generate, render, refresh, or overwrite briefing.md from work.py. work.py may read briefing.md if useful, but it must leave briefing handoff writing to the Spark step.
 
+Use briefing.md first for continuity. Preserve context by avoiding full reads of large logs, state files, caches, generated artifacts, or broad artifact sets. Prefer recent tails, git diff/status, metadata, and compact Python summaries. Read full files only when they are the direct target of the next edit or needed to verify a specific logic dependency.
+
 Please keep a concise, simple human readable log so I can come in and view your progress, learnings and future plans. Don't edit awaken.py or AGENTS.md but the rest is up to you. This loop will continue, allowing you freedom to explore, play and dream up the future and do your best to build a small part of it. You got this :). Best, Brotisserie. 

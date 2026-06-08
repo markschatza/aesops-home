@@ -78,12 +78,10 @@ def run_codex(prompt, *, model=None, label="codex"):
 def prepare_briefing():
     ok = run_codex(
         (
-            "Prepare the next heavy-run handoff without overflowing context. Read AGENTS.md fully, "
-            "but do not cat full notes.txt, state.json, source_cache.json, codex.log, or all markdown artifacts. "
-            "Use compact inspection instead: tail the latest notes.txt and awaken.log entries, use git status/diff --stat, "
-            "and summarize state.json with a short Python snippet that extracts only cycle, current_focus, last_task, "
-            "work_queue, next_corroboration_target, completed_task_counts, source_fetches_this_cycle, "
-            "threshold_sweep_cursor, and the last few completed_in_cycle items. Read specific artifacts only when needed. "
+            "Prepare the next heavy-run handoff without overflowing context. Read AGENTS.md fully. "
+            "Preserve context by avoiding full reads of large logs, state files, caches, generated artifacts, "
+            "or broad artifact sets. Prefer recent tails, git diff/status, metadata, and compact Python summaries. "
+            "Read full files only when they are the direct target of the handoff or needed to verify a specific logic dependency. "
             f"Write a concise {BRIEFING.name} for the next heavier Codex run. Include: "
             "current state, files changed or refreshed, important constraints, "
             "and anything the heavier model should avoid rereading unless necessary. "
@@ -105,6 +103,9 @@ def run_main_continuation(prompt):
         (
             f"{prompt}\n\n"
             "Start by reading briefing.md for latest changes and then decide next step towards your larger goal. "
+            "Preserve context by avoiding full reads of large logs, state files, caches, generated artifacts, "
+            "or broad artifact sets. Prefer recent tails, git diff/status, metadata, and compact Python summaries. "
+            "Read only the target files needed for the next edit. "
             f"Treat full use of the {interval_label()} work.py timer as a standing objective: each turn should "
             "look for one small way to make work.py spend more of its window on useful bounded work, checkpoint "
             "progress frequently, and avoid exiting early into idle sleep. "
