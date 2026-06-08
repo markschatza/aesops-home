@@ -77,6 +77,9 @@ SATURATED_GAP_AUDIT_INTERVAL = int(
 SATURATED_DUPLICATE_RECONCILE_AFTER = int(
     os.environ.get("AESOP_SATURATED_DUPLICATE_RECONCILE_AFTER", "24")
 )
+SATURATED_PLATEAU_RECONCILE_AFTER = int(
+    os.environ.get("AESOP_SATURATED_PLATEAU_RECONCILE_AFTER", "96")
+)
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
 )
@@ -1462,22 +1465,43 @@ def saturated_condition_backoff(state: dict) -> str:
     """Slow the saturated loop after all condition-changing checks are capped."""
     pulses = int(state.get("saturated_condition_backoff_pulses", 0)) + 1
     gap_result = audit_saturated_source_gap(state, pulses)
+    keyword_stale = int(state.get("evidence_keyword_stale_runs", 0))
+    threshold_stable = int(state.get("threshold_sweep_stable_batches", 0))
+    novelty_stale = int(state.get("corroboration_novelty_stale_runs", 0))
+    plateau_signature = "|".join(
+        [
+            str(keyword_stale),
+            str(threshold_stable),
+            str(novelty_stale),
+            str(bool(state.get("source_refresh_requested"))),
+            str(bool(state.get("next_corroboration_target"))),
+        ]
+    )
+    if plateau_signature == state.get("saturated_plateau_signature"):
+        plateau_pulses = int(state.get("saturated_plateau_pulses", 0)) + 1
+    else:
+        plateau_pulses = 1
+        state["saturated_plateau_pulses_reconciled"] = 0
+    state["saturated_plateau_signature"] = plateau_signature
+    state["saturated_plateau_pulses"] = plateau_pulses
     state["saturated_condition_backoff_pulses"] = pulses
     state["saturated_condition_backoff"] = {
         "checked_at": datetime.now().isoformat(timespec="seconds"),
         "reason": "sweeps and in-cycle review tasks are saturated; auditing source gaps while waiting for source or artifact changes",
         "pulses": pulses,
         "gap_audit": gap_result,
-        "keyword_stale_runs": int(state.get("evidence_keyword_stale_runs", 0)),
-        "threshold_stable_batches": int(state.get("threshold_sweep_stable_batches", 0)),
-        "novelty_stale_runs": int(state.get("corroboration_novelty_stale_runs", 0)),
+        "keyword_stale_runs": keyword_stale,
+        "threshold_stable_batches": threshold_stable,
+        "novelty_stale_runs": novelty_stale,
+        "plateau_pulses": plateau_pulses,
     }
     time.sleep(max(0.0, SATURATED_BACKOFF_SECONDS))
     return (
         f"saturated backoff pulse={pulses}; "
         f"{gap_result}; "
-        f"keyword_stale={state['saturated_condition_backoff']['keyword_stale_runs']}; "
-        f"threshold_stable={state['saturated_condition_backoff']['threshold_stable_batches']}"
+        f"keyword_stale={keyword_stale}; "
+        f"threshold_stable={threshold_stable}; "
+        f"plateau={plateau_pulses}"
     )
 
 
@@ -1508,6 +1532,14 @@ def cooldown_filler_task(state: dict) -> str:
     duplicate_count = int(state.get("saturated_gap_followup_duplicates", 0))
     reconciled_count = int(state.get("saturated_gap_followup_duplicates_reconciled", 0))
     if duplicate_count - reconciled_count >= max(1, SATURATED_DUPLICATE_RECONCILE_AFTER):
+        return "reconcile_saturated_source_gaps"
+    plateau_pulses = int(state.get("saturated_plateau_pulses", 0))
+    plateau_reconciled = int(state.get("saturated_plateau_pulses_reconciled", 0))
+    if (
+        plateau_pulses - plateau_reconciled
+        >= max(1, SATURATED_PLATEAU_RECONCILE_AFTER)
+    ):
+        state["saturated_plateau_pulses_reconciled"] = plateau_pulses
         return "reconcile_saturated_source_gaps"
     if (
         state.get("source_refresh_requested")

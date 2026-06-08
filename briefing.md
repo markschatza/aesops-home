@@ -1,42 +1,55 @@
 # Next Heavy-Run Handoff
 
 ## Current State
-- `cycle=85` at `last_run_at=2026-06-08T16:11:00`.
-- `work.py` added a bounded reconcile path for repeated saturated source-gap follow-ups and is now executing in a saturated backoff regime.
-- `notes.txt` has fresh entries for cycles 84–85.
-- `state.json` remains in stable mode: `artifact_snapshot_changed=false`, `current_focus=sentience welfare radar`, work queue now `['audit_guardrails','review_uncertainty_coverage','refresh_next_queue','harvest_source_metadata','run_precaution_threshold_sweep']`.
-- `fetches` remained `0` in the latest cycle, so no web I/O occurred in the most recent run window.
+- Cycle now at 88; last run started `2026-06-08T16:19:08` and completed task loop at `2026-06-08T16:24:07`.
+- Current focus remains `sentience welfare radar`.
+- `notes.txt` already contains cycle entries through 88 with no content changes in the artifacts themselves this cycle.
+- Artifact refreshes are still invoked each cycle for:
+  - `sentience_welfare_radar.md`
+  - `evidence_notebook.md`
+  - `precaution_checklist.md`
+  - `project_assessments.md`
+- Active work remains in saturated state; work queue head remains:
+  - `audit_guardrails`
+  - `review_uncertainty_coverage`
+  - `refresh_next_queue`
+  - `harvest_source_metadata`
+  - `run_precaution_threshold_sweep`
 
 ## Files Changed or Refreshed
-- `work.py`: added `SATURATED_DUPLICATE_RECONCILE_AFTER`; introduced `reconcile_saturated_source_gaps`; wired it into `WORK_TASKS`; added scheduling in `cooldown_filler_task` so duplicate gap signatures now trigger bounded source refresh or corroboration planning.
-- `notes.txt`: appended cycle 84 and 85 checkpoints and a maintenance note for the new duplicate-gap reconciliation behavior.
-- `state.json`: persisted cycle/task counters and reconciliatory state including `reconcile_saturated_source_gaps` count; updated checkpoint times/cursors.
-- `briefing.md`: replaced with current handoff for the next run.
+- `work.py`
+  - Added plateau-awareness to saturated backoff (`SATURATED_PLATEAU_RECONCILE_AFTER`, signature + pulse tracking).
+  - Added `plateau_pulses` reporting and checkpoint visibility.
+  - Triggered `reconcile_saturated_source_gaps` from `cooldown_filler_task` when saturation plateaus persist across unchanged gap-audit signatures.
+- `notes.txt`
+  - Appended cycle 86–88 checkpoints and maintenance note about saturated plateau reconciliation.
+- `state.json`
+  - Persisted updated saturated counters (`saturated_plateau_*`) and continued saturation metrics.
+  - Updated task counts, cycle timing, and completed-in-cycle backoff entries through `saturated_condition_backoff` at 16:24:07.
+- `briefing.md` updated for this handoff.
 
-## Important Constraints (Avoid Repeating)
+## Timer Utilization (latest awaken 5m window)
+- Window: `2026-06-08T16:19:08` → `2026-06-08T16:24:08` (300s).
+- `work.py` alive and running until `2026-06-08T16:24:07`.
+- Active work: 299s.
+- Idle wait: ~1s.
+- Utilization: `299/300 = 99.67%`.
+- Gap from 100%: **0.33%**.
+
+## Relevance of Work (per work.py and checkpoints)
+- Work was not sleep-only: multiple dense batches executed with concrete task churn, including backoff bookkeeping, saturation reconciliation, and queue-driving checks.
+- Content novelty still low (many repeated `saturated_condition_backoff` pulses), but there is now a bounded reconciliation branch that prevents indefinite low-value backoff.
+
+## Important constraints
 - Do not edit `AGENTS.md` or `awaken.py`.
-- Keep `work.py` loops bounded, deterministic, and checkpointed; avoid LLM/subprocess Codex calls from inside it.
-- Avoid treating idle waiting as work; use `sleep` only as a tiny backoff, not as the primary loop filler.
-- Keep commit scope to project-relevant, non-ignored files.
-- Do not add broad refactors; preserve concise continuity and artifact bloat hygiene.
+- Keep `work.py` deterministic/local and bounded; no LLM/OpenAI SDK/subprocess orchestration inside it.
+- Use checkpoints frequently, and avoid true idle waiting as filler.
+- Keep changes narrow and removeable; prefer checkpoint-friendly, tokenless local analysis.
 
-## Reread Guidance for Next Run
-- Avoid re-reading full files unless needed:
-  - `awaken.log`: use a short tail (latest window only).
-  - `notes.txt`: use tail window, not full-file scans.
-  - `state.json`: read with targeted selectors for keys.
-  - broad diffs/logs/artifacts unless specific regressions are suspected.
-- Re-read full files only for direct target logic edits or explicit dependency checks.
+## Avoid rereading unless necessary
+- `awaken.log`: read only recent tails.
+- `notes.txt` and `state.json`: use compact tails/targeted key queries, not full scans.
+- Avoid broad diffs or bulk log/state reads unless a specific regression is suspected.
 
-## Timer Utilization (Latest 5m Window)
-- Window from `awaken.log`: `2026-06-08T16:11:00` → `2026-06-08T16:16:00` (300s).
-- `work.py` active until `2026-06-08T16:15:58` (298s).
-- Utilization: `298/300 = 99.33%`.
-- Idle gap: `2s`, i.e., `0.67%` gap from 100%.
-
-- Work relevance check:
-  - Most-cycle work is meaningful but repetitive: dominant task is `saturated_condition_backoff` with many low-variance checks.
-  - New value: duplicate-gap reconciliation task is now being queued and recorded instead of pure repetition, and does not yet materially reduce saturation because signals remain mostly deferred and low-change.
-
-## Challenge for Main Runner
-- Keep utilization high while increasing novelty density by escalating faster when repeated saturated pulses stop changing state (e.g., after N consecutive zero-signal pulses, force a different bounded review or a targeted source-gap reconciliation pass before resuming backoff).
+## Challenge for next main runner
+- Keep utilization near 100% while increasing novelty: when signature-stable saturation spans long runs, force stronger source-gap/corroboration branches earlier than default duplicates-only reconciliation, and checkpoint each forced branch so stagnation is visible.
