@@ -59,6 +59,12 @@ SATURATED_NOVELTY_CHECK_INTERVAL = int(
 SATURATED_NOVELTY_REFRESH_AFTER = int(
     os.environ.get("AESOP_SATURATED_NOVELTY_REFRESH_AFTER", "128")
 )
+SATURATED_NOVELTY_REVIEWS_PER_CYCLE = int(
+    os.environ.get(
+        "AESOP_SATURATED_NOVELTY_REVIEWS_PER_CYCLE",
+        str(SATURATED_NOVELTY_REFRESH_AFTER + 8),
+    )
+)
 STABLE_THRESHOLD_SWEEP_ROTATION_AFTER = int(
     os.environ.get("AESOP_STABLE_THRESHOLD_SWEEP_ROTATION_AFTER", "20000")
 )
@@ -569,6 +575,9 @@ def review_sweep_saturation(state: dict) -> str:
 
 def review_corroboration_novelty(state: dict) -> str:
     """Check whether weak-claim corroboration candidates are adding new signal."""
+    state["corroboration_novelty_reviews_this_cycle"] = int(
+        state.get("corroboration_novelty_reviews_this_cycle", 0)
+    ) + 1
     cache = load_source_cache()
     source_records = cache.get("sources", {})
     claims = weak_claims()
@@ -1239,8 +1248,17 @@ def cooldown_filler_task(state: dict) -> str:
             if sample_slot == sample_interval // 2:
                 return "run_evidence_keyword_sweep"
             novelty_interval = max(32, SATURATED_NOVELTY_CHECK_INTERVAL)
+            novelty_reviews = int(state.get("corroboration_novelty_reviews_this_cycle", 0))
             novelty_due = state.get("corroboration_novelty_reviewed_cycle") != state.get("cycle")
-            if novelty_due and saturation_pulse % novelty_interval == 3:
+            novelty_pulse_due = saturation_pulse % novelty_interval == 3
+            if novelty_pulse_due and (
+                novelty_reviews < max(1, SATURATED_NOVELTY_REVIEWS_PER_CYCLE)
+                and (
+                    novelty_due
+                    or novelty_reviews > 0
+                    or int(state.get("corroboration_novelty_stale_runs", 0)) > 0
+                )
+            ):
                 return "review_corroboration_novelty"
             if not saturated_tasks:
                 return "review_sweep_saturation"
@@ -1330,6 +1348,7 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
     state["source_fetches_this_cycle"] = 0
     state["corroboration_targets_planned_this_cycle"] = []
     state["corroboration_markers_reviewed_this_cycle"] = []
+    state["corroboration_novelty_reviews_this_cycle"] = 0
     state["uncertainty_targets_reviewed_this_cycle"] = []
     state["static_task_cooldown_seconds"] = static_task_cooldown
     append_checkpoint(state["cycle"], "start_micro_work", 0, "started timed queue")
