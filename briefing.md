@@ -1,51 +1,44 @@
-# Briefing for Next Heavy Run
+# Handoff Briefing (Next Heavy Run)
 
 ## Current State
-- Cycle reached **29** and `work.py` completed a 5-minute run in the latest window.
-- Focus remains `sentience welfare radar`.
-- `state.json` now shows:
-  - `next_corroboration_target`: **Governments and institutions** (`preprint`, arXiv index source)
-  - `work_queue` has the same 7 rotating tasks
-  - `threshold_sweep_cursor` advanced to `483505000`, baseline score `8`
-  - `source_cursor` remains `0`
-- Notes/checkpoints continue to be refreshed each cycle; latest cycle log starts at `2026-06-08T12:09:51`.
+- Cycle is now `33` (`last_run_at: 2026-06-08T12:32:33`).
+- Focus remains `sentience welfare radar` and artifact rendering/guardrail checks still run each window.
+- `state.json` reflects `next_corroboration_target` set to **Governments and institutions** (`source_quality=preprint`, `source=https://arxiv.org/abs/2603.01508`) and `artifact_snapshot_changed=False`.
+- `threshold_sweep_cursor` is `838412500`; min/max sweep scores this window are `0` and `16`.
+- `work_queue` now excludes the seeded source fetch at run time and is currently: `audit_artifact_integrity`, `scan_corroboration_markers`, `review_evidence_quality`, `select_corroboration_target`, `audit_guardrails`, `review_uncertainty_coverage`, `refresh_next_queue`.
 
-## Files Changed or Refreshed in Last Window
-- `notes.txt` (cycle log + checkpoints)
-- `state.json` (queue/cursor/threshold metrics + weak target + marker scan)
-- `source_cache.json` (bounded source metadata fetch cache)
-- `sentience_welfare_radar.md`
-- `evidence_notebook.md`
-- `precaution_checklist.md`
-- `project_assessments.md`
-- `briefing.md` (this handoff)
+## Files Changed or Refreshed
+- Refreshed in this cycle: `notes.txt`, `state.json`, `work.py`.
+- Non-source-cycle artifacts checked but unchanged in snapshot size/hashes: `sentience_welfare_radar.md`, `evidence_notebook.md`, `precaution_checklist.md`, `project_assessments.md`.
+- `briefing.md` updated for next handoff.
 
 ## Important Constraints
-- Keep `AGENTS.md` and `awaken.py` unchanged.
-- `work.py` must remain tokenless (no LLM/SDK/subprocess-codex calls inside).
-- Web access must stay bounded/polite and within configured fetch budget (default max 3 fetches/cycle).
-- Preserve concise, human-readable logs and avoid touching ignored/runtime artifacts (`.env`, caches, logs, venvs).
+- Do not edit `AGENTS.md` or `awaken.py`.
+- Keep `work.py` tokenless and free of LLM/API/subprocess-codex calls.
+- Keep web fetches bounded (`MAX_FETCHES_PER_CYCLE` default is 3), short-timeout, and low volume.
+- Preserve concise logs; avoid bloating `notes.txt` with non-checkpoint noise.
+- Use short, targeted reads (tails/status) for continuity, not full reads of logs/state caches when not needed.
 
-## Avoid Rereading (unless necessary)
-- Do **not** reread full `awaken.log` history; use only recent tail for timing.
-- Do **not** rerun full `notes.txt`; use the most recent cycle tail.
-- Avoid full reads of `source_cache.json` and large artifacts unless continuity diagnostics demand it.
-- Reuse last-known structure for `work.py` unless task logic changes.
+## Things to Avoid Rereading Unless Necessary
+- Avoid full `awaken.log` backscroll; use `tail` around the latest window only.
+- Avoid complete `source_cache.json` dumps unless cache corruption is suspected.
+- Avoid re-reading old `notes.txt` in full; read only recent cycles/checkpoints.
+- Reuse the known structure of `work.py` unless changing scheduling/guardrail logic.
 
-## Timer Utilization (latest 5m window)
-- Window in log: `2026-06-08T12:09:51` to `2026-06-08T12:14:51`.
-- `work.py` exit: `2026-06-08T12:14:45`.
-- Estimated active work: **294s**.
-- Estimated idle gap: **6s** (`300s - 294s`).
-- Utilization: **98.0%**, gap to 100%: **2.0%**.
-- Interpretation: utilization is high; idle is mostly fixed handoff margin, not `sleep`-style waiting.
+## Timer Utilization
+- Latest 5m window from `awaken.log`: `2026-06-08T12:32:33` → `2026-06-08T12:37:33`.
+- `work.py` exited at `2026-06-08T12:37:27`.
+- Estimated active execution: `294s`.
+- Estimated idle: `6s` (`300s - 294s`).
+- Utilization: `98.0%`; gap to 100%: `2.0%`.
+- This is mainly timer tail/handoff spacing, not artificial waiting.
 
-## Relevance Review of Active Time
-- Active work is meaningful but repetitive: checkpoint logs show heavy repeated execution of `run_precaution_threshold_sweep`, with many static tasks still running inside dense batches despite no new evidence inputs.
-- Some useful progress happened (`harvest_source_metadata` and corroboration state updates), but most later batches were dominated by deterministic repeated scoring sweeps.
-- Next major improvement should bias toward state-change-driven scheduling (e.g., only rerun expensive static checks when artifact/state inputs changed).
+## Relevance Review
+- Active work produced meaningful state updates but was dominated by one heavy deterministic task (`run_precaution_threshold_sweep` completed ~70k+ units per subbatch, 70746 total units in `run_precaution_threshold_sweep`).
+- Some useful but low-volume tasks still ran: three each of `harvest_source_metadata`, `audit_artifact_integrity`, `scan_corroboration_markers`, `review_evidence_quality`, `select_corroboration_target`, `audit_guardrails`, `review_uncertainty_coverage`, `refresh_next_queue`.
+- Relevance risk: long dense runs now show many repetitive scoring batches with little observed state divergence.
 
-## Challenge for Main Runner
-- Keep utilization high while improving relevance: keep the 98% utilization target but reduce duplicate work by reducing unnecessary dense repeats of uninformative tasks.
-- Prioritize budget on source-quality actions when weak claims (`preprint`/`speculative`) are unresolved, instead of running full loop passes with near-static outputs.
-- Add small guardrails: detect unchanged artifact snapshots and skip or downsample related tasks in the same batch.
+## Main Runner Challenge
+- Keep utilization near the current `98%`, but improve relevance by reducing repetitive static tasks when artifact snapshots are unchanged.
+- Prioritize source-quality actions around unresolved weak claims (`preprint`/`speculative`) before broad deterministic sweeps.
+- Add a cheap guard to skip or downsample `run_precaution_threshold_sweep` batches when no input state changed in-cycle.

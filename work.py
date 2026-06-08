@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import hashlib
 from datetime import datetime
 from pathlib import Path
 import time
@@ -37,6 +38,9 @@ MAX_FETCHES_PER_CYCLE = int(os.environ.get("AESOP_MAX_FETCHES_PER_CYCLE", "3"))
 FETCH_TIMEOUT_SECONDS = int(os.environ.get("AESOP_FETCH_TIMEOUT_SECONDS", "8"))
 FETCH_BYTES = int(os.environ.get("AESOP_FETCH_BYTES", "65536"))
 STATIC_TASK_COOLDOWN_SECONDS = int(os.environ.get("AESOP_STATIC_TASK_COOLDOWN_SECONDS", "60"))
+UNCHANGED_STATIC_TASK_COOLDOWN_SECONDS = int(
+    os.environ.get("AESOP_UNCHANGED_STATIC_TASK_COOLDOWN_SECONDS", "120")
+)
 DEFAULT_WORK_QUEUE = [
     "harvest_source_metadata",
     "run_precaution_threshold_sweep",
@@ -144,6 +148,30 @@ def ensure_work_queue(state: dict) -> list[str]:
         queue = DEFAULT_WORK_QUEUE.copy()
     state["work_queue"] = queue
     return queue
+
+
+def prioritize_source_work(state: dict) -> None:
+    queue = ensure_work_queue(state)
+    if "harvest_source_metadata" in queue:
+        queue.remove("harvest_source_metadata")
+    queue.insert(0, "harvest_source_metadata")
+    state["work_queue"] = queue
+
+
+def artifact_snapshot(paths: list[Path]) -> dict[str, dict[str, object]]:
+    snapshot: dict[str, dict[str, object]] = {}
+    for path in paths:
+        if not path.exists():
+            snapshot[path.name] = {"exists": False}
+            continue
+        data = path.read_bytes()
+        snapshot[path.name] = {
+            "exists": True,
+            "bytes": len(data),
+            "lines": data.count(b"\n") + 1,
+            "sha256": hashlib.sha256(data).hexdigest(),
+        }
+    return snapshot
 
 
 def source_urls() -> list[str]:
@@ -482,11 +510,15 @@ WORK_TASKS = {
 
 def run_micro_work_cycle(state: dict, started_at: float) -> None:
     deadline = started_at + WORK_BUDGET_SECONDS
+    static_task_cooldown = STATIC_TASK_COOLDOWN_SECONDS
+    if not state.get("artifact_snapshot_changed", True):
+        static_task_cooldown = max(static_task_cooldown, UNCHANGED_STATIC_TASK_COOLDOWN_SECONDS)
     state["completed_in_cycle"] = []
     state["completed_task_counts"] = {}
     state["skipped_static_task_counts"] = {}
     state["cooldown_filler_runs"] = 0
     state["source_fetches_this_cycle"] = 0
+    state["static_task_cooldown_seconds"] = static_task_cooldown
     append_checkpoint(state["cycle"], "start_micro_work", 0, "started timed queue")
     save_state(state)
 
@@ -503,7 +535,7 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
         queue_is_cooling_down = bool(queue) and all(
             candidate not in ALWAYS_RUN_TASKS
             and candidate in last_static_runs
-            and now - last_static_runs[candidate] < STATIC_TASK_COOLDOWN_SECONDS
+            and now - last_static_runs[candidate] < static_task_cooldown
             for candidate in queue
         )
         if queue_is_cooling_down:
@@ -517,7 +549,7 @@ def run_micro_work_cycle(state: dict, started_at: float) -> None:
                 if (
                     candidate in ALWAYS_RUN_TASKS
                     or last_static_run is None
-                    or now - last_static_run >= STATIC_TASK_COOLDOWN_SECONDS
+                    or now - last_static_run >= static_task_cooldown
                 ):
                     task_id = candidate
                     break
@@ -607,11 +639,16 @@ def main() -> None:
     render_assessments(ASSESSMENTS)
     current_artifacts = [path for path in ARTIFACTS if path.exists()]
     current_artifact_names = [path.name for path in current_artifacts]
+    previous_snapshot = state.get("artifact_snapshot")
+    current_snapshot = artifact_snapshot(current_artifacts)
+    state["artifact_snapshot"] = current_snapshot
+    state["artifact_snapshot_changed"] = previous_snapshot != current_snapshot
     new_artifacts = [
         path for path in current_artifacts if path.name not in previous_artifacts
     ]
     state["artifacts"] = current_artifact_names
     ensure_work_queue(state)
+    prioritize_source_work(state)
     save_state(state)
 
     if new_artifacts:
@@ -626,6 +663,7 @@ def main() -> None:
             artifact_line,
             f"- Current focus: {state['current_focus']}.",
             "- Added an uncertainty note for applying broad animal-welfare frameworks to specific species and settings.",
+            f"- Artifact content changed this cycle: {state['artifact_snapshot_changed']}.",
             "- Next: corroborate one weaker source-quality claim before expanding the notebook.",
             "",
         ]
